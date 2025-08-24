@@ -25,7 +25,6 @@ export function AppHeader() {
 					Sharebnb
 				</NavLink>
 				<NavLink to="about">About</NavLink>
-				<NavLink to="car">Cars</NavLink>
 				<NavLink to="stay">Stays</NavLink>
 				<NavLink to="chat">Chat</NavLink>
 				<NavLink to="review">Review</NavLink>
