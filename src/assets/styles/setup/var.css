@@ -1,17 +1,19 @@
 :root {
-  --clr1: #ce2e6c;
-  --clr2: #4f3a65;
-  --clr3: #574f7d;
-  --clr4: #95adbe;
-  --clr5: #dff0ea;
+--shades-01:#FFFFFF ;
+--shades-02:#222222 ;
+--shades-03:rgb(244, 244, 244) ;
+--shades-04:rgb(175, 175, 175) ;
+--shades-05:#FFFFFF ;
+--shades-06:#FFFFFF ;
 
-  --clr1-light: color-mix(in lab, var(--clr1), white 15%);
+--neutrals-o1: rgb(245, 245, 245);
+--neutrals-o2: rgb(230, 230, 230);
+--neutrals-o3: rgb(213, 213, 213);
+--neutrals-o4: rgb(201, 201, 201);
+--neutrals-o5: rgb(181, 181, 181);
+--neutrals-o6: rgb(160, 160, 160);
+--neutrals-o7: rgb(94, 94, 94);
+--neutrals-o8: rgb(76, 76, 76);
 
-  --gray1: #ddd;
-  --gray2: #aaa;
-  --gray3: #777;
-  --gray4: #333;
-
-  --success: rgb(41, 189, 73);
-  --error: rgb(216, 59, 59);
+--primary-01:rgb(240,45,77) ;
 }
