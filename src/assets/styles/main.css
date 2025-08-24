@@ -24,6 +24,11 @@
 @import "cmps/car/CarPreview";
 @import "cmps/car/CarFilter";
 
+@import "cmps/stay/StayIndex";
+@import "cmps/stay/StayList";
+@import "cmps/stay/StayPreview";
+@import "cmps/stay/StayFilter";
+
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
 @import "cmps/review/ReviewPreview";
