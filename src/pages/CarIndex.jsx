@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { loadCars, addCar, updateCar, removeCar, addCarMsg } from '../store/actions/car.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { carService } from '../services/car/'
+import { carService } from '../services/car/car.service.local.js'
 import { userService } from '../services/user'
 
 import { CarList } from '../cmps/CarList'

@@ -4,8 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "set VITE_LOCAL=true&&vite",
-
+    "dev": "vite",
     "dev:remote": "vite",
     "dev:remote:mac": "vite",
     
