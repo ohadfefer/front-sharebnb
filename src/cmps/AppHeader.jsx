@@ -20,8 +20,8 @@ export function AppHeader() {
 
 	return (
 		<header className="app-header full">
-			<nav>
-				<NavLink to="/" className="logo">
+			<nav className='main-nav'>
+				<NavLink to="/stay" className="logo">
 					Sharebnb
 				</NavLink>
 				<NavLink to="about">About</NavLink>

@@ -1,0 +1,10 @@
+.app-header {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav {
+    display: flex;
+    gap: 30px;
+
+}
