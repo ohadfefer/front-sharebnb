@@ -24,6 +24,11 @@
 @import "cmps/stay/StayIndex.css";
 @import "cmps/stay/StayPreview.css";
 
+@import "cmps/stay/StayIndex";
+@import "cmps/stay/StayList";
+@import "cmps/stay/StayPreview";
+@import "cmps/stay/StayFilter";
+
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
 @import "cmps/review/ReviewPreview";

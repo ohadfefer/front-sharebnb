@@ -11,6 +11,9 @@ import { RootCmp } from './RootCmp'
 
 import './assets/styles/main.css'
 
+import './store/actions/stay.actions'
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
 	<Provider store={store}>
