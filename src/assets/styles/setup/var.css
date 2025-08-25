@@ -10,7 +10,8 @@
   --gray1: #ddd;
   --gray2: #aaa;
   --gray3: #777;
-  --gray4: #333;
+  --gray4: #333; /* title color */
+  --gray5: #f7f7f7; /* hover buttons color */
 
   --success: rgb(41, 189, 73);
   --error: rgb(216, 59, 59);
