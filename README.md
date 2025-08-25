@@ -38,12 +38,12 @@ src/
 - `AppHeader` - Navigation and user menu
 - `AppFooter` - Footer with service status
 - `UserMsg` - Toast notifications
-- `CarList` - Grid display of cars with actions
-- `CarFilter` - Search and filter interface
+- `StayList` - Grid display of stays with actions
+- `StayFilter` - Search and filter interface
 - `ReviewList` - User reviews with CRUD
 
 ### Pages
-- `CarIndex` - Main car management
+- `StayIndex` - Main stay management
 - `ReviewIndex` - Review system
 - `UserDetails` - User profile
 - `AboutUs` - Static content with nested routes
@@ -52,7 +52,7 @@ src/
 ## 🔄 State Management
 
 Using Redux with the following modules:
-- `carModule` - Car CRUD operations
+- `stayModule` - Stay CRUD operations
 - `userModule` - Authentication and user data
 - `reviewModule` - Review system
 - `systemModule` - App-wide settings
@@ -60,17 +60,17 @@ Using Redux with the following modules:
 ### Example Usage
 ```jsx
 // In component:
-const cars = useSelector(state => state.carModule.cars)
+const stays = useSelector(state => state.stayModule.stays)
 const dispatch = useDispatch()
 
 // Action dispatch:
-dispatch(loadCars())
+dispatch(loadStays())
 ```
 
 ## 🎯 Services
 
 ### REST API Services
-- `car.service` - Car CRUD operations
+- `stay.service` - Stay CRUD operations
 - `user.service` - Authentication & user management
 - `review.service` - Review system
 - `upload.service` - File uploads
@@ -92,7 +92,7 @@ Using SCSS modules with:
 
 ### Example Usage
 ```scss
-.car-list {
+.stay-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: .5em;

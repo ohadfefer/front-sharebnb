@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStay, addStayMsg } from '../store/actions/stay.actions'
+import { loadStays, addStayMsg } from '../store/actions/stay.actions'
 
 
 export function StayDetails() {
@@ -13,7 +13,7 @@ export function StayDetails() {
   const stay = useSelector(storeState => storeState.stayModule.stay)
 
   useEffect(() => {
-    loadStay(stayId)
+    loadStays(stayId)
   }, [stayId])
 
   async function onAddStayMsg(stayId) {
