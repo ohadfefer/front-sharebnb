@@ -122,7 +122,57 @@ function createStays() {
                     {
                         id: 'r101',
                         txt: 'Amazing location, perfect for families.',
+                        rate: 4,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r101',
+                        txt: 'Amazing location, perfect for families.',
                         rate: 5,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r101',
+                        txt: 'Amazing location, perfect for families.',
+                        rate: 1,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r101',
+                        txt: 'Amazing location, perfect for families.',
+                        rate: 5,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r101',
+                        txt: 'Amazing location, perfect for families.',
+                        rate: 2,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r101',
+                        txt: 'Amazing location, perfect for families.',
+                        rate: 3,
                         by: {
                             _id: 'u104',
                             fullname: 'Chris Evans',

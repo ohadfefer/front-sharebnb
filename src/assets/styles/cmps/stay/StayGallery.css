@@ -70,7 +70,7 @@
     height: 100%;
     object-fit: cover;
     background-color: var(--neutrals-o3);
-    /* Fallback for broken images */
+    border-radius: 10px 0 0 10px;
 }
 
 .side-img-0 {
@@ -89,6 +89,7 @@
     height: 100%;
     object-fit: cover;
     background-color: var(--neutrals-o3);
+    border-radius: 0 10px 0 0;
 }
 
 .side-img-2 {
@@ -107,6 +108,7 @@
     height: 100%;
     object-fit: cover;
     background-color: var(--neutrals-o3);
+    border-radius: 0 0 10px 0;
 }
 
 

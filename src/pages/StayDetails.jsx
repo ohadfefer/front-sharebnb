@@ -8,6 +8,8 @@ import { stayService } from '../services/stay/stay.service.local'
 import { StayGallery } from '../cmps/StayGallery'
 import { StayDescription } from '../cmps/StayDescription'
 import { StayAmenities } from '../cmps/StayAmenities'
+import { StayReviews } from '../cmps/StayReviews'
+
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector((storeState) => storeState.stayModule.stay)
@@ -62,6 +64,13 @@ export function StayDetails() {
 
       <div className='amenities-header'>What this place offers</div>
       <StayAmenities stay={stay} />
+
+      <div className='date-picker-header'>Select check-in date</div>
+      {/* <StayDatePicker /> */}
+      <hr />
+
+      <StayReviews />
+
 
     </section>
   )
