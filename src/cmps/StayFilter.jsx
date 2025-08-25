@@ -1,6 +1,8 @@
 import { setFilter } from '../store/actions/stay.actions'
 import { useState } from 'react'
 
+// import { DateRangePicker } from './DateRangePicker.jsx'
+
 export function StayFilter({ mini, filterBy, onSetFilter }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
@@ -13,6 +15,9 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
       )
     }
     value = type === 'number' ? +value || '' : value
+
+    console.log(filterByToEdit, value);
+
     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
   }
 
@@ -49,6 +54,7 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
                 type="date"
                 value={checkIn}
                 onChange={handleChange}
+                name="checkIn"
               />
             </label>
 
@@ -58,6 +64,7 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
                 type="date"
                 value={checkOut}
                 onChange={handleChange}
+                name="checkOut"
               />
             </label>
 
@@ -69,6 +76,7 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
                 value={guests}
                 onChange={handleChange}
                 placeholder="Add guests"
+                name="guests"
               />
             </label>
           </>

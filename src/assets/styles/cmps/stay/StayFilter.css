@@ -15,15 +15,13 @@
   background: #fff;
   border: 1px solid var(--divider);
   border-radius: var(--pill-radius);
-  box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
   transition: transform 0.5s ease, width 0.25s ease, grid-template-columns 0.25s ease, padding 0.25s ease;
   width: min(1100px, calc(100% - 48px));
-  padding: 10px;
-  gap: 12px;
 }
 
 .filter-pill:focus-within {
-  box-shadow: 0 6px 26px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar.expanded .filter-pill {
@@ -42,7 +40,8 @@
   display: grid;
   grid-auto-rows: max-content;
   padding: 6px 14px;
-  border-right: 1px solid var(--divider);
+  padding: 20px;
+  border-radius: 360px;
 }
 
 .cell:last-of-type {
@@ -60,13 +59,19 @@
   outline: none;
   font-size: 14px;
   color: #111827;
+  background: transparent;
 }
+
+.cell:hover {
+  background-color: var(--button-bg-hover);
+}
+
 
 .chip {
   border: none;
   background: transparent;
-  font-size: 14px;
-  padding: 8px 12px;
+  font-size: 1rem;
+  padding: 16px 20px;
   border-right: 1px solid var(--divider);
   display: flex;
   gap: 8px;
@@ -74,10 +79,12 @@
   cursor: pointer;
 }
 
-.chip:last-of-type { border-right: none; }
+.chip:last-of-type {
+  border-right: none;
+}
 
 .chip:hover {
-  background: rgba(0,0,0,0.04);
+  background: rgba(0, 0, 0, 0.04);
   border-radius: 999px;
 }
 
@@ -87,27 +94,43 @@
   border-radius: 999px;
   border: none;
   cursor: pointer;
-  background: #ff385c; 
+  background: #ff385c;
   color: #fff;
   display: grid;
   place-items: center;
   margin-right: 6px;
 }
 
-.search-btn:hover { filter: brightness(1.05); }
+.search-btn:hover {
+  filter: brightness(1.05);
+}
+
+
 
 @media (max-width: 900px) {
-  .nav-links { display: none; }
+  .nav-links {
+    display: none;
+  }
+
   .search-bar.expanded .filter-pill {
     grid-template-columns: 1fr 1fr auto;
   }
-  .cell.checkout { display: none; }
+
+  .cell.checkout {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
   .search-bar.expanded .filter-pill {
     grid-template-columns: 1fr auto;
   }
-  .cell.checkin { display: none; }
-  .cell.who { display: none; }
+
+  .cell.checkin {
+    display: none;
+  }
+
+  .cell.who {
+    display: none;
+  }
 }
