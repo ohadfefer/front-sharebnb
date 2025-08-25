@@ -9,6 +9,7 @@ import { StayGallery } from '../cmps/StayGallery'
 import { StayDescription } from '../cmps/StayDescription'
 import { StayAmenities } from '../cmps/StayAmenities'
 import { StayReviews } from '../cmps/StayReviews'
+import { StayMap } from '../cmps/StayMap'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -68,8 +69,10 @@ export function StayDetails() {
       <div className='date-picker-header'>Select check-in date</div>
       {/* <StayDatePicker /> */}
       <hr />
+      <StayReviews stay={stay} />
+      <hr />
 
-      <StayReviews />
+      <StayMap stay={stay}/>
 
 
     </section>

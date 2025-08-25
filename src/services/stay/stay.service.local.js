@@ -131,31 +131,31 @@ function createStays() {
                     },
                     {
                         id: 'r101',
-                        txt: 'Amazing location, perfect for families.',
+                        txt: 'We had a truly amazing stay at this Airbnb in Netanya! The apartment was absolutely perfect very comfortable for a family or anyone else, spotlessly clean',
                         rate: 5,
                         by: {
                             _id: 'u104',
-                            fullname: 'Chris Evans',
+                            fullname: 'Yael Evans',
                             imgUrl: '/img/chris.jpg',
                         },
                     },
                     {
                         id: 'r101',
-                        txt: 'Amazing location, perfect for families.',
+                        txt: 'Yosef is a great host and the apartment was a great find. Located first line to the sea with breeze and plenty of lights. Restaurants salons and synagogue within ealking',
                         rate: 1,
                         by: {
                             _id: 'u104',
-                            fullname: 'Chris Evans',
+                            fullname: 'Eva Evans',
                             imgUrl: '/img/chris.jpg',
                         },
                     },
                     {
                         id: 'r101',
-                        txt: 'Amazing location, perfect for families.',
+                        txt: 'the apartment was clean great location.  yosef was always available with any questions I had.',
                         rate: 5,
                         by: {
                             _id: 'u104',
-                            fullname: 'Chris Evans',
+                            fullname: 'Liz Evans',
                             imgUrl: '/img/chris.jpg',
                         },
                     },
@@ -171,11 +171,11 @@ function createStays() {
                     },
                     {
                         id: 'r101',
-                        txt: 'Amazing location, perfect for families.',
+                        txt: 'Great location. The host is very responsive and was always making sure we have everything we need',
                         rate: 3,
                         by: {
                             _id: 'u104',
-                            fullname: 'Chris Evans',
+                            fullname: 'Adir Evans',
                             imgUrl: '/img/chris.jpg',
                         },
                     },

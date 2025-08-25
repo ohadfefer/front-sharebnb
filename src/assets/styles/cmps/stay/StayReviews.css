@@ -1,0 +1,151 @@
+.stay-reviews {
+    margin: 2rem 0;
+}
+
+.stay-reviews h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #222;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.review-card {
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f0f0f0;
+}
+
+.user-details {
+    flex: 1;
+}
+
+.user-name {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    color: #222;
+}
+
+.user-location {
+    font-size: 0.875rem;
+    color: #717171;
+    margin: 0;
+    font-weight: 400;
+}
+
+.rating {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+}
+
+.star {
+    font-size: 1rem;
+    color: #ddd;
+}
+
+.star.filled {
+    color: #ff385c;
+}
+
+.star.empty {
+    color: #ddd;
+}
+
+.review-content {
+    margin-top: 1rem;
+}
+
+.review-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #222;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .review-card {
+        padding: 1.25rem;
+    }
+    
+    .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .rating {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .stay-reviews {
+        padding: 0 0.5rem;
+    }
+    
+    .review-card {
+        padding: 1rem;
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .user-name {
+        font-size: 0.95rem;
+    }
+    
+    .user-location {
+        font-size: 0.8rem;
+    }
+    
+    .review-text {
+        font-size: 0.9rem;
+    }
+}
