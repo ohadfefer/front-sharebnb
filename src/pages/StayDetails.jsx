@@ -11,6 +11,7 @@ export function StayDetails() {
 
   const {stayId} = useParams()
   const stay = useSelector(storeState => storeState.stayModule.stay)
+  // console.log(stay)
 
   useEffect(() => {
     loadStay(stayId)
