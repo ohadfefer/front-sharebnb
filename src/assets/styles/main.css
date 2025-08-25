@@ -29,7 +29,11 @@
 @import "cmps/stay/StayList";
 @import "cmps/stay/StayPreview";
 @import "cmps/stay/StayFilter";
+
 @import "cmps/stay/StayDetails.css";
+@import "cmps/stay/StayGallery.css";
+@import "cmps/stay/StayDescription.css";
+@import "cmps/stay/StayAmenities.css";
 
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";

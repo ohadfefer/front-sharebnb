@@ -1,0 +1,51 @@
+.stay-amenities {
+    padding: 20px 0;
+    max-width: 600px;
+}
+
+.stay-amenities h2 {
+    font-size: 22px;
+    color: var(--gray4);
+    margin-bottom: 16px;
+}
+
+.amenities-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.amenity-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.amenity-icon {
+    font-size: 24px;
+    color: var(--text-primary);
+}
+
+.amenity-name {
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .amenities-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .amenity-row {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+    }
+}

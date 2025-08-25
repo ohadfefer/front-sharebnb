@@ -93,7 +93,12 @@ function createStays() {
                 _id: 's102',
                 name: 'Sea Breeze Villa',
                 type: 'Villa',
-                imgUrls: ['https://villa-sea.com/sea1.jpg', 'https://villa-sea.com/sea2.jpg'],
+                imgUrls: ['https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/38455273-3c60-4cc7-8748-dd9c9d695462.jpeg?im_w=960',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/f2c33def-1edb-4367-8277-d461ea04da9e.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/4657d6b9-dbab-4c78-b3e2-aa3f4e1ba4ff.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/f1d90ccb-fa66-44df-8151-784cdbc3a725.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/2d866c41-294f-42eb-8e41-46d62a4febaa.jpeg?im_w=480'
+                ],
                 price: 250.0,
                 summary: 'Luxury villa with private pool and ocean view.',
                 capacity: 6,

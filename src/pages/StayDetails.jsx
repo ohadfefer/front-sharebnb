@@ -1,18 +1,37 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { loadStays, addStayMsg } from '../store/actions/stay.actions'
-
+import { addStayMsg, getCmdSetStay } from '../store/actions/stay.actions'
+import { stayService } from '../services/stay/stay.service.local'
+import { StayGallery } from '../cmps/StayGallery'
+import { StayDescription } from '../cmps/StayDescription'
+import { StayAmenities } from '../cmps/StayAmenities'
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector((storeState) => storeState.stayModule.stay)
+  const dispatch = useDispatch()
   const [isSaved, setIsSaved] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    loadStays(stayId)
-  }, [stayId])
+    async function fetchStay() {
+      setIsLoading(true)
+      try {
+        const stay = await stayService.getById(stayId)
+        console.log('Fetched stay:', stay) // Debug
+        dispatch(getCmdSetStay(stay))
+        setIsLoading(false)
+      } catch (err) {
+        setError('Failed to load stay details')
+        setIsLoading(false)
+        showErrorMsg('Cannot load stay details')
+      }
+    }
+    fetchStay()
+  }, [stayId, dispatch])
 
   async function onAddStayMsg(stayId) {
     try {
@@ -24,7 +43,7 @@ export function StayDetails() {
   }
 
   function handleShare() {
-    alert('share')
+    alert('Share functionality to be implemented')
   }
 
   function handleSave() {
@@ -32,38 +51,18 @@ export function StayDetails() {
     showSuccessMsg(isSaved ? 'Removed from saved' : 'Saved to favorites')
   }
 
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>{error}</div>
+  if (!stay) return <div>No stay found</div>
+
   return (
     <section className="stay-details">
-      {/* <Link to="/stay" className="back-link">Back to list</Link> */}
-      {stay && (
-        <div className="stay-details-container">
-          <div className="stay-header">
-            <h1>Welcome to {stay.name}</h1>
-            <div className="stay-actions">
-              <button className="share-btn" onClick={handleShare}>
-                Share
-              </button>
-              <button className="save-btn" onClick={handleSave}>
-                {isSaved ? 'Saved' : 'Save'}
-              </button>
-            </div>
-          </div>
-          <div className="stay-gallery">
-            {stay.imgUrls && stay.imgUrls.length > 0 ? (
-              <div className="gallery-grid">
-                <img src={stay.imgUrls[0]} alt="Main stay" className="main-img" />
-                {stay.imgUrls.slice(1, 5).map((imgUrl, idx) => (
-                  <img key={idx} src={imgUrl} alt={`Stay ${idx + 1}`} className="side-img" />
-                ))}
-              </div>
-            ) : (
-              <p>No images available</p>
-            )}
-          </div>
-          <button onClick={() => onAddStayMsg(stay._id)}>Add stay msg</button>
-          <pre>{JSON.stringify(stay, null, 2)}</pre>
-        </div>
-      )}
+      <StayGallery stay={stay} onShare={handleShare} onSave={handleSave} isSaved={isSaved} />
+      <StayDescription stay={stay} />
+
+      <div className='amenities-header'>What this place offers</div>
+      <StayAmenities stay={stay} />
+
     </section>
   )
 }
