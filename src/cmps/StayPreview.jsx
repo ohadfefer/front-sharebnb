@@ -6,7 +6,7 @@ export function StayPreview({ stay }) {
             <Link to={`/stay/${stay._id}`}>{stay.name}</Link>
         </header>
 
-        <p>Price: <span>{stay.price.toLocaleString()} NIS</span></p>
+        <p>Price: <span>{stay.price.toLocaleString()} NIS for {stay.night} night</span></p>
         {stay.owner && <p>Owner: <span>{stay.owner.fullname}</span></p>}
         
     </article>

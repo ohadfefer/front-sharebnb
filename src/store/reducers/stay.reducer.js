@@ -20,7 +20,7 @@ const initialState = {
 
 export function stayReducer(state = initialState, action) {
     var newState = state
-    var stays
+    // var stays
     switch (action.type) {
         case SET_STAYS:
             newState = { ...state, stays: action.stays }
