@@ -8,7 +8,7 @@ export const stayService = {
     addStayMsg
 }
 
-async function query(filterBy = { txt: '', minPrice: 0 }) {
+async function query(filterBy = { txt: '', maxPrice: 0 }) {
     return httpService.get(`stay`, filterBy)
 }
 

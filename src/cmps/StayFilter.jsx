@@ -1,107 +1,88 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
-export function StayFilter({ filterBy, setFilterBy }) {
-    const [ filterToEdit, setFilterToEdit ] = useState(structuredClone(filterBy))
-
-    useEffect(() => {
-        setFilterBy(filterToEdit)
-    }, [filterToEdit])
-
-    function handleChange(ev) {
-        const type = ev.target.type
-        const field = ev.target.name
-        let value
-
-        switch (type) {
-            case 'text':
-            case 'radio':
-                value = field === 'sortDir' ? +ev.target.value : ev.target.value
-                if(!filterToEdit.sortDir) filterToEdit.sortDir = 1
-                break
-            case 'number':
-                value = +ev.target.value || ''
-                break
-        }
-        setFilterToEdit({ ...filterToEdit, [field]: value })
-    }
-
-    function clearFilter() {
-        setFilterToEdit({ ...filterToEdit, txt: '', minPrice: '', maxPrice: '' })
-    }
+export function StayFilter({ mini, filterBy, onSetFilter }) {
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
     
-    function clearSort() {
-        setFilterToEdit({ ...filterToEdit, sortField: '', sortDir: '' })
+    function handleChange({ target }) {
+        let { value, name: field, type } = target
+        if (type === 'select-multiple') {
+            value = Array.from(
+                target.selectedOptions,
+                option => option.value || []
+            )
+        }
+        value = type === 'number' ? +value || '' : value
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
 
-    return <section className="stay-filter">
-            <h3>Filter:</h3>
-            <input
+    function onSubmitFilter(ev) {
+        ev.preventDefault()
+        onSetFilter(filterByToEdit)
+    }
+
+    const { address, checkIn, checkOut, guests } = filterByToEdit
+
+  return (
+    <div className={`search-bar ${mini ? 'mini' : 'expanded'}`}>
+      <form className="filter-pill" onSubmit={onSubmitFilter}>
+        {!mini && (
+          <>
+            <label className="cell where">
+              <span className="title">Where</span>
+              <input
                 type="text"
-                name="txt"
-                value={filterToEdit.txt}
-                placeholder="Free text"
+                placeholder="Search destinations"
+                value={address}
                 onChange={handleChange}
-                required
-            />
-            <input
+                name="address"
+              />
+            </label>
+
+            <label className="cell checkin">
+              <span className="title">Check in</span>
+              <input
+                type="date"
+                value={checkIn}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="cell checkout">
+              <span className="title">Check out</span>
+              <input
+                type="date"
+                value={checkOut}
+                onChange={handleChange}
+              />
+            </label>
+
+            <label className="cell who">
+              <span className="title">Who</span>
+              <input
                 type="number"
-                min="0"
-                name="minPrice"
-                value={filterToEdit.minPrice}
-                placeholder="min. price"
+                min="1"
+                value={guests}
                 onChange={handleChange}
-                required
-            />
-            <button 
-                className="btn-clear" 
-                onClick={clearFilter}>Clear</button>
-            <h3>Sort:</h3>
-            <div className="sort-field">
-                <label>
-                    <span>Price</span>
-                    <input
-                        type="radio"
-                        name="sortField"
-                        value="price"
-                        checked={filterToEdit.sortField === 'price'}
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    <span>Name</span>
-                    <input
-                        type="radio"
-                        name="sortField"
-                        value="name"
-                        checked={filterToEdit.sortField === 'name'}            
-                        onChange={handleChange}
-                    />
-                </label>
-            </div>
-            <div className="sort-dir">
-                <label>
-                    <span>Asce</span>
-                    <input
-                        type="radio"
-                        name="sortDir"
-                        value="1"
-                        checked={filterToEdit.sortDir === 1}                        
-                        onChange={handleChange}
-                    />
-                </label>
-                <label>
-                    <span>Desc</span>
-                    <input
-                        type="radio"
-                        name="sortDir"
-                        value="-1"
-                        onChange={handleChange}
-                        checked={filterToEdit.sortDir === -1}                        
-                    />
-                </label>
-            </div>
-            <button 
-                className="btn-clear" 
-                onClick={clearSort}>Clear</button>
-    </section>
+                placeholder="Add guests"
+              />
+            </label>
+          </>
+        )}
+
+        {mini && (
+          <>
+            <button type="button" className="chip">
+              <span className="icon">🏠</span> Anywhere
+            </button>
+            <button type="button" className="chip">Anytime</button>
+            <button type="button" className="chip">Add guests</button>
+          </>
+        )}
+
+        <button className="search-btn" aria-label="Search" type="submit">
+          <span className="loupe">🔍</span>
+        </button>
+      </form>
+    </div>
+  )
 }

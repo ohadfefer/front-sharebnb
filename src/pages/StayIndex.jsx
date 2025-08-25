@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { loadStays, addStay, updateStay, removeStay, addStayMsg } from '../store/actions/stay.actions'
+import { loadStays, addStay, updateStay, removeStay, setFilter } from '../store/actions/stay.actions'
 
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
 import { stayService } from '../services/stay/'
@@ -12,8 +12,7 @@ import { StayFilter } from '../cmps/StayFilter'
 
 export function StayIndex() {
 
-    const [ filterBy, setFilterBy ] = useState(stayService.getDefaultFilter())
-    const stays = useSelector(storeState => storeState.stayModule.stays)
+    const { stays, filterBy, isLoading, address } = useSelector(storeState => storeState.stayModule)
 
     useEffect(() => {
         loadStays(filterBy)
@@ -22,7 +21,7 @@ export function StayIndex() {
     async function onRemoveStay(stayId) {
         try {
             await removeStay(stayId)
-            showSuccessMsg('Stay removed')            
+            showSuccessMsg('Stay removed')
         } catch (err) {
             showErrorMsg('Cannot remove stay')
         }
@@ -36,12 +35,12 @@ export function StayIndex() {
             showSuccessMsg(`Stay added (id: ${savedStay._id})`)
         } catch (err) {
             showErrorMsg('Cannot add stay')
-        }        
+        }
     }
 
     async function onUpdateStay(stay) {
         const price = +prompt('New price?', stay.price) || 0
-        if(price === 0 || price === stay.price) return
+        if (price === 0 || price === stay.price) return
 
         const stayToSave = { ...stay, price }
         try {
@@ -49,8 +48,13 @@ export function StayIndex() {
             showSuccessMsg(`Stay updated, new price: ${savedStay.price}`)
         } catch (err) {
             showErrorMsg('Cannot update stay')
-        }        
+        }
     }
+
+    function onSetFilter(filterBy) {
+        setFilter(filterBy)
+    }
+
 
     return (
         <section className="stay-index">
@@ -58,11 +62,13 @@ export function StayIndex() {
                 <h2>Stays</h2>
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </header>
-            <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
-            <StayList 
+            <input type="file" />
+            
+            <StayFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+            <StayList
                 stays={stays}
-                onRemoveStay={onRemoveStay} 
-                onUpdateStay={onUpdateStay}/>
+                onRemoveStay={onRemoveStay}
+                onUpdateStay={onUpdateStay} />
         </section>
     )
 }

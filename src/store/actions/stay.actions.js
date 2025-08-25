@@ -1,27 +1,31 @@
-import { stayService } from '../../services/stay'
+import { stayService } from '../../services/stay/stay.service.local.js'
 import { store } from '../store'
-import { ADD_STAY, REMOVE_STAY, SET_STAYS, SET_STAY, UPDATE_STAY, ADD_STAY_MSG } from '../reducers/stay.reducer'
+import {
+    ADD_STAY,
+    REMOVE_STAY,
+    SET_STAYS,
+    SET_STAY,
+    UPDATE_STAY,
+    ADD_STAY_MSG,
+    SET_FILTER_BY,
+    SET_IS_LOADING,
+} from '../reducers/stay.reducer.js'
 
-export async function loadStays(filterBy) {
+export async function loadStays() {
+    const { filterBy } = store.getState().stayModule
+    
     try {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: true })
         const stays = await stayService.query(filterBy)
-        store.dispatch(getCmdSetStays(stays))
+        store.dispatch({ type: SET_STAYS, stays })
+        return stays
     } catch (err) {
-        console.log('Cannot load stays', err)
+        console.log('stay action -> Cannot load stays')
         throw err
+    } finally {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: false })
     }
 }
-
-export async function loadStay(stayId) {
-    try {
-        const stay = await stayService.getById(stayId)
-        store.dispatch(getCmdSetStay(stay))
-    } catch (err) {
-        console.log('Cannot load stay', err)
-        throw err
-    }
-}
-
 
 export async function removeStay(stayId) {
     try {
@@ -65,6 +69,11 @@ export async function addStayMsg(stayId, txt) {
         throw err
     }
 }
+
+export function setFilter(filterBy) {
+    store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
+
 
 // Command Creators:
 function getCmdSetStays(stays) {

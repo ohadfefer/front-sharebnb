@@ -1,3 +1,5 @@
+import { stayService } from '../../services/stay/index.js'
+
 export const SET_STAYS = 'SET_STAYS'
 export const SET_STAY = 'SET_STAY'
 export const REMOVE_STAY = 'REMOVE_STAY'
@@ -5,14 +7,20 @@ export const ADD_STAY = 'ADD_STAY'
 export const UPDATE_STAY = 'UPDATE_STAY'
 export const ADD_STAY_MSG = 'ADD_STAY_MSG'
 
+export const SET_FILTER_BY = 'SET_FILTER_BY'
+export const SET_IS_LOADING = 'SET_IS_LOADING'
+
+
 const initialState = {
     stays: [],
-    stay: null
+    stay: null,
+    filterBy: stayService.getDefaultFilter(),
+    isLoading: false,
 }
 
 export function stayReducer(state = initialState, action) {
     var newState = state
-    var stays
+    // var stays
     switch (action.type) {
         case SET_STAYS:
             newState = { ...state, stays: action.stays }
@@ -36,6 +44,16 @@ export function stayReducer(state = initialState, action) {
             if (action.msg && state.stay) {
                 newState = { ...state, stay: { ...state.stay, msgs: [...state.stay.msgs || [], action.msg] } }
                 break
+            }
+        case SET_FILTER_BY:
+            return {
+                ...state,
+                filterBy: { ...state.filterBy, ...action.filterBy },
+            }
+        case SET_IS_LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading,
             }
         default:
     }
