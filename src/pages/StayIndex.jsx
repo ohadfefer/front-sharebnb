@@ -58,6 +58,7 @@ export function StayIndex() {
                 <h2>Stays</h2>
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </header>
+            <input type="file" />
             <StayFilter filterBy={filterBy} setFilterBy={setFilterBy} />
             <StayList 
                 stays={stays}
