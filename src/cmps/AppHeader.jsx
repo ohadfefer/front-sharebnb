@@ -8,8 +8,12 @@ import { useHeaderControl } from '../customHooks/useHeaderControl.js'
 import { StayFilter } from '../cmps/StayFilter.jsx'
 
 export function AppHeader() {
+
   const user = useSelector(store => store.userModule.user)
+  const { stays, filterBy, isLoading, address } = useSelector(storeState => storeState.stayModule)
+
   const navigate = useNavigate()
+
   const isMini = useHeaderControl(80)
 
   async function onLogout() {
@@ -40,7 +44,7 @@ export function AppHeader() {
               </div> :
               ''
           }
-          <StayFilter mini={isMini} />
+          <StayFilter mini={isMini} filterBy={filterBy} />
         </div>
 
         <div className="auth-link">

@@ -1,26 +1,31 @@
+import { setFilter } from '../store/actions/stay.actions'
 import { useState } from 'react'
 
 export function StayFilter({ mini, filterBy, onSetFilter }) {
-    const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
-    
-    function handleChange({ target }) {
-        let { value, name: field, type } = target
-        if (type === 'select-multiple') {
-            value = Array.from(
-                target.selectedOptions,
-                option => option.value || []
-            )
-        }
-        value = type === 'number' ? +value || '' : value
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
-    }
+  const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
 
-    function onSubmitFilter(ev) {
-        ev.preventDefault()
-        onSetFilter(filterByToEdit)
+  function handleChange({ target }) {
+    let { value, name: field, type } = target
+    if (type === 'select-multiple') {
+      value = Array.from(
+        target.selectedOptions,
+        option => option.value || []
+      )
     }
+    value = type === 'number' ? +value || '' : value
+    setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+  }
 
-    const { address, checkIn, checkOut, guests } = filterByToEdit
+  function onSetFilter(filterBy) {
+    setFilter(filterBy)
+  }
+
+  function onSubmitFilter(ev) {
+    ev.preventDefault()
+    onSetFilter(filterByToEdit)
+  }
+
+  const { address, checkIn, checkOut, guests } = filterByToEdit
 
   return (
     <div className={`search-bar ${mini ? 'mini' : 'expanded'}`}>
