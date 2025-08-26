@@ -21,7 +21,7 @@ export function StayPreview({ stay }) {
     }
 
     return (
-        <NavLink to={`/stay/${stay._id}`} className="stay-details">
+        <NavLink to={`/stay/${stay._id}`} className="stay-preview">
                 <Swiper
                     cssMode={true}
                     navigation={true}

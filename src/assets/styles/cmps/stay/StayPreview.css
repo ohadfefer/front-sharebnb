@@ -1,6 +1,6 @@
 /* display: flex;
 flex-direction: column; */
-/* .stay-details {
+/* .stay-preview{
   --min: 170px;
   --max: 1fr; 
   display: grid;
@@ -15,7 +15,7 @@ flex-direction: column; */
   width: 100%;
 }
 
-.stay-details p {
+.stay-previewp {
   margin: 0;
 }
 
@@ -87,8 +87,8 @@ flex-direction: column; */
   opacity: 1;
 }
 
-.stay-details .swiper-button-prev,
-.stay-details .swiper-button-next {
+.stay-preview.swiper-button-prev,
+.stay-preview.swiper-button-next {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
@@ -100,13 +100,13 @@ flex-direction: column; */
   pointer-events: auto;
 }
 
-.stay-details .swiper-button-prev:hover,
-.stay-details .swiper-button-next:hover {
+.stay-preview.swiper-button-prev:hover,
+.stay-preview.swiper-button-next:hover {
   opacity: 1;
 }
 
-.stay-details .swiper-button-prev::after,
-.stay-details .swiper-button-next::after {
+.stay-preview.swiper-button-prev::after,
+.stay-preview.swiper-button-next::after {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -120,8 +120,8 @@ flex-direction: column; */
   transition: transform 0.2s ease;
 }
 
-.stay-details .swiper-button-prev:hover::after,
-.stay-details .swiper-button-next:hover::after {
+.stay-preview.swiper-button-prev:hover::after,
+.stay-preview.swiper-button-next:hover::after {
   transform: scale(1.1);
 }
 
@@ -146,22 +146,22 @@ flex-direction: column; */
   transform: scale(1.1);
 } */
 
-.stay-details {
+.stay-preview {
   --min: 170px;
   --max: 200px;
-
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr;
+  /* grid-template-columns: 1fr; */
   justify-content: start;
   color: black;
   text-decoration: none;
 }
 
-.stay-details>* {
+.stay-preview>* {
   width: 100%;
 }
 
-.stay-details p {
+.stay-preview p {
   margin: 0;
 }
 
@@ -186,7 +186,7 @@ flex-direction: column; */
 .carousel {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1/1;
   overflow: hidden;
   object-fit: contain;
   border-radius: 16px;
@@ -227,26 +227,26 @@ flex-direction: column; */
   opacity: 1;
 }
 
-.stay-details .swiper-button-prev,
-.stay-details .swiper-button-next {
+.stay-preview .swiper-button-prev,
+.stay-preview .swiper-button-next {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
 
-.stay-details:hover .swiper-button-prev,
-.stay-details:hover .swiper-button-next {
+.stay-preview:hover .swiper-button-prev,
+.stay-preview:hover .swiper-button-next {
   opacity: 0.9;
   pointer-events: auto;
 }
 
-.stay-details .swiper-button-prev:hover,
-.stay-details .swiper-button-next:hover {
+.stay-preview .swiper-button-prev:hover,
+.stay-preview .swiper-button-next:hover {
   opacity: 1;
 }
 
-.stay-details .swiper-button-prev::after,
-.stay-details .swiper-button-next::after {
+.stay-preview .swiper-button-prev::after,
+.stay-preview .swiper-button-next::after {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -260,8 +260,8 @@ flex-direction: column; */
   transition: transform 0.2s ease;
 }
 
-.stay-details .swiper-button-prev:hover::after,
-.stay-details .swiper-button-next:hover::after {
+.stay-preview .swiper-button-prev:hover::after,
+.stay-preview .swiper-button-next:hover::after {
   transform: scale(1.1);
 }
 
