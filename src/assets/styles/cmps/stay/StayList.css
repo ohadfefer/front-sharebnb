@@ -1,12 +1,25 @@
-.stay-list {
-    margin-top: 100px ;
-    --min-column-size: 180px;
+/* .stay-list {
+    margin-top: 6.25rem ;
+    --min-column-size: 11.25rem;
     display: grid;
     grid-template-columns: repeat(auto-fill,minmax( var(--min-column-size),1fr));
     gap: 11px;
     & li {
        list-style: none;
-       width: fit-content;  
+       width: 11.25rem;  
     }
+} */
+
+.stay-list {
+  margin-top: 100px;
+  --min-column-size: 180px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min-column-size), 1fr));
+  gap: 11px;
+}
+
+.stay-list li {
+  list-style: none;
+  width: 100%;   /* instead of fit-content so they fill track */
 }
 
