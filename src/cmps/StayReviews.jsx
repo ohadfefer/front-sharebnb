@@ -1,9 +1,9 @@
-// import { cleanliness } from '../assets/logo/icons/cleanliness.svg'
-// import { accuracy } from '../assets/logo/icons/accuracy.svg'
-// import { key } from '../assets/logo/icons/key.svg'
-// import { chat } from '../assets/logo/icons/chat.svg'
-// import { map } from '../assets/logo/icons/map.svg'
-// import { value } from '../assets/logo/icons/value.svg'
+import cleanliness from '../assets/logo/icons/cleanliness.svg'
+import accuracy from '../assets/logo/icons/accuracy.svg'
+import key from '../assets/logo/icons/key.svg'
+import chat from '../assets/logo/icons/chat.svg'
+import map from '../assets/logo/icons/map.svg'
+import value from '../assets/logo/icons/value.svg'
 import star from '../assets/logo/icons/star.svg'
 
 import { FaStar } from 'react-icons/fa'
@@ -27,17 +27,68 @@ export function StayReviews({ stay }) {
         ))
     }
 
-    const avgRate = stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
+    const avgRate = stay.reviews.length
+        ? stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
+        : 0
+
     return (
         <>
             <div className="rates-info">
                 <div className="rates-header">
-                    <img src={star} alt="" width={8} /> {(avgRate || 'No').toFixed(1)} · {stay.reviews.length} reviews
+                    <img src={star} alt="average rating" width={20} />
+                    <span>
+                        {avgRate.toFixed(2)} · {stay.reviews.length} reviews
+                    </span>
                 </div>
                 <div className="rates-details">
+                    <div className="rate-type-container">
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Cleanliness</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={cleanliness} alt="cleanliness" width={32} />
+                        </div>
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Accuracy</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={accuracy} alt="accuracy" width={32} />
+                        </div>
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Check-in</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={key} alt="key" width={32} />
+                        </div>
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Communication</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={chat} alt="chat" width={32} />
+                        </div>
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Location</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={map} alt="map" width={32} />
+                        </div>
+                        <div className="rate-type">
+                            <div className="rate-type-header">
+                                <div>Value</div>
+                                <div>4.9</div>
+                            </div>
+                            <img src={value} alt="value" width={32} />
+                        </div>
+                    </div>
 
                 </div>
             </div>
+            <hr className='divider-long' />
             <div className="stay-reviews">
                 <div className="reviews-grid">
                     {stay.reviews.map((review) => (

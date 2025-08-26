@@ -28,7 +28,7 @@
     --header-height-expanded: 120px;
     --header-height-mini: 72px;
     --pill-radius: 40px;
-    --divider: rgba(0, 0, 0, 0.08);
+    --divider: rgba(0, 0, 0, 0.12);
 
     /* === CTA btn === */
     --gradient-start-color: #E61D4D;

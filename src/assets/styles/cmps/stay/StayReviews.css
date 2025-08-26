@@ -1,3 +1,66 @@
+.rates-info {
+    margin: 1rem 0 2rem;
+    padding-top: 40px;
+}
+
+.rates-info .rates-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-family: 'Roboto-Medium';
+    font-weight: normal;
+    margin-bottom: 40px;
+}
+
+.rates-details {
+    margin-top: 1rem;
+}
+
+.rate-type-container {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0;
+    
+}
+
+.rate-type {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 0px 0px 4px;
+    margin-right: 20px;
+    flex: 1 1 0;
+}
+
+.rate-type:not(:last-child) {
+    border-right: 1px solid var(--divider);
+}
+
+.rate-type-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rate-type-header > div:first-child {
+    font-family: 'Roboto-Medium';
+    font-weight: normal;
+    font-size: 0.875rem;
+}
+
+.rate-type-header > div:last-child {
+    font-family: 'Roboto-Medium';
+    font-weight: normal;
+    font-size: 1.125rem;
+}
+
+.rate-type img {
+    width: 32px;
+    height: 32px;
+}
+
 .stay-reviews {
     margin: 2rem 0;
 }
@@ -90,7 +153,14 @@
     font-weight: 400;
 }
 
-/* Responsive design */
+
+@media (max-width: 900px) {
+    .rate-type img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 @media (max-width: 768px) {
     .reviews-grid {
         grid-template-columns: 1fr;

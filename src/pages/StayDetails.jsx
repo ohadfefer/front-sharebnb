@@ -68,9 +68,9 @@ export function StayDetails() {
 
       <div className='date-picker-header'>Select check-in date</div>
       {/* <StayDatePicker /> */}
-      <hr />
+      <hr className='divider-long' />
       <StayReviews stay={stay} />
-      <hr />
+      <hr className='divider-long' />
 
       <StayMap stay={stay}/>
 
