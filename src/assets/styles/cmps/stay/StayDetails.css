@@ -1,0 +1,18 @@
+.stay-details {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.stay-details .amenities-header {
+    font-size: 22px;
+    padding-bottom: 5px;
+    font-family: 'Roboto-Medium';
+}
+
+.divider-long {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 20px 0;
+    max-width: 1200px;
+}

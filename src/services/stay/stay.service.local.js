@@ -94,7 +94,12 @@ function createStays() {
                 _id: 's102',
                 name: 'Sea Breeze Villa',
                 type: 'Villa',
-                imgUrls: ['https://a0.muscache.com/im/pictures/f43dd4e6-19fe-4805-b99d-7c04869b8607.jpg?im_w=720', 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJvb21zfGVufDB8fDB8fHww'],
+                imgUrls: ['https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/38455273-3c60-4cc7-8748-dd9c9d695462.jpeg?im_w=960',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/f2c33def-1edb-4367-8277-d461ea04da9e.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/4657d6b9-dbab-4c78-b3e2-aa3f4e1ba4ff.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/f1d90ccb-fa66-44df-8151-784cdbc3a725.jpeg?im_w=480',
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-1417371546794397632/original/2d866c41-294f-42eb-8e41-46d62a4febaa.jpeg?im_w=480'
+                ],
                 price: 250.0,
                 summary: 'Luxury villa with private pool and ocean view.',
                 capacity: 6,
@@ -117,10 +122,60 @@ function createStays() {
                     {
                         id: 'r101',
                         txt: 'Amazing location, perfect for families.',
-                        rate: 5,
+                        rate: 4,
                         by: {
                             _id: 'u104',
                             fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r102',
+                        txt: 'We had a truly amazing stay at this Airbnb in Netanya! The apartment was absolutely perfect very comfortable for a family or anyone else, spotlessly clean',
+                        rate: 5,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Yael Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r103',
+                        txt: 'Yosef is a great host and the apartment was a great find. Located first line to the sea with breeze and plenty of lights. Restaurants salons and synagogue within ealking',
+                        rate: 1,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Eva Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r104',
+                        txt: 'the apartment was clean great location.  yosef was always available with any questions I had.',
+                        rate: 5,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Liz Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r105',
+                        txt: 'Amazing location, perfect for families.',
+                        rate: 2,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Chris Evans',
+                            imgUrl: '/img/chris.jpg',
+                        },
+                    },
+                    {
+                        id: 'r106',
+                        txt: 'Great location. The host is very responsive and was always making sure we have everything we need',
+                        rate: 3,
+                        by: {
+                            _id: 'u104',
+                            fullname: 'Adir Evans',
                             imgUrl: '/img/chris.jpg',
                         },
                     },

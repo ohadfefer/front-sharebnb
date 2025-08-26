@@ -1,0 +1,121 @@
+.stay-description {
+    padding: 20px 0;
+}
+
+.stay-info {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    padding: 12px 0 12px 0;
+}
+
+.stay-info .header {
+    font-size: 22px;
+    font-family: 'Roboto-Medium';
+}
+
+.stay-info .capacity {
+    font-size: 16px;
+    color: var(--neutrals-o8);
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.stay-info .reviews-modal {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1.0625rem;
+    color: var(--text-primary);
+    font-weight: normal;
+    font-family: 'Roboto-Medium';
+}
+
+.divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 20px 0;
+    max-width: 550px;
+}
+
+.stay-info-grid.host-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+    max-width: 600px;
+}
+
+.stay-info-grid.host-grid .column-2 {
+    font-family: 'Roboto-Medium';
+}
+
+.stay-info-grid.features-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.column-1 {
+    display: flex;
+    align-items: center;
+}
+
+.column-2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.host-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--neutrals-o3);
+}
+
+.icon {
+    font-size: 24px;
+    color: var(--text-primary);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item p:first-child {
+    font-family: 'Roboto-Medium';
+    font-weight: normal;
+    margin-bottom: 0;
+    font-size: 1em;
+}
+
+.info-item p:last-child {
+    font-weight: normal;
+    color: var(--neutrals-o7);
+    font-size: 0.875rem;
+    margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+
+    .stay-info-grid.host-grid,
+    .grid-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .column-1,
+    .column-2 {
+        gap: 10px;
+    }
+}

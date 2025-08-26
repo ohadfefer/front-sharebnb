@@ -78,37 +78,37 @@ export function setFilter(filterBy) {
 
 
 // Command Creators:
-function getCmdSetStays(stays) {
+export function getCmdSetStays(stays) {
     return {
         type: SET_STAYS,
         stays
     }
 }
-function getCmdSetStay(stay) {
+export function getCmdSetStay(stay) {
     return {
         type: SET_STAY,
         stay
     }
 }
-function getCmdRemoveStay(stayId) {
+export function getCmdRemoveStay(stayId) {
     return {
         type: REMOVE_STAY,
         stayId
     }
 }
-function getCmdAddStay(stay) {
+export function getCmdAddStay(stay) {
     return {
         type: ADD_STAY,
         stay
     }
 }
-function getCmdUpdateStay(stay) {
+export function getCmdUpdateStay(stay) {
     return {
         type: UPDATE_STAY,
         stay
     }
 }
-function getCmdAddStayMsg(msg) {
+export function getCmdAddStayMsg(msg) {
     return {
         type: ADD_STAY_MSG,
         msg

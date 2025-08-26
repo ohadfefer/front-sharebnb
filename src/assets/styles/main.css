@@ -24,11 +24,21 @@
 @import "cmps/stay/StayIndex.css";
 @import "cmps/stay/StayPreview.css";
 @import "cmps/stay/StayOrder.css";
+@import "cmps/stay/StayDetails.css";
+
 
 @import "cmps/stay/StayIndex";
 @import "cmps/stay/StayList";
 @import "cmps/stay/StayPreview";
 @import "cmps/stay/StayFilter";
+
+@import "cmps/stay/StayDetails.css";
+@import "cmps/stay/StayGallery.css";
+@import "cmps/stay/StayDescription.css";
+@import "cmps/stay/StayAmenities.css";
+@import "cmps/stay/StayDatePicker.css";
+@import "cmps/stay/StayReviews.css";
+@import "cmps/stay/StayMap.css";
 
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
