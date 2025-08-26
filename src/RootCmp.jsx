@@ -21,7 +21,6 @@ export function RootCmp() {
         <div className="main-container">
             <AppHeader />
             <UserMsg />
-
             <main>
                 <Routes>
                     <Route path="about" element={<AboutUs />}>

@@ -9,9 +9,13 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 import { store } from './store/store'
 import { RootCmp } from './RootCmp'
 
+import './store/actions/stay.actions'
+
+import 'react-day-picker/dist/style.css'
+
 import './assets/styles/main.css'
 
-import './store/actions/stay.actions'
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

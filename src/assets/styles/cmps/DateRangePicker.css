@@ -1,0 +1,84 @@
+.date-range-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-right: 1px solid var(--divider);
+}
+
+.date-input {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 6px 14px;
+    border-right: 1px solid var(--divider);
+    cursor: pointer;
+}
+
+.date-input:last-child {
+    border-right: none;
+}
+
+.date-input .title {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 2px;
+}
+
+.date-input .value {
+    font-size: 14px;
+    color: #111827;
+}
+
+.date-input .value.placeholder {
+    color: #6b7280;
+}
+
+.date-input.active {
+    background: rgba(0, 0, 0, 0.035);
+    border-radius: 10px;
+}
+
+.rdp-popover {
+    position: absolute;
+    z-index: 60;
+    top: calc(100% + 10px);
+    left: 0;
+    background: #fff;
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    padding: 10px;
+}
+
+/* תחושת ריינג’ כמו Airbnb */
+.rdp-range-middle .rdp-day_button {
+    background: rgba(17, 24, 39, 0.06);
+}
+
+.rdp-range-start .rdp-day_button,
+.rdp-range-end .rdp-day_button {
+    background: #111827;
+    color: #fff;
+}
+
+.tolerances {
+    display: flex;
+    gap: 8px;
+    padding: 10px 6px 4px;
+}
+
+.tolerances .chip {
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+.tolerances .chip.active {
+    background: #111827;
+    color: #fff;
+    border-color: #111827;
+}
