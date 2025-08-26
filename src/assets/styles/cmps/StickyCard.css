@@ -1,5 +1,6 @@
-/* .sticky-card {
-} */
+.sticky-card {
+    padding-bottom: 30px;
+} 
 
 .sticky-card-inner {
     border: 1px solid var(--divider);

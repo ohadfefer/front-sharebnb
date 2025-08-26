@@ -83,7 +83,7 @@ export function StayDetails() {
 
       <StayReviews stay={stay} />
 
-      <hr />
+      <hr className='divider-long' />
 
       <StayMap stay={stay}/>
 

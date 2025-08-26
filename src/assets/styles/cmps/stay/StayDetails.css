@@ -25,10 +25,6 @@
 }
 
 
-/* .right-col {
-    position: relative;
-} */
-
 .right-col .sticky-card {
     position: sticky;
     top: 120px;
