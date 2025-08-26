@@ -1,3 +1,4 @@
+import heart from '../assets/logo/icons/heart.svg'
 
 export function StayGallery({ stay, onShare, onSave, isSaved }) {
   

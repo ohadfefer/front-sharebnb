@@ -40,10 +40,10 @@ export function StayReviews({ stay }) {
                                     <p className="user-location">
                                         {stay.loc.city}, {stay.loc.country}
                                     </p>
+                                    <div className="rating">
+                                        {renderStars(review.rate)}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="rating">
-                                {renderStars(review.rate)}
                             </div>
                         </div>
                         <div className="review-content">
