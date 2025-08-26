@@ -1,10 +1,11 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
+
 
 import { StayDetails } from './pages/StayDetails'
 
@@ -23,6 +24,7 @@ export function RootCmp() {
             <UserMsg />
             <main>
                 <Routes>
+                    <Route path="/" element={<Navigate to="/stay" replace />} />
                     <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />

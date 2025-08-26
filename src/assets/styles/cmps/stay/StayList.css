@@ -1,12 +1,12 @@
 .stay-list {
+    margin-top: 100px ;
     --min-column-size: 180px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, var(--min-column-size));
+    grid-template-columns: repeat(auto-fill,minmax( var(--min-column-size),1fr));
     gap: 11px;
     & li {
        list-style: none;
        width: fit-content;  
-       
     }
 }
 

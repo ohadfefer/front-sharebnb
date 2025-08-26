@@ -23,7 +23,16 @@
   margin-left: 4px !important;
   font-weight: normal;
   color: var(--neutrals-o7);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.preview-date {
+  width: fit-content;
+  margin-left: 4px !important;
+  font-weight: normal;
+  color: var(--neutrals-o7);
+  font-size: 0.8rem;
+
 }
 
 .carousel {

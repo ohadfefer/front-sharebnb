@@ -54,10 +54,9 @@ export function StayIndex() {
     return (
         <section className="stay-index">
             <header>
-                <h2>Stays</h2>
+                
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </header>
-            <input type="file" />
             <StayList
                 stays={stays}
                 onRemoveStay={onRemoveStay}

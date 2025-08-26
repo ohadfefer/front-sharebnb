@@ -31,7 +31,7 @@ export function StayPreview({ stay }) {
                     modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                     className="carousel"
                 >
-                    <i class="fa-solid fa-heart heart-icon "></i>
+                    <i className="fa-solid fa-heart heart-icon "></i>
                     {stay.imgUrls.map((img, idx) => (
 
                         <SwiperSlide className='preview-picture' key={idx}>
@@ -43,8 +43,8 @@ export function StayPreview({ stay }) {
                     
                 
                 <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
+                <p className='preview-date'>8-9 Sept</p>
                 <p className='preview-details'><span>${stay.price.toLocaleString()} for 1 night</span></p>
-                {stay.owner && <p>Owner: <span>{stay.owner.fullname}</span></p>}
         </NavLink>
     )
 }
