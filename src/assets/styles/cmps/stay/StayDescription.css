@@ -6,25 +6,29 @@
     display: flex;
     flex-direction: column;
     max-width: 600px;
+    padding: 12px 0 12px 0;
 }
 
-.stay-info h2 {
+.stay-info .header {
     font-size: 22px;
-    color: var(--gray4);
-    margin-bottom: 8px;
+    font-family: 'Roboto-Medium';
 }
 
 .stay-info .capacity {
     font-size: 16px;
-    color: var(--text-secondary);
+    color: var(--neutrals-o8);
     margin-top: 4px;
     margin-bottom: 8px;
 }
 
 .stay-info .reviews-modal {
-    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1.0625rem;
     color: var(--text-primary);
-    font-weight: 600;
+    font-weight: normal;
+    font-family: 'Roboto-Medium';
 }
 
 .divider {
@@ -40,6 +44,10 @@
     gap: 20px;
     align-items: center;
     max-width: 600px;
+}
+
+.stay-info-grid.host-grid .column-2 {
+    font-family: 'Roboto-Medium';
 }
 
 .stay-info-grid.features-grid {
@@ -67,8 +75,8 @@
 }
 
 .host-image {
-    width: 56px;
-    height: 56px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
     background-color: var(--neutrals-o3);
@@ -85,14 +93,16 @@
 }
 
 .info-item p:first-child {
-    font-weight: 600;
-    color: var(--text-primary);
+    font-family: 'Roboto-Medium';
+    font-weight: normal;
     margin-bottom: 0;
+    font-size: 1em;
 }
 
 .info-item p:last-child {
-    color: var(--text-secondary);
-    font-size: 14px;
+    font-weight: normal;
+    color: var(--neutrals-o7);
+    font-size: 0.875rem;
     margin-top: 6px;
 }
 

@@ -1,16 +1,19 @@
 import door from '../assets/logo/icons/door.svg'
 import pin from '../assets/logo/icons/pin.svg'
 import parking from '../assets/logo/icons/parking.svg'
+import star from '../assets/logo/icons/star.svg'
 
 
 export function StayDescription({ stay }) {
+
+    const avgRate = stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
     return (
         <div className="stay-description">
             <div className="stay-info">
-                <h2>{stay.type} hosted by {stay.host.fullname}</h2>
+                <div className='header'>{stay.type} hosted by {stay.host.fullname}</div>
                 <p className="capacity">{stay.capacity} guests · 2 bedrooms · 2 beds · 2 baths</p>
                 <div className="reviews-modal">
-                    ⋆ {(stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length || 'No').toFixed(1)} · {stay.reviews.length} reviews
+                    <img src={star} alt="" width={8}/> {(avgRate || 'No').toFixed(1)} · {stay.reviews.length} reviews
                 </div>
             </div>
             <hr className="divider" />
