@@ -1,27 +1,29 @@
 .stay-details {
-    display: flex;
-    flex-direction: column;
-    color: black;
-}
-
-.preview-nav {
-    text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  color: black;
+  width: fit-content;
+  text-decoration: none;
 }
 
 .stay-details p {
-    margin: 0;
+  margin: 0;
 }
 
 .preview-title {
-    font-size: 0.875rem;
-    font-family: Roboto;
+  width: fit-content;
+  font-size: 0.875rem;
+  font-family: Roboto;
+  margin-left: 4px !important;
 }
 
 .preview-details {
-    font-weight: 100;
-    color: var(--neutrals-o7);
-    font-size: 0.75rem;
-    font-family: Roboto;
+  width: fit-content;
+  margin-left: 4px !important;
+  font-weight: normal;
+  color: var(--neutrals-o7);
+  font-size: 0.75rem;
 }
 
 .carousel {
@@ -34,6 +36,7 @@
 }
 
 .swiper {
+  margin: 0;
   width: 180px;
   height: 180px;
 }
@@ -45,41 +48,48 @@
 }
 
 .carousel-img {
+  margin-left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0; 
-}
-
-.swiper-button-prev, .swiper-button-next {
-    color: black;
-}
-
-.swiper-pagination-bullet {
-    background: rgb(160, 160, 160) !important;
-    opacity: 0.8;
-}
-
-.swiper-pagination-bullet-active {
-    background: white !important; 
-    opacity: 1;
+  border-radius: 0;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  color: black;
 }
 
-.stay-preview:hover .swiper-button-prev,
-.stay-preview:hover .swiper-button-next {
+.swiper-pagination-bullet {
+  background: rgb(160, 160, 160) !important;
+  opacity: 0.8;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
   opacity: 1;
+}
+
+.stay-details .swiper-button-prev,
+.stay-details .swiper-button-next {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.stay-details:hover .swiper-button-prev,
+.stay-details:hover .swiper-button-next {
+  opacity: 0.9;
   pointer-events: auto;
 }
 
-.swiper-button-prev:after,
-.swiper-button-next:after {
+.stay-details .swiper-button-prev:hover,
+.stay-details .swiper-button-next:hover {
+  opacity: 1;
+}
+
+.stay-details .swiper-button-prev::after,
+.stay-details .swiper-button-next::after {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,12 +100,31 @@
   padding: 0.5rem;
   font-size: 0.625rem;
   border-radius: 50%;
-  opacity: 0.9;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s ease;
 }
 
-.swiper-button-prev:hover:after,
-.swiper-button-next:hover:after {
-  opacity: 1;
+.stay-details .swiper-button-prev:hover::after,
+.stay-details .swiper-button-next:hover::after {
+  transform: scale(1.1);
+}
+
+.heart-icon {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+  opacity: 0.4;
+  cursor: pointer;
+  z-index: 6;
+  text-shadow:
+    -1.5px -1.5px 0 white,
+    1.5px -1.5px 0 white,
+    -1.5px 1.5px 0 white,
+    1.5px 1px 0 white;
+  transition: transform 0.25s ease;
+}
+
+.heart-icon:hover {
   transform: scale(1.1);
 }

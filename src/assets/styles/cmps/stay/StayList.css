@@ -1,22 +1,12 @@
 .stay-list {
-    --min-column-size: 220px;
-
+    --min-column-size: 180px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-column-size), 1fr));
-    gap: .5em;
-
+    grid-template-columns: repeat(auto-fit, var(--min-column-size));
+    gap: 11px;
     & li {
-        display: grid;
-        grid-template-columns: max-content auto;
-        padding: .5em;
-        background-color: var(--clr2);
-
-        .actions {
-            justify-self: end;
-
-            & button {
-                padding: .3em .5em;
-            }
-        }
+       list-style: none;
+       width: fit-content;  
+       
     }
 }
+

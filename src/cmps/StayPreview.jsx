@@ -20,12 +20,9 @@ export function StayPreview({ stay }) {
         setIdx((idx - 1 + len) % len)
     }
 
-    return <article className="stay-preview">
-        <NavLink to={`/stay/${stay._id}`} className="preview-nav">
-            <div className='stay-details'>
-
+    return (
+        <NavLink to={`/stay/${stay._id}`} className="stay-details">
                 <Swiper
-                
                     cssMode={true}
                     navigation={true}
                     pagination={true}
@@ -34,18 +31,20 @@ export function StayPreview({ stay }) {
                     modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                     className="carousel"
                 >
+                    <i class="fa-solid fa-heart heart-icon "></i>
                     {stay.imgUrls.map((img, idx) => (
 
-                        <SwiperSlide  key={idx}><img className='carousel-img' src={img} alt="" /></SwiperSlide>
+                        <SwiperSlide className='preview-picture' key={idx}>
+                            <img className='carousel-img' src={img} alt="" />
+                            </SwiperSlide>
                         
                     ))}
                 </Swiper>
+                    
                 
                 <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
                 <p className='preview-details'><span>${stay.price.toLocaleString()} for 1 night</span></p>
                 {stay.owner && <p>Owner: <span>{stay.owner.fullname}</span></p>}
-            </div>
         </NavLink>
-
-    </article>
+    )
 }
