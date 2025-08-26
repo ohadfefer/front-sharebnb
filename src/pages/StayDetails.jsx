@@ -46,7 +46,7 @@ export function StayDetails() {
   }
 
   function handleShare() {
-    alert('Share functionality to be implemented')
+    alert('share')
   }
 
   function handleSave() {

@@ -1,7 +1,9 @@
 import heart from '../assets/logo/icons/heart.svg'
+import share from '../assets/logo/icons/share.svg'
+import filledHeart from '../assets/logo/icons/filledHeart.svg'
 
 export function StayGallery({ stay, onShare, onSave, isSaved }) {
-  
+
   return (
     <section className="stay-gallery">
       <div className="stay-gallery-container">
@@ -9,10 +11,15 @@ export function StayGallery({ stay, onShare, onSave, isSaved }) {
           <h1>Welcome to {stay.name}</h1>
           <div className="stay-actions">
             <button className="share-btn" onClick={onShare}>
-              Share
+              <div className='share-btn-container'>
+                <img src={share} alt="share" width={16} /> Share
+              </div>
             </button>
             <button className="save-btn" onClick={onSave}>
-              {isSaved ? 'Saved' : 'Save'}
+              <div className="save-btn-container">
+                <img src={isSaved ? filledHeart : heart} alt={isSaved ? "filledHeart" : "heart"} width={16} />
+                {isSaved ? 'Saved' : 'Save'}
+              </div>
             </button>
           </div>
         </div>
