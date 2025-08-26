@@ -1,22 +1,44 @@
-.stay-list {
-    --min-column-size: 220px;
-
+/* .stay-list {
+    margin-top: 6.25rem ;
+    --min-column-size: 11.25rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-column-size), 1fr));
-    gap: .5em;
-
+    grid-template-columns: repeat(auto-fill,minmax( var(--min-column-size),1fr));
+    gap: 11px;
     & li {
-        display: grid;
-        grid-template-columns: max-content auto;
-        padding: .5em;
-        background-color: var(--clr2);
-
-        .actions {
-            justify-self: end;
-
-            & button {
-                padding: .3em .5em;
-            }
-        }
+       list-style: none;
+       width: 11.25rem;  
     }
+} */
+
+/* .stay-list {
+
+  margin-top: 6.25rem;
+  --min-column-size: 11.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11.25rem, 11.25rem));
+  gap: 11px;
+}
+
+li {
+  list-style: none;
+  width: 100%;
+} */
+
+.stay-list {
+  /* tweak these vars as you like */
+  --min: 170px;      /* minimum card width */
+  --max: 1fr;        /* let cards stretch to fill the row */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(var(--min), var(--max)));
+  gap: 11px;
+  margin-top: 100px;
+}
+
+.stay-list > li {
+  list-style: none;
+  /* important: let the grid control the width */
+  width: 100%;
+  /* demo styles */
+  border-radius: 8px;
 }

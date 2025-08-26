@@ -1,0 +1,25 @@
+.main-order {
+    display: grid;
+    margin-top: 100px;
+    text-align: center;
+}
+
+.order-body {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.order-payment {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border: 1px solid gray;
+    border-radius: 1rem;
+}

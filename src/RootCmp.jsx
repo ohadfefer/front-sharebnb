@@ -1,10 +1,11 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
 import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
+
 
 import { StayDetails } from './pages/StayDetails'
 
@@ -14,6 +15,7 @@ import { AppHeader } from './cmps/AppHeader'
 import { AppFooter } from './cmps/AppFooter'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
+import { StayOrder } from './pages/StayOrder.jsx'
 
 
 export function RootCmp() {
@@ -23,12 +25,14 @@ export function RootCmp() {
             <UserMsg />
             <main>
                 <Routes>
+                    <Route path="/" element={<Navigate to="/stay" replace />} />
                     <Route path="about" element={<AboutUs />}>
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
                     </Route>
                     <Route path="stay" element={<StayIndex />} />
                     <Route path="stay/:stayId" element={<StayDetails />} />
+                    <Route path="stay/:stayId/order" element={<StayOrder />} />
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />
                     <Route path="chat" element={<ChatApp />} />
