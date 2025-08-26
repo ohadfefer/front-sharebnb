@@ -1,0 +1,58 @@
+/* .sticky-card {
+} */
+
+.sticky-card-inner {
+    border: 1px solid var(--divider);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--shades-01);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.sticky-card-header {
+    font-size: 18px;
+    font-family: 'Roboto-Medium';
+    margin-bottom: 12px;
+}
+
+.sticky-card-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "checkin checkout" "guests guests";
+    gap: 8px;
+}
+
+.sticky-card-fields .field:nth-child(1) { grid-area: checkin; }
+.sticky-card-fields .field:nth-child(2) { grid-area: checkout; }
+.sticky-card-fields .field:nth-child(3) { grid-area: guests; }
+
+.field label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.like-input {
+    border: 1px solid var(--neutrals-o3);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.sticky-card-btn {
+    width: 100%;
+    margin-top: 12px;
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: var(--shades-01);
+    background: linear-gradient(var(--gradient-direction), var(--gradient-start-color), var(--gradient-end-color));
+    border: none;
+    font-family: 'Roboto-Medium';
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .sticky-card-inner {
+        position: static;
+    }
+}

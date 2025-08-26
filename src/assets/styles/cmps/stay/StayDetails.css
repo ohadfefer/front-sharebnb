@@ -16,3 +16,29 @@
     margin: 20px 0;
     max-width: 1200px;
 }
+
+.stay-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+    margin-top: 32px;
+}
+
+
+/* .right-col {
+    position: relative;
+} */
+
+.right-col .sticky-card {
+    position: sticky;
+    top: 120px;
+}
+
+@media (max-width: 900px) {
+    .stay-details-grid {
+        grid-template-columns: 1fr;
+    }
+    .right-col {
+        order: 2;
+    }
+}

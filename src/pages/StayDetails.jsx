@@ -10,6 +10,7 @@ import { StayDescription } from '../cmps/StayDescription'
 import { StayAmenities } from '../cmps/StayAmenities'
 import { StayReviews } from '../cmps/StayReviews'
 import { StayMap } from '../cmps/StayMap'
+import { StickyCard } from '../cmps/StickyCard'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -61,16 +62,28 @@ export function StayDetails() {
   return (
     <section className="stay-details">
       <StayGallery stay={stay} onShare={handleShare} onSave={handleSave} isSaved={isSaved} />
-      <StayDescription stay={stay} />
 
-      <div className='amenities-header'>What this place offers</div>
-      <StayAmenities stay={stay} />
+      <div className="stay-details-grid">
+        <div className="left-col">
+          <StayDescription stay={stay} />
 
-      <div className='date-picker-header'>Select check-in date</div>
-      {/* <StayDatePicker /> */}
+          <div className='amenities-header'>What this place offers</div>
+          <StayAmenities stay={stay} />
+
+          <div className='date-picker-header'>Select check-in date</div>
+          {/* <StayDatePicker /> */}
+        </div>
+
+        <div className="right-col">
+          <StickyCard />
+        </div>
+      </div>
+
       <hr className='divider-long' />
+
       <StayReviews stay={stay} />
-      <hr className='divider-long' />
+
+      <hr />
 
       <StayMap stay={stay}/>
 
