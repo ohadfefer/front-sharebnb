@@ -1,13 +1,51 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
+import React, { useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
+import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
 
 export function StayPreview({ stay }) {
-    return <article className="stay-preview">
-        <header>
-            <Link to={`/stay/${stay._id}`}>{stay.name}</Link>
-        </header>
+    const [idx, setIdx] = useState(0)
 
-        <p>Price: <span>{stay.price.toLocaleString()} NIS for {stay.night} night</span></p>
-        {stay.owner && <p>Owner: <span>{stay.owner.fullname}</span></p>}
-        
+    const len = stay.imgUrls.length || 1
+
+    function next() {
+        setIdx((idx + 1) % len)
+    }
+
+    function prev() {
+        setIdx((idx - 1 + len) % len)
+    }
+
+    return <article className="stay-preview">
+        <NavLink to={`/stay/${stay._id}`} className="preview-nav">
+            <div className='stay-details'>
+
+                <Swiper
+                
+                    cssMode={true}
+                    navigation={true}
+                    pagination={true}
+                    mousewheel={true}
+                    keyboard={true}
+                    modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+                    className="carousel"
+                >
+                    {stay.imgUrls.map((img, idx) => (
+
+                        <SwiperSlide  key={idx}><img className='carousel-img' src={img} alt="" /></SwiperSlide>
+                        
+                    ))}
+                </Swiper>
+                
+                <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
+                <p className='preview-details'><span>${stay.price.toLocaleString()} for 1 night</span></p>
+                {stay.owner && <p>Owner: <span>{stay.owner.fullname}</span></p>}
+            </div>
+        </NavLink>
+
     </article>
 }

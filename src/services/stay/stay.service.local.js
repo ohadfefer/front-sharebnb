@@ -17,8 +17,10 @@ window.cs = stayService
 
 
 async function query(filterBy = { txt: '', maxPrice: 0 }) {
+    
     var stays = await storageService.query(STORAGE_KEY)
     const { txt, maxPrice, sortField, sortDir } = filterBy
+    console.log(stays);
 
     if (txt) {
         const regex = new RegExp(filterBy.txt, 'i')
@@ -36,7 +38,7 @@ async function query(filterBy = { txt: '', maxPrice: 0 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    stays = stays.map(({ _id, name, price, owner }) => ({ _id, name, price, owner }))
+    stays = stays.map(({ _id, name, price, owner, imgUrls, type, loc }) => ({ _id, name, price, owner, imgUrls, type, loc }))
     return stays
 }
 
@@ -57,6 +59,7 @@ async function save(stay) {
             price: stay.price
         }
         savedStay = await storageService.put(STORAGE_KEY, stayToSave)
+
     } else {
         const stayToSave = {
             name: stay.name,
@@ -93,11 +96,10 @@ function createStays() {
                 _id: 's102',
                 name: 'Sea Breeze Villa',
                 type: 'Villa',
-                imgUrls: ['https://villa-sea.com/sea1.jpg', 'https://villa-sea.com/sea2.jpg'],
+                imgUrls: ['https://a0.muscache.com/im/pictures/f43dd4e6-19fe-4805-b99d-7c04869b8607.jpg?im_w=720', 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHJvb21zfGVufDB8fDB8fHww'],
                 price: 250.0,
                 summary: 'Luxury villa with private pool and ocean view.',
                 capacity: 6,
-                night: 2,
                 amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking'],
                 labels: ['Luxury', 'Beachfront', 'Family Friendly'],
                 host: {
@@ -131,7 +133,7 @@ function createStays() {
                 _id: 's103',
                 name: 'Mountain Escape Cabin',
                 type: 'Cabin',
-                imgUrls: ['https://mountain.com/cabin1.jpg', 'https://mountain.com/cabin2.jpg'],
+                imgUrls: ['https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cm9vbXN8ZW58MHx8MHx8fDA%3D', 'https://plus.unsplash.com/premium_photo-1675616575255-99f40284212a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHJvb21zfGVufDB8fDB8fHww'],
                 price: 120.0,
                 summary: 'Rustic cabin in the mountains with fireplace.',
                 capacity: 4,
@@ -168,11 +170,10 @@ function createStays() {
                 _id: 's104',
                 name: 'City Center Loft',
                 type: 'Apartment',
-                imgUrls: ['https://cityloft.com/loft1.jpg', 'https://cityloft.com/loft2.jpg'],
+                imgUrls: ['https://plus.unsplash.com/premium_photo-1663126298656-33616be83c32?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cm9vbXN8ZW58MHx8MHx8fDA%3D', 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHJvb21zfGVufDB8fDB8fHww'],
                 price: 150.0,
                 summary: 'Modern loft in the heart of the city.',
                 capacity: 2,
-                night: 3,
                 amenities: ['Wifi', 'Kitchen', 'Workspace', 'Elevator'],
                 labels: ['Business', 'Trendy', 'Central'],
                 host: {
@@ -206,11 +207,10 @@ function createStays() {
                 _id: 's105',
                 name: 'Countryside B&B',
                 type: 'Bed & Breakfast',
-                imgUrls: ['https://bnb.com/bnb1.jpg', 'https://bnb.com/bnb2.jpg'],
+                imgUrls: ['https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHJvb21zfGVufDB8fDB8fHww', 'https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8cm9vbXN8ZW58MHx8MHx8fDA%3D'],
                 price: 90.0,
                 summary: 'Charming countryside stay with homemade breakfast.',
                 capacity: 3,
-                night: 2,
                 amenities: ['Breakfast included', 'Wifi', 'Parking', 'Garden'],
                 labels: ['Charming', 'Relaxing', 'Countryside'],
                 host: {
@@ -244,11 +244,10 @@ function createStays() {
                 _id: 's106',
                 name: 'Desert Dome Stay',
                 type: 'Unique Stay',
-                imgUrls: ['https://desertdome.com/dome1.jpg', 'https://desertdome.com/dome2.jpg'],
+                imgUrls: ['https://images.unsplash.com/photo-1484101403633-562f891dc89a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHJvb21zfGVufDB8fDB8fHww', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fHJvb21zfGVufDB8fDB8fHww'],
                 price: 180.0,
                 summary: 'Sleep under the stars in a desert dome.',
                 capacity: 2,
-                night: 1,
                 amenities: ['AC', 'Private bathroom', 'Stargazing deck'],
                 labels: ['Unique', 'Adventure', 'Romantic'],
                 host: {

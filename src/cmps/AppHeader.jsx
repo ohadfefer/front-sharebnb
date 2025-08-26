@@ -26,7 +26,7 @@ export function AppHeader() {
     <header className={`app-header ${isMini ? 'is-mini' : 'is-expanded'} full`}>
       <nav className="nav-bar">
         <NavLink to="/stay" className="logo">
-          <img src={logo} alt="" width="30" height="30" />
+          <img src={logo} alt="" width={30} height={30} />
           <span className="brand">Sharebnb</span>
         </NavLink>
 
