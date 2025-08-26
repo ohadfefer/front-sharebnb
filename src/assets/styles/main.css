@@ -40,6 +40,8 @@
 @import "cmps/stay/StayReviews.css";
 @import "cmps/stay/StayMap.css";
 
+@import "cmps/StickyCard.css";
+
 @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
 @import "cmps/review/ReviewPreview";

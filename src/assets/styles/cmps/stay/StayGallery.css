@@ -32,10 +32,26 @@
     background: none;
     border: none;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 8px;
     font-size: 14px;
+    font-family: 'Roboto-Medium';
     cursor: pointer;
+    text-decoration: underline;
     transition: background-color 0.2s;
+}
+
+.share-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+}
+
+.save-btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
 }
 
 .share-btn:hover {
