@@ -51,11 +51,6 @@ export function StayIndex() {
         }
     }
 
-    function onSetFilter(filterBy) {
-        setFilter(filterBy)
-    }
-
-
     return (
         <section className="stay-index">
             <header>
@@ -63,8 +58,6 @@ export function StayIndex() {
                 {userService.getLoggedinUser() && <button onClick={onAddStay}>Add a Stay</button>}
             </header>
             <input type="file" />
-            
-            <StayFilter filterBy={filterBy} onSetFilter={onSetFilter} />
             <StayList
                 stays={stays}
                 onRemoveStay={onRemoveStay}
