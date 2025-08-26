@@ -6,14 +6,14 @@ import { logout } from '../store/actions/user.actions'
 import logo from '../assets/logo/icon-airbnb.png'
 import { useHeaderControl } from '../customHooks/useHeaderControl.js'
 import { StayFilter } from '../cmps/StayFilter.jsx'
-
+import { useState } from 'react'
 export function AppHeader() {
 
   const user = useSelector(store => store.userModule.user)
   const { stays, filterBy, isLoading, address } = useSelector(storeState => storeState.stayModule)
 
   const navigate = useNavigate()
-
+  
   const isMini = useHeaderControl(80)
 
   async function onLogout() {

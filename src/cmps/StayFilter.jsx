@@ -1,7 +1,7 @@
-import { setFilter } from '../store/actions/stay.actions'
+import { setFilter } from '../store/actions/stay.actions.js'
 import { useState } from 'react'
 
-// import { DateRangePicker } from './DateRangePicker.jsx'
+import { DateRangePicker } from './DateRangePicker.jsx'
 
 export function StayFilter({ mini, filterBy, onSetFilter }) {
   const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
@@ -15,9 +15,6 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
       )
     }
     value = type === 'number' ? +value || '' : value
-
-    console.log(filterByToEdit, value);
-
     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
   }
 
@@ -39,7 +36,7 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
           <>
             <label className="cell where">
               <span className="title">Where</span>
-              <input
+              <input className='place-holder'
                 type="text"
                 placeholder="Search destinations"
                 value={address}
@@ -48,29 +45,11 @@ export function StayFilter({ mini, filterBy, onSetFilter }) {
               />
             </label>
 
-            <label className="cell checkin">
-              <span className="title">Check in</span>
-              <input
-                type="date"
-                value={checkIn}
-                onChange={handleChange}
-                name="checkIn"
-              />
-            </label>
-
-            <label className="cell checkout">
-              <span className="title">Check out</span>
-              <input
-                type="date"
-                value={checkOut}
-                onChange={handleChange}
-                name="checkOut"
-              />
-            </label>
-
+            <DateRangePicker />
+            
             <label className="cell who">
               <span className="title">Who</span>
-              <input
+              <input className='place-holder'
                 type="number"
                 min="1"
                 value={guests}

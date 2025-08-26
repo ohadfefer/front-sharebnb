@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 
+import { DateRangePicker } from '../cmps/DateRangePicker.jsx'
+
 export function AboutUs() {
     const [count, setCount] = useState(100)
 
