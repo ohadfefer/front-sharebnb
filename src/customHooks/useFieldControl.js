@@ -15,7 +15,6 @@ import {
  */
 
 
-
 export function useFieldControl(fieldOrder, { enableOutsideClickClose = true } = {}) {
   const dispatch = useDispatch()
 

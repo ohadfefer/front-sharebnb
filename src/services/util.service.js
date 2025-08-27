@@ -51,3 +51,20 @@ export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
 }
+
+// src/services/helpers/searchParams.js
+export function buildSearchParams({ address, checkIn, checkOut, guests }) {
+    const param = new URLSearchParams()
+    if (address?.trim()) param.set('address', address.trim())
+    if (checkIn) param.set('checkin', checkIn)     // keep as ISO (yyyy-mm-dd or full ISO)
+    if (checkOut) param.set('checkout', checkOut)
+    if (guests != null && guests !== '') param.set('guests', String(guests))
+    return param
+}
+
+export function parseSearchParams(searchParams) {
+    const obj = Object.fromEntries(searchParams.entries())
+    // normalize types
+    if ('guests' in obj) obj.guests = Number(obj.guests) || 0
+    return obj
+}

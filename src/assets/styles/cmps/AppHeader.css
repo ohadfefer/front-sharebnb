@@ -1,5 +1,4 @@
 .app-header {
-  position: sticky;
   top: 0;
   z-index: 100;
   display: grid;
@@ -17,6 +16,12 @@
 .app-header.mini {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
+
+.app-header.is-sticky {
+  position: sticky;
+  top: 0;
+}
+
 
 .nav-bar {
   display: grid;
