@@ -6,7 +6,7 @@ import { useFieldControl } from "../customHooks/useFieldControl.js"
 import { DynamicPanel } from "./DynamicPanel"
 import { PANELS_BY_KEY } from "../services/helpers/registry.jsx"
 import { parseISO, isValid, format as formatDate } from "date-fns"
-import { buildSearchParams, parseSearchParams } from "../services/util.service.js"
+import { buildSearchParams, parseSearchParams, formatGuestsLabel } from "../services/util.service.js"
 import searchIcon from "../assets/logo/icons/search.svg"
 
 function formatDateForDisplay(isoString) {
@@ -28,7 +28,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     if ([...searchParams.keys()].length === 0) return
     const fromUrl = parseSearchParams(searchParams)
     if (Object.keys(fromUrl).length) dispatch(setFilter(fromUrl))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []) // run once
 
   const fieldOrder = ["where", "checkin", "checkout", "who"]
@@ -143,7 +142,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             <div className="who-search">
               <div className="cell who">
                 <span className="title">Who</span>
-                <span className="place-holder">{guests.length ? `${guests.length} guests` : 'Add guests'}</span>
+                <span className="place-holder">{formatGuestsLabel(guests)}</span>
               </div>
               <button className="search-btn" type="submit" aria-label="Search">
                 <img src={searchIcon} alt="search icon" className="loupe" width={14} />
