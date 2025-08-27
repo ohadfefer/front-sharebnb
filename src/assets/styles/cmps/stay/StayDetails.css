@@ -4,6 +4,36 @@
     padding: 40px;
 }
 
+/* Sticky in-page navigation header */
+.details-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: none;
+    gap: 24px;
+    align-items: center;
+    background: var(--header-bg);
+    backdrop-filter: blur(var(--header-backdrop-blur));
+    border-bottom: 1px solid var(--divider);
+    padding: 24px 0;
+}
+
+.details-nav.shown {
+    display: flex;
+}
+
+.details-nav a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: 'Roboto-Medium';
+    padding: 8px 4px;
+}
+
+.details-nav a:hover {
+    text-decoration: underline;
+}
+
+
 .stay-details .amenities-header {
     font-size: 22px;
     padding-bottom: 5px;
@@ -24,7 +54,6 @@
     margin-top: 32px;
 }
 
-
 .right-col .sticky-card {
     position: sticky;
     top: 120px;
@@ -34,7 +63,9 @@
     .stay-details-grid {
         grid-template-columns: 1fr;
     }
-    .right-col {
-        order: 2;
-    }
+}
+
+/* Smooth scrolling for in-page links */
+html {
+    scroll-behavior: smooth;
 }

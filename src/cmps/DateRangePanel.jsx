@@ -19,7 +19,7 @@ export function DateRangePanel({ activeCell, value, onChange, onComplete }) {
         [value?.checkIn, value?.checkOut]
     )
 
-    function handleSelect(range) {
+    const handleSelect = (range) => {
         const next = { checkIn: toIso(range?.from), checkOut: toIso(range?.to) }
         onChange(next)
         if (range?.from && range?.to) onComplete?.()

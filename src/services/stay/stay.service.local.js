@@ -103,7 +103,7 @@ function createStays() {
                 price: 250.0,
                 summary: 'Luxury villa with private pool and ocean view.',
                 capacity: 6,
-                amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking'],
+                amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking', 'Heating', 'Elevator'],
                 labels: ['Luxury', 'Beachfront', 'Family Friendly'],
                 host: {
                     _id: 'u103',
