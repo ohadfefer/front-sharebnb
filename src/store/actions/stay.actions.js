@@ -17,6 +17,8 @@ export async function loadStays() {
     try {
         store.dispatch({ type: SET_IS_LOADING, isLoading: true })
         const stays = await stayService.query(filterBy)
+        
+        
         store.dispatch({ type: SET_STAYS, stays })
         return stays
     } catch (err) {

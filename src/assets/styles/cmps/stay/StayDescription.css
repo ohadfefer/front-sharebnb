@@ -1,12 +1,12 @@
-.stay-description {
+/* .stay-description {
     padding: 20px 0;
-}
+} */
 
 .stay-info {
     display: flex;
     flex-direction: column;
     max-width: 600px;
-    padding: 12px 0 12px 0;
+    padding-bottom: 12px;
 }
 
 .stay-info .header {
