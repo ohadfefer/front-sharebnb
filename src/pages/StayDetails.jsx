@@ -83,11 +83,12 @@ export function StayDetails() {
   return (
     <section className="stay-details">
       {/* sticky in-page navigation header */}
+      
       <nav className={`details-nav ${showNav ? 'shown' : ''}`}>
-        <a href="#photos">Photos</a>
-        <a href="#amenities">Amenities</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#location">Location</a>
+        <a href="#photos"><span>Photos</span></a>
+        <a href="#amenities"><span>Amenities</span></a>
+        <a href="#reviews"><span>Reviews</span></a>
+        <a href="#location"><span>Location</span></a>
       </nav>
 
       <div id="photos" ref={galleryRef}>
@@ -101,7 +102,12 @@ export function StayDetails() {
           <div className='amenities-header' id="amenities">What this place offers</div>
           <StayAmenities stay={stay} />
 
-          <div className='date-picker-header'>Select check-in date</div>
+          <hr className="divider" />
+
+          <div className='date-picker-header'>
+            <div>Select check-in date</div>
+            <p>Add your travel dates for exact pricing</p>
+          </div>
           <div className="date-picker-container">
             <DateRangePanel />
           </div>
