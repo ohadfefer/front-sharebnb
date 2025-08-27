@@ -82,7 +82,7 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      {/* Sticky in-page navigation header */}
+      {/* sticky in-page navigation header */}
       <nav className={`details-nav ${showNav ? 'shown' : ''}`}>
         <a href="#photos">Photos</a>
         <a href="#amenities">Amenities</a>
