@@ -1,24 +1,116 @@
-
-
+import { useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { showSuccessMsg } from '../services/event-bus.service.js'
+import { orderService  } from '../services/order/order.service.local.js'
 
 export function StayOrder() {
 
+    const { stayId } = useParams()
+    const [order, setOrder] = useState(null)
+    const [isSaved, setIsSaved] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState(null)
+    const [stay, setStay] = useState(null)
+
+    // Debug logs to see what we're getting
+    console.log('URL Params - stayId:', stayId)
+
+    useEffect(() => {
+        if (stayId) {
+            loadStay()
+        }
+    }, [stayId])
+
+    useEffect(() => {
+        if (stay && !order) {
+            createOrderFromService()
+        }
+    }, [stay, order])
+
+    useEffect(() => {
+        console.log('Order state updated:', order)
+    }, [order])
+    
+
+    async function loadStay() {
+        try {
+            setIsLoading(true)
+            setError(null)
+            if (!stayId) {
+                setError('No stay ID provided')
+                return
+            }
+            const stayData = await orderService.getStayById(stayId)
+            if (!stayData) {
+                setError('Stay not found')
+                return
+            }
+            setStay(stayData)
+            // Update order with stay data if order already exists
+            if (order) {
+                updateOrderWithStayData(stayData)
+            }
+        } catch (err) {
+            setError('Failed to load stay details')
+            console.error('Error loading stay:', err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    async function updateOrderWithStayData(stayData) {
+        if (!order) return
+        
+        try {
+            const updatedOrder = {
+                ...order,
+                hostId: stayData.host?._id || order.hostId,
+                totalPrice: stayData.price || order.totalPrice,
+                order: {
+                    ...order.order,
+                    name: stayData.name,
+                    price: stayData.price,
+                }
+            }
+            
+            const savedOrder = await orderService.save(updatedOrder)
+            setOrder(savedOrder)
+        } catch (err) {
+            console.error('Error updating order with stay data:', err)
+        }
+    }
+
+    async function createOrderFromService() {
+        try {
+            console.log('Creating new order for stay:', stayId)
+            const savedOrder = await orderService.createOrder(stayId, stay)
+            console.log('Order created:', savedOrder)
+            setOrder(savedOrder)
+        } catch (err) {
+            setError('Failed to create order')
+            console.error('Error creating order:', err)
+        }
+    }
 
     const handleMouseMove = (e) => {
         const button = e.currentTarget
-        if (!button) return 
-
+        if (!button) return
         const rect = button.getBoundingClientRect()
-        console.log('rect:', rect)
-
         const x = ((e.clientX - rect.left) / rect.width) * 100
         const y = ((e.clientY - rect.top) / rect.height) * 100
 
-        console.log('mouse % coords:', { x, y })
 
         button.style.setProperty('--mouse-x', `${x}%`)
         button.style.setProperty('--mouse-y', `${y}%`)
     }
+
+    function handleSave() {
+        setIsSaved(!isSaved)
+        showSuccessMsg(isSaved ? 'Removed from saved' : 'Saved to favorites')
+    }
+
+    
 
     return (
         <div className="main-order">
@@ -74,18 +166,49 @@ export function StayOrder() {
                     </div>
                     <hr />
                     <div className="confirm">
-                        <button onMouseMove={handleMouseMove} className="action-btn">
+                        <button onClick={handleSave} onMouseMove={handleMouseMove} className="action-btn">
                             <p>
-                            Confirm and pay
+                                Confirm and pay
                             </p>
-                            </button>
+                        </button>
                     </div>
                 </div>
                 <div className="order-details">
                     <div className="preview-order">
-                        <p>
-                            photo / stay details
-                        </p>
+                        {isLoading ? (
+                            <p>Loading stay details...</p>
+                        ) : error ? (
+                            <p>{error}</p>
+                        ) : stay ? (
+                            <div>
+                                <h3>{stay.name}</h3>
+                                {stay.imgUrls && stay.imgUrls.length > 0 ? (
+                                    <img 
+                                        src={stay.imgUrls[0]} 
+                                        alt={stay.name}
+                                    />
+                                ) : (
+                                    <div className="no-image-placeholder">
+                                        <p>No image available</p>
+                                    </div>
+                                )}
+                                <p><strong>Type:</strong> {stay.type}</p>
+                                <p><strong>Price:</strong> €{stay.price}</p>
+                                {stay.capacity && <p><strong>Capacity:</strong> {stay.capacity} guests</p>}
+                                {stay.loc && <p><strong>Location:</strong> {stay.loc.city}, {stay.loc.country}</p>}
+                                
+                                {/* Debug: Show order info */}
+                                {order && (
+                                    <div style={{ marginTop: '1rem', padding: '0.5rem', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
+                                        <p><strong>Order ID:</strong> {order._id}</p>
+                                        <p><strong>Order Status:</strong> {order.status}</p>
+                                        <p><strong>Total Price:</strong> €{order.totalPrice}</p>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <p>Stay not found</p>
+                        )}
                     </div>
                     <div className="free-cancelation">
                         <p>
