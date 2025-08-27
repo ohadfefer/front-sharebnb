@@ -58,10 +58,7 @@ export function buildSearchParams({ address, checkIn, checkOut, guests }) {
     if (address?.trim()) param.set('address', address.trim())
     if (checkIn) param.set('checkin', checkIn)     // keep as ISO (yyyy-mm-dd or full ISO)
     if (checkOut) param.set('checkout', checkOut)
-    if (guests != null && guests !== '') {
-        guests.
-        param.set('guests', String(guests))
-    }
+    if (guests != null && guests !== '') param.set('guests', String(guests))
     return param
 }
 
