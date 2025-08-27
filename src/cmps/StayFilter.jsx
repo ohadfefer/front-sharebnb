@@ -1,80 +1,175 @@
-import { setFilter } from '../store/actions/stay.actions.js'
-import { useState } from 'react'
+import { useEffect, useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { setFilter } from "../store/actions/stay.actions"
+import { useFieldControl } from "../customHooks/useFieldControl.js"
+import { DynamicPanel } from "./DynamicPanel"
+import { PANELS_BY_KEY } from "../services/helpers/registry.jsx"
+import { parseISO, isValid, format as formatDate } from "date-fns"
+import { buildSearchParams, parseSearchParams } from "../services/util.service.js"
+import searchIcon from "../assets/logo/icons/search.svg"
 
-import { DateRangePicker } from './DateRangePicker.jsx'
+function formatDateForDisplay(isoString) {
+  if (!isoString) return ""
+  const date = parseISO(isoString)
+  return isValid(date) ? formatDate(date, "MMM d") : ""
+}
 
-export function StayFilter({ mini, filterBy, onSetFilter }) {
-  const [filterByToEdit, setFilterByToEdit] = useState({ ...filterBy })
+export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  function handleChange({ target }) {
-    let { value, name: field, type } = target
-    if (type === 'select-multiple') {
-      value = Array.from(
-        target.selectedOptions,
-        option => option.value || []
-      )
-    }
-    value = type === 'number' ? +value || '' : value
-    setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+  const filterBy = useSelector((state) => state.stayModule.filterBy)
+  const { address, checkIn, checkOut, guests } = filterBy
+
+  // On first render: hydrate Redux from URL (if present)
+  useEffect(() => {
+    if ([...searchParams.keys()].length === 0) return
+    const fromUrl = parseSearchParams(searchParams)
+    if (Object.keys(fromUrl).length) dispatch(setFilter(fromUrl))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // run once
+
+  const fieldOrder = ["where", "checkin", "checkout", "who"]
+
+  const {
+    activeFilterCell,
+    getCellProps,
+    clearActiveFilterCell,
+    pillElementRef,
+    popoverElementRef,
+    setActiveFilterCell,
+  } = useFieldControl(fieldOrder, { enableOutsideClickClose: true })
+
+  const guestsLabel = (() => {
+    if (typeof guests === "number") return guests ? `${guests} guests` : "Add guests"
+    const total = Object.values(guests || {}).reduce((a, b) => a + (Number(b) || 0), 0)
+    return total ? `${total} guests` : "Add guests"
+  })()
+
+
+  function handleInputChange(event) {
+    const { name, type } = event.target
+    let { value } = event.target
+    if (type === "number") value = Number(value) || ""
+    dispatch(setFilter({ [name]: value }))
   }
 
-  function onSetFilter(filterBy) {
-    setFilter(filterBy)
-  }
-
-  function onSubmitFilter(ev) {
+  function handleSubmit(ev) {
     ev.preventDefault()
-    onSetFilter(filterByToEdit)
+    const params = buildSearchParams(filterBy)
+    // Option A: stay on the same route and update the query string:
+    setSearchParams(params)
+    // Option B: navigate to results page:
+    // navigate(`/stays?${params.toString()}`)
+    clearActiveFilterCell()
+    // If you trigger a search side-effect elsewhere (e.g. on route change),
+    // this will naturally kick it off.
   }
 
-  const { address, checkIn, checkOut, guests } = filterByToEdit
 
   return (
-    <div className={`search-bar ${mini ? 'mini' : 'expanded'}`}>
-      <form className="filter-pill" onSubmit={onSubmitFilter}>
-        {!mini && (
-          <>
-            <label className="cell where">
-              <span className="title">Where</span>
-              <input className='place-holder'
-                type="text"
-                placeholder="Search destinations"
-                value={address}
-                onChange={handleChange}
-                name="address"
-              />
-            </label>
+    <div className={`search-bar ${mini ? "mini" : "expanded"}`}>
+      {mini ? (
+        <div className="filter-pill">
+          <button type="button"
+            className="chip"
+            onClick={() => { onRequestExpand?.(); setActiveFilterCell("where"); }}>
+            <span className="icon">🏠</span> Anywhere
+          </button>
 
-            <DateRangePicker />
-            
-            <label className="cell who">
-              <span className="title">Who</span>
-              <input className='place-holder'
-                type="number"
-                min="1"
-                value={guests}
-                onChange={handleChange}
-                placeholder="Add guests"
-                name="guests"
-              />
-            </label>
-          </>
-        )}
+          <button type="button"
+            className="chip"
+            onClick={() => { onRequestExpand?.(); setActiveFilterCell("checkin"); }}>
+            {formatDateForDisplay(checkIn) || "Anytime"}
+          </button>
 
-        {mini && (
-          <>
-            <button type="button" className="chip">
-              <span className="icon">🏠</span> Anywhere
-            </button>
-            <button type="button" className="chip">Anytime</button>
-            <button type="button" className="chip">Add guests</button>
-          </>
-        )}
+          <button type="button"
+            className="chip"
+            onClick={() => { 
+              onRequestExpand?.()
+              setActiveFilterCell("who") }}>
+            {guestsLabel}
+          </button>
 
-        <button className="search-btn" aria-label="Search" type="submit">
-          <span className="loupe">🔍</span>
-        </button>
-      </form>
+          <button type="button"
+            className="search-btn"
+            onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
+            aria-label="Search">
+            <img src={searchIcon} alt="search icon" className="loupe" width={14} />
+          </button>
+        </div>
+      ) : (
+        <form ref={pillElementRef} className="filter-pill" onSubmit={handleSubmit}>
+          {/* WHERE */}
+          <label {...getCellProps("where")}>
+            <span className="title">Where</span>
+            <input
+              className="place-holder"
+              type="text"
+              placeholder="Search destinations"
+              name="address"
+              value={address || ""}
+              onChange={handleInputChange}
+              onFocus={() => getCellProps("where").onMouseDown(new MouseEvent("mousedown"))}
+            />
+          </label>
+
+          <div className="vertical-divider" />
+
+          {/* CHECK-IN */}
+          <div {...getCellProps("checkin")}>
+            <span className="title">Check in</span>
+            <span className="place-holder">
+              {formatDateForDisplay(checkIn) || "Add date"}
+            </span>
+          </div>
+
+          <div className="vertical-divider" />
+
+          {/* CHECK-OUT */}
+          <div {...getCellProps("checkout")}>
+            <span className="title">Check out</span>
+            <span className="place-holder">
+              {formatDateForDisplay(checkOut) || "Add date"}
+            </span>
+          </div>
+
+          <div className="vertical-divider" />
+
+          {/* WHO + Search */}
+          <div {...getCellProps("who")}>
+            <div className="who-search">
+              <div className="cell who">
+                <span className="title">Who</span>
+                <span className="place-holder">{guests.length ? `${guests.length} guests` : 'Add guests'}</span>
+              </div>
+              <button className="search-btn" type="submit" aria-label="Search">
+                <img src={searchIcon} alt="search icon" className="loupe" width={14} />
+                <span className="label">Search</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      )}
+
+      {!mini && activeFilterCell && (
+        <div ref={popoverElementRef} className="filter-popover">
+          <DynamicPanel
+            activeKey={activeFilterCell}
+            registry={PANELS_BY_KEY}
+            panelProps={{
+              value: { checkIn, checkOut, guests, address },
+              onChange: (partialFilter) => dispatch(setFilter(partialFilter)),
+              onComplete: () => {
+                clearActiveFilterCell()
+                onPopoverComplete?.()   // tell header we're done; restore scroll control
+              },
+            }}
+          />
+        </div>
+      )}
     </div>
   )
 }

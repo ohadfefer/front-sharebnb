@@ -8,6 +8,20 @@ body {
     color: var(--text-primary);
 }
 
+a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: Roboto;
+    font-size: 0.950rem;
+    cursor: pointer;
+}
+
+.vertical-divider {
+    border-left: 1px solid var(--divider);
+    height: 50%;
+
+}
+
 h1,
 h2,
 h3,
