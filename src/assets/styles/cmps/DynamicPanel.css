@@ -3,18 +3,18 @@
   position: relative;
 }
 
-/* the pill already exists; ensure it’s the anchor top */
+
 .filter-pill {
   position: relative;
-  z-index: 50; /* above content but below the popover’s shadow if needed */
+  z-index: 50; 
 }
 
 /* popup */
 .filter-popover {
   position: absolute;
-  top: calc(90%);             /* 10px gap below the pill */
+  top: calc(90%);
   left: 50%;
-  transform: translateX(-50%);        /* center under the pill */
+  transform: translateX(-50%);
 
   background: #fff;
   border: 1px solid #e5e7eb;
@@ -22,7 +22,5 @@
   box-shadow: 0 18px 40px rgba(0, 0, 0, .12);
   padding: 16px;
   z-index: 60;
-
-  min-width: 720px;                    /* wide like Airbnb */
-  max-width: min(1100px, calc(100vw - 24px));
+  width: auto;
 }

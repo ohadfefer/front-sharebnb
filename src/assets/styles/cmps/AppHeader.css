@@ -9,8 +9,24 @@
   border-bottom: solid 0.75px var(--divider);
 }
 
+.app-header.is-expanded .header-main {
+  grid-area: header-main;
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+
+  span {
+    width: max-content;
+  }
+}
+
+.filter {
+  width: 100%;
+}
+
 .app-header.is-expanded {
   box-shadow: none;
+  height: 200px;
 }
 
 .app-header.mini {
@@ -26,17 +42,15 @@
 .nav-bar {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  grid-template-areas: "logo nav-links side-links";
+  grid-template-areas: "logo header-main side-links";
   align-items: center;
   height: var(--header-height-expanded);
-  padding: 12px 24px;
   transition: height 0.25s ease, padding 0.25s ease;
   height: auto;
 }
 
-.app-header.mini .nav-bar {
-  height: var(--header-height-mini);
-  padding: 6px 20px;
+.app-header.is-mini .nav-bar {
+  height: 80px;
 }
 
 .logo {
@@ -46,7 +60,6 @@
   justify-self: start;
   gap: 8px;
   text-decoration: none;
-  margin: 1em;
   padding-top: 0.5em;
 }
 

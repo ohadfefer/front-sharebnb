@@ -84,20 +84,23 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             {formatDateForDisplay(checkIn) || "Anytime"}
           </button>
 
-          <button type="button"
-            className="chip"
-            onClick={() => { 
-              onRequestExpand?.()
-              setActiveFilterCell("who") }}>
-            {guestsLabel}
-          </button>
+          <div className="who-serach">
+            <button type="button"
+              className="chip"
+              onClick={() => {
+                onRequestExpand?.()
+                setActiveFilterCell("who")
+              }}>
+              {guestsLabel}
+            </button>
 
-          <button type="button"
-            className="search-btn"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
-            aria-label="Search">
-            <img src={searchIcon} alt="search icon" className="loupe" width={14} />
-          </button>
+            <button type="button"
+              className="search-btn"
+              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
+              aria-label="Search">
+              <img src={searchIcon} alt="search icon" className="loupe" width={14} />
+            </button>
+          </div>
         </div>
       ) : (
         <form ref={pillElementRef} className="filter-pill" onSubmit={handleSubmit}>
@@ -115,8 +118,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             />
           </label>
 
-          <div className="vertical-divider" />
-
           {/* CHECK-IN */}
           <div {...getCellProps("checkin")}>
             <span className="title">Check in</span>
@@ -125,8 +126,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             </span>
           </div>
 
-          <div className="vertical-divider" />
-
           {/* CHECK-OUT */}
           <div {...getCellProps("checkout")}>
             <span className="title">Check out</span>
@@ -134,8 +133,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
               {formatDateForDisplay(checkOut) || "Add date"}
             </span>
           </div>
-
-          <div className="vertical-divider" />
 
           {/* WHO + Search */}
           <div {...getCellProps("who")}>

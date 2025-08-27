@@ -45,7 +45,7 @@ export function AppHeader() {
           <img src={hamburger} alt="" width={40} className='hamburger-btn' />
         </div>
 
-        <div>
+        <div className="header-main">
           {!mini && (
             <div className="nav-links">
               <NavLink to="about">🏠 <span>Homes</span></NavLink>
