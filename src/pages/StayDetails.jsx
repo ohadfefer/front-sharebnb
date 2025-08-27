@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -11,6 +11,7 @@ import { StayAmenities } from '../cmps/StayAmenities'
 import { StayReviews } from '../cmps/StayReviews'
 import { StayMap } from '../cmps/StayMap'
 import { StickyCard } from '../cmps/StickyCard'
+import { DateRangePanel } from '../cmps/DateRangePanel'
 
 export function StayDetails() {
   const { stayId } = useParams()
@@ -19,6 +20,8 @@ export function StayDetails() {
   const [isSaved, setIsSaved] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showNav, setShowNav] = useState(false)
+  const galleryRef = useRef(null)
 
   useEffect(() => {
     async function fetchStay() {
@@ -36,6 +39,24 @@ export function StayDetails() {
     }
     fetchStay()
   }, [stayId, dispatch])
+
+  useEffect(() => {
+    function handleScroll() {
+      if (!galleryRef.current) return
+      const rect = galleryRef.current.getBoundingClientRect()
+      // show header when the gallery bottom is above the top of the viewport
+      const shouldShow = rect.bottom <= 0
+      setShowNav(shouldShow)
+    }
+    // run once to set initial state
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+    }
+  }, [])
 
   async function onAddStayMsg(stayId) {
     try {
@@ -61,17 +82,30 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      <StayGallery stay={stay} onShare={handleShare} onSave={handleSave} isSaved={isSaved} />
+      {/* sticky in-page navigation header */}
+      <nav className={`details-nav ${showNav ? 'shown' : ''}`}>
+        <a href="#photos">Photos</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#location">Location</a>
+      </nav>
+
+      <div id="photos" ref={galleryRef}>
+        <StayGallery stay={stay} onShare={handleShare} onSave={handleSave} isSaved={isSaved} />
+      </div>
 
       <div className="stay-details-grid">
         <div className="left-col">
           <StayDescription stay={stay} />
 
-          <div className='amenities-header'>What this place offers</div>
+          <div className='amenities-header' id="amenities">What this place offers</div>
           <StayAmenities stay={stay} />
 
           <div className='date-picker-header'>Select check-in date</div>
-          {/* <StayDatePicker /> */}
+          <div className="date-picker-container">
+            <DateRangePanel />
+          </div>
+          
         </div>
 
         <div className="right-col">
@@ -81,11 +115,15 @@ export function StayDetails() {
 
       <hr className='divider-long' />
 
-      <StayReviews stay={stay} />
+      <div id="reviews">
+        <StayReviews stay={stay} />
+      </div>
 
       <hr className='divider-long' />
 
-      <StayMap stay={stay}/>
+      <div id="location">
+        <StayMap stay={stay}/>
+      </div>
 
 
     </section>

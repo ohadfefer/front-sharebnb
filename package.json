@@ -23,6 +23,7 @@
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^12.23.12",
+    "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-day-picker": "^9.9.0",
     "react-dom": "^18.2.0",
@@ -31,10 +32,12 @@
     "react-router": "^6.16.0",
     "react-router-dom": "^6.30.1",
     "react-slick": "^0.31.0",
-    "redux": "^4.2.1",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "slick-carousel": "^1.8.1",
     "socket.io-client": "^4.7.2",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "thunk": "^0.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

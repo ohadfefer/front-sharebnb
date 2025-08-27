@@ -1,0 +1,28 @@
+/* anchor */
+.filter-wrap {
+  position: relative;
+}
+
+/* the pill already exists; ensure it’s the anchor top */
+.filter-pill {
+  position: relative;
+  z-index: 50; /* above content but below the popover’s shadow if needed */
+}
+
+/* popup */
+.filter-popover {
+  position: absolute;
+  top: calc(90%);             /* 10px gap below the pill */
+  left: 50%;
+  transform: translateX(-50%);        /* center under the pill */
+
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .12);
+  padding: 16px;
+  z-index: 60;
+
+  min-width: 720px;                    /* wide like Airbnb */
+  max-width: min(1100px, calc(100vw - 24px));
+}

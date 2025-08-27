@@ -51,3 +51,34 @@ export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
 }
+
+// src/services/helpers/searchParams.js
+export function buildSearchParams({ address, checkIn, checkOut, guests }) {
+    const param = new URLSearchParams()
+    if (address?.trim()) param.set('address', address.trim())
+    if (checkIn) param.set('checkin', checkIn)     // keep as ISO (yyyy-mm-dd or full ISO)
+    if (checkOut) param.set('checkout', checkOut)
+    if (guests != null && guests !== '') param.set('guests', String(guests))
+    return param
+}
+
+export function parseSearchParams(searchParams) {
+    const obj = Object.fromEntries(searchParams.entries())
+    // normalize types
+    if ('guests' in obj) obj.guests = Number(obj.guests) || 0
+    return obj
+}
+
+export function formatGuestsLabel(guests) {
+    const formatedGuests = guests || 0
+    if (typeof formatedGuests === "number") return formatedGuests ? `${formatedGuests} ${formatedGuests === 1 ? "guest" : "guests"}` : "Add guests"
+    const adultsChildren = (Number(formatedGuests.adults || 0) + Number(formatedGuests.children || 0)) || 0
+    const infants = Number(formatedGuests.infants || 0) || 0
+    const pets = Number(formatedGuests.pets || 0) || 0
+    if (!adultsChildren && !infants && !pets) return "Add guests"
+    const parts = []
+    if (adultsChildren) parts.push(`${adultsChildren} ${adultsChildren === 1 ? "guest" : "guests"}`)
+    if (infants) parts.push(`${infants} ${infants === 1 ? "infant" : "infants"}`)
+    if (pets) parts.push(`${pets} ${pets === 1 ? "pet" : "pets"}`)
+    return parts.join(", ")
+}
