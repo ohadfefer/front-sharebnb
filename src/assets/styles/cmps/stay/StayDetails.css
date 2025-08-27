@@ -4,6 +4,56 @@
     padding: 40px;
 }
 
+/* Sticky in-page navigation header */
+.details-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: none;
+    gap: 24px;
+    align-items: center;
+    background: var(--header-bg);
+    backdrop-filter: blur(var(--header-backdrop-blur));
+    border-bottom: 1px solid var(--divider);
+    padding: 0; /* header fills links height */
+    height: 80px; /* header height */
+}
+
+.details-nav.shown {
+    display: flex;
+}
+
+.details-nav a {
+    display: inline-flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 16px; /* square-ish padding */
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: 'Roboto-Medium';
+    border-bottom: 4px solid transparent; /* thick hover indicator */
+    box-sizing: border-box;
+}
+
+.details-nav a:hover,
+.details-nav a:focus {
+    text-decoration: none;
+    border-bottom-color: var(--text-primary);
+}
+
+/* Invisible sentinel to detect gallery scroll-out */
+.gallery-sentinel {
+    height: 1px;
+}
+
+/* Offset in-page scroll so titles remain visible under the sticky header */
+#photos,
+#amenities,
+#reviews,
+#location {
+    scroll-margin-top: 100px;
+}
+
 .stay-details .amenities-header {
     font-size: 22px;
     padding-bottom: 5px;
@@ -24,7 +74,6 @@
     margin-top: 32px;
 }
 
-
 .right-col .sticky-card {
     position: sticky;
     top: 120px;
@@ -34,7 +83,9 @@
     .stay-details-grid {
         grid-template-columns: 1fr;
     }
-    .right-col {
-        order: 2;
-    }
+}
+
+/* smooth scrolling for in-page links */
+html {
+    scroll-behavior: smooth;
 }
