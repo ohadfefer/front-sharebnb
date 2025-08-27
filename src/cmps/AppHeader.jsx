@@ -3,28 +3,21 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
 import { logout } from '../store/actions/user.actions'
+
 import logo from '../assets/logo/icon-airbnb.png'
+import hamburger from '../assets/logo/icons/hamburger.svg'
+import language from '../assets/logo/icons/language.svg'
+
 import { useHeaderControl } from '../customHooks/useHeaderControl.js'
 import { StayFilter } from '../cmps/StayFilter.jsx'
 import { useState } from 'react'
 export function AppHeader() {
 
-  const user = useSelector(store => store.userModule.user)
-  const { stays, filterBy, isLoading, address } = useSelector(storeState => storeState.stayModule)
+  const { filterBy } = useSelector(storeState => storeState.stayModule)
 
   const navigate = useNavigate()
-  
-  const isMini = useHeaderControl(80)
 
-  async function onLogout() {
-    try {
-      await logout()
-      navigate('/')
-      showSuccessMsg('Bye now')
-    } catch (err) {
-      showErrorMsg('Cannot logout')
-    }
-  }
+  const isMini = useHeaderControl(80, { throttleMs: 80, hysteresisPx: 12 })
 
   return (
     <header className={`app-header ${isMini ? 'is-mini' : 'is-expanded'} full`}>
@@ -34,7 +27,14 @@ export function AppHeader() {
           <span className="brand">Sharebnb</span>
         </NavLink>
 
+        <div className="side-links">
+          <a>Become a host</a>
+          <img src={language} alt="" width={40} className='language-btn' />
+          <img src={hamburger} alt="" width={40} className='hamburger-btn' />
+        </div>
+
         <div>
+
           {
             !isMini ?
               <div className="nav-links">
@@ -44,22 +44,9 @@ export function AppHeader() {
               </div> :
               ''
           }
-          <StayFilter mini={isMini} filterBy={filterBy} />
-        </div>
-
-        <div className="auth-link">
-          {user?.isAdmin && <NavLink to="/admin" className="admin-link">Admin</NavLink>}
-          {!user && <NavLink to="auth/login" className="login-link">Login</NavLink>}
-          {user && (
-            <div className="user-info">
-              <Link to={`user/${user._id}`}>
-                {user.imgUrl && <img src={user.imgUrl} alt="" />}
-                {user.fullname}
-              </Link>
-              {user.score != null && <span className="score">{user.score.toLocaleString()}</span>}
-              <button onClick={onLogout}>Logout</button>
-            </div>
-          )}
+          <div className='filter'>
+            <StayFilter mini={isMini} filterBy={filterBy} />
+          </div>
         </div>
       </nav>
     </header>

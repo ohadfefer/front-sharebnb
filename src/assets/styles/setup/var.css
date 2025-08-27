@@ -20,9 +20,12 @@
     --text-secondary: #6a6a6a;
 
     /* Header */
-    --header-bg: #fdfdfd;
+    --header-bg: #fefefe;
     --filter-bg: #FFFFFF;
     --button-bg-hover: #ebebeb;
+    --icons-bg: #f2f2f2;
+    --icons-bg-hover: #ebebeb;
+
 
     --header-backdrop-blur: 10px;
     --header-height-expanded: 120px;
