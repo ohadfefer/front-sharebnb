@@ -91,7 +91,7 @@
   font-family: Roboto;
   font-size: 32px;
   text-decoration: none;
-  padding: 12px;
+  padding: 0px 12px 24px 12px; 
   border-radius: 360px;
 
   display: flex;

@@ -18,7 +18,7 @@ const SUGGESTED = [
     { id: "athens", label: "Athens", sub: "Greece", icon: athens },
 ];
 
-export function WherePanel({ value = {}, onChange, onComplete }) {
+export function WhereSuggestionsPanel({ value = {}, onChange, onAdvance }) {
     const [query, setQuery] = useState(value.address || "")
 
     const items = useMemo(() => {
@@ -32,21 +32,11 @@ export function WherePanel({ value = {}, onChange, onComplete }) {
     function select(item) {
         const address = item.id === "nearby" ? "Nearby" : `${item.label}${item.sub ? `, ${item.sub}` : ""}`
         onChange?.({ address })
-        onComplete?.()
+        onAdvance?.(); // jump to Check-in
     }
 
     return (
         <div className="where-panel">
-            <div className="where-search">
-                <input
-                    autoFocus
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    placeholder="Search destinations"
-                    aria-label="Search destinations"
-                />
-            </div>
-
             <ul className="where-list">
                 {items.map(item => (
                     <li key={item.id}>

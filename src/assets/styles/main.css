@@ -16,6 +16,7 @@
 @import "cmps/DateRangePicker";
 @import "cmps/GuestsPanel";
 @import "cmps/WherePanel";
+@import "cmps/AutoCompletePanel";
 
 @import "cmps/DynamicPanel.css";
 @import "cmps/AppHeader";

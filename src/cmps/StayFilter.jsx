@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react"
+// StayFilter.jsx
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { setFilter } from "../store/actions/stay.actions"
@@ -20,18 +21,20 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const filterBy = useSelector((state) => state.stayModule.filterBy)
-  const { address, checkIn, checkOut, guests } = filterBy
+  const storeFilter = useSelector((state) => state.stayModule.filterBy)
+  const [filterByToEdit, setfilterByToEdit] = useState(storeFilter)
 
-  // On first render: hydrate Redux from URL (if present)
+  // Handle serch from mini to large
   useEffect(() => {
-    if ([...searchParams.keys()].length === 0) return
-    const fromUrl = parseSearchParams(searchParams)
-    if (Object.keys(fromUrl).length) dispatch(setFilter(fromUrl))
-  }, [])
+    if (!mini) setfilterByToEdit(storeFilter)
+  }, [mini])
+
+  // Keep filterByToEdit in sync while collapsed
+  useEffect(() => {
+    if (mini) setfilterByToEdit(storeFilter)
+  }, [storeFilter])
 
   const fieldOrder = ["where", "checkin", "checkout", "who"]
-
   const {
     activeFilterCell,
     getCellProps,
@@ -39,7 +42,13 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     pillElementRef,
     popoverElementRef,
     setActiveFilterCell,
+    goToNextCell,
   } = useFieldControl(fieldOrder, { enableOutsideClickClose: true })
+
+
+  // Render values: in mini show committed (store), in expanded show filterByToEdit
+  const view = mini ? storeFilter : filterByToEdit
+  const { address, checkIn, checkOut, guests } = view
 
   const guestsLabel = (() => {
     if (typeof guests === "number") return guests ? `${guests} guests` : "Add guests"
@@ -47,52 +56,59 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     return total ? `${total} guests` : "Add guests"
   })()
 
-
+  // Mutate *filterByToEdit* only
   function handleInputChange(event) {
     const { name, type } = event.target
     let { value } = event.target
     if (type === "number") value = Number(value) || ""
-    dispatch(setFilter({ [name]: value }))
+    setfilterByToEdit(prev => ({ ...prev, [name]: value }))
   }
 
+  // Commit filterByToEdit -> Redux + URL only on submit
   function handleSubmit(ev) {
     ev.preventDefault()
-    const params = buildSearchParams(filterBy)
+    setFilter(filterByToEdit)
+    const params = buildSearchParams(filterByToEdit)
     setSearchParams(params)
     clearActiveFilterCell()
+    onPopoverComplete?.()
   }
-
 
   return (
     <div className={`search-bar ${mini ? "mini" : "expanded"}`}>
       {mini ? (
         <div className="filter-pill">
-          <button type="button"
+          <button
+            type="button"
             className="chip"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("where"); }}>
-            <span className="icon">🏠</span> Anywhere
+            onClick={() => { onRequestExpand?.(); setActiveFilterCell("where") }}
+          >
+            <span className="icon">🏠</span> {storeFilter.address ? storeFilter.address : "Anywhere"}
           </button>
 
-          <button type="button"
+          <button
+            type="button"
             className="chip"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("checkin"); }}>
-            {formatDateForDisplay(checkIn) || "Anytime"}
+            onClick={() => { onRequestExpand?.(); setActiveFilterCell("checkin") }}
+          >
+            {formatDateForDisplay(storeFilter.checkIn) || "Anytime"}
           </button>
 
           <div className="who-serach">
-            <button type="button"
+            <button
+              type="button"
               className="chip"
-              onClick={() => {
-                onRequestExpand?.()
-                setActiveFilterCell("who")
-              }}>
-              {guestsLabel}
+              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who") }}
+            >
+              {formatGuestsLabel(storeFilter.guests)}
             </button>
 
-            <button type="button"
+            <button
+              type="button"
               className="search-btn"
-              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
-              aria-label="Search">
+              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who") }}
+              aria-label="Search"
+            >
               <img src={searchIcon} alt="search icon" className="loupe" width={14} />
             </button>
           </div>
@@ -110,7 +126,15 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
               value={address || ""}
               onChange={handleInputChange}
               onFocus={() => getCellProps("where").onMouseDown(new MouseEvent("mousedown"))}
-              autocomplete="off"
+              autoComplete="off"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault()
+                  setfilterByToEdit(prev => ({ ...prev, address: e.currentTarget.value }));
+                  goToNextCell();
+                }
+              }}
+
             />
           </label>
 
@@ -152,12 +176,12 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             activeKey={activeFilterCell}
             registry={PANELS_BY_KEY}
             panelProps={{
-              value: { checkIn, checkOut, guests, address },
-              onChange: (partialFilter) => dispatch(setFilter(partialFilter)),
-              onComplete: () => {
-                clearActiveFilterCell()
-                onPopoverComplete?.()   // tell header we're done; restore scroll control
-              },
+              // IMPORTANT: pass the *filterByToEdit* into panels
+              value: filterByToEdit,
+              // Panels only update the filterByToEdit (not Redux)
+              onChange: (partial) => setfilterByToEdit(prev => ({ ...prev, ...partial })),
+              // Close only; do not commit here
+              onAdvance: goToNextCell,
             }}
           />
         </div>
