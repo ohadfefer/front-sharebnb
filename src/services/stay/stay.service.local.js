@@ -45,7 +45,6 @@ function getById(stayId) {
 }
 
 async function remove(stayId) {
-    // throw new Error('Nope')
     await storageService.remove(STORAGE_KEY, stayId)
 }
 
@@ -62,7 +61,6 @@ async function save(stay) {
         const stayToSave = {
             name: stay.name,
             price: stay.price,
-            // Later, owner is set by the backend
             owner: userService.getLoggedinUser(),
             msgs: []
         }
@@ -72,7 +70,6 @@ async function save(stay) {
 }
 
 async function addStayMsg(stayId, txt) {
-    // Later, this is all done by the backend
     const stay = await getById(stayId)
 
     const msg = {
@@ -351,13 +348,12 @@ const orders = [
             kids: 2,
         },
         stay: {
-            // mini-stay
             _id: 'h102',
             name: 'House Of Uncle My',
             price: 80.0,
         },
-        msgs: [], // host - guest chat
-        status: 'pending', // approved / rejected
+        msgs: [], 
+        status: 'pending', 
     },
 ]
 

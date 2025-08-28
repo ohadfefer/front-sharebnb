@@ -1,4 +1,3 @@
-// src/services/helpers/registry.jsx
 import { WherePanel } from "../../cmps/WherePanel.jsx"
 import { DateRangePanel } from "../../cmps/DateRangePanel.jsx"
 import { GuestsPanel } from "../../cmps/GuestsPanel.jsx"

@@ -77,7 +77,6 @@ export function setFilter(filterBy) {
 }
 
 
-// Command Creators:
 export function getCmdSetStays(stays) {
     return {
         type: SET_STAYS,
@@ -115,7 +114,6 @@ export function getCmdAddStayMsg(msg) {
     }
 }
 
-// unitTestActions()
 async function unitTestActions() {
     await loadStays()
     await addStay(stayService.getEmptyStay())
@@ -124,6 +122,5 @@ async function unitTestActions() {
         name: 'Stay-Good',
         price: 333
     })
-    // await removeStay('m1oC7')
-    // // TODO unit test addStayMsg
+   
 }
