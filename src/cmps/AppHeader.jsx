@@ -41,13 +41,22 @@ export function AppHeader() {
           <img src={language} alt="" width={40} className='language-btn' />
           <img src={hamburger} alt="" width={40} className='hamburger-btn' />
         </div>
-
+        {/* nav-icon */}
         <div className="header-main">
           {!mini && (
             <div className="nav-links">
-              <NavLink to="stay"><span className="nav-icon">🏠  </span><span className="nav-text">Homes</span></NavLink>
-              <NavLink to="about"><span className="nav-icon">🪂  </span><span className="nav-text">Experiences</span></NavLink>
-              <NavLink to="chat"><span className="nav-icon">🛎️  </span><span className="nav-text">Services</span></NavLink>
+              <NavLink to="stay">
+                <img src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-ActivitySetup/original/b5a7ef95-2d3a-4aaa-b9d7-6f8c4a91aa2d.png" alt="" className="nav-icon" />
+                <span className="nav-text">Homes</span>
+              </NavLink>
+              <NavLink to="about">
+                <img src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-ActivitySetup/original/02579423-5d4b-4c71-bedb-0ea18cd293f8.png" alt="" className="nav-icon" />
+                <span className="nav-text">Experiences</span>
+              </NavLink>
+              <NavLink to="chat">
+                <img src="https://a0.muscache.com/im/pictures/airbnb-platform-assets/AirbnbPlatformAssets-ActivitySetup/original/1de966ec-197f-4b72-bbb1-cf4c91876dfa.png" alt="" className="nav-icon" />
+                <span className="nav-text">Services</span>
+              </NavLink>
             </div>
           )}
 

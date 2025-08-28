@@ -15,6 +15,7 @@
 @import "cmps/Chat";
 @import "cmps/DateRangePicker";
 @import "cmps/GuestsPanel";
+@import "cmps/WherePanel";
 
 @import "cmps/DynamicPanel.css";
 @import "cmps/AppHeader";

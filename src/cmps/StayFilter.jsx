@@ -110,6 +110,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
               value={address || ""}
               onChange={handleInputChange}
               onFocus={() => getCellProps("where").onMouseDown(new MouseEvent("mousedown"))}
+              autocomplete="off"
             />
           </label>
 
