@@ -22,7 +22,7 @@ export function makeLorem(size = 100) {
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive 
+    return Math.floor(Math.random() * (max - min + 1)) + min 
 }
 
 
@@ -52,11 +52,10 @@ export function loadFromStorage(key) {
     return (data) ? JSON.parse(data) : undefined
 }
 
-// src/services/helpers/searchParams.js
 export function buildSearchParams({ address, checkIn, checkOut, guests }) {
     const param = new URLSearchParams()
     if (address?.trim()) param.set('address', address.trim())
-    if (checkIn) param.set('checkin', checkIn)     // keep as ISO (yyyy-mm-dd or full ISO)
+    if (checkIn) param.set('checkin', checkIn)     
     if (checkOut) param.set('checkout', checkOut)
     if (guests != null && guests !== '') param.set('guests', String(guests))
     return param
@@ -64,7 +63,6 @@ export function buildSearchParams({ address, checkIn, checkOut, guests }) {
 
 export function parseSearchParams(searchParams) {
     const obj = Object.fromEntries(searchParams.entries())
-    // normalize types
     if ('guests' in obj) obj.guests = Number(obj.guests) || 0
     return obj
 }

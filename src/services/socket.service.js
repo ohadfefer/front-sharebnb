@@ -19,7 +19,6 @@ const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030
 
 export const socketService = (VITE_LOCAL === 'true')? createDummySocketService() : createSocketService()
 
-// for debugging from console
 if (DEV) window.socketService = socketService
 
 socketService.setup()
@@ -94,7 +93,6 @@ function createDummySocketService() {
         listener(data)
       })
     },
-    // Functions for easy testing of pushed data
     testChatMsg() {
       this.emit(SOCKET_EVENT_ADD_MSG, { from: 'Someone', txt: 'Aha it worked!' })
     },
@@ -106,12 +104,3 @@ function createDummySocketService() {
   return socketService
 }
 
-
-// Basic Tests
-// function cb(x) {console.log('Socket Test - Expected Puk, Actual:', x)}
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('baba', cb)
-// socketService.on('mama', cb)
-// socketService.emit('baba', 'Puk')
-// socketService.off('baba', cb)
