@@ -13,6 +13,8 @@ import { StayMap } from '../cmps/StayMap'
 import { StickyCard } from '../cmps/StickyCard'
 import { DateRangePanel } from '../cmps/DateRangePanel'
 
+import star from '../assets/logo/icons/star.svg'
+
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector((storeState) => storeState.stayModule.stay)
@@ -101,7 +103,11 @@ export function StayDetails() {
           <div className="details-nav-right">
             <div className="nav-right-text">
               <div className="title">Add dates for prices</div>
-              <div className="sub">{avgRate.toFixed(2)} · {reviewsCount} reviews</div>
+              <div className="sub">
+                <img src={star} alt="" width={10} />
+                <span className='reviews-avg'>{avgRate.toFixed(2)} · </span> 
+                <span>{reviewsCount} reviews</span>
+              </div>
             </div>
             <a href="#sticky-card" className="btn-link"><span>Check availability</span></a>
           </div>
@@ -128,7 +134,7 @@ export function StayDetails() {
           <div className="date-picker-container">
             <DateRangePanel />
           </div>
-          
+
         </div>
 
         <div className="right-col" id="sticky-card" ref={stickyRef}>
@@ -145,7 +151,7 @@ export function StayDetails() {
       <hr className='divider-long' />
 
       <div id="location">
-        <StayMap stay={stay}/>
+        <StayMap stay={stay} />
       </div>
 
 

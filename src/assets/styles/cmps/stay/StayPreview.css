@@ -155,15 +155,16 @@ flex-direction: column; */
   justify-content: start;
   color: black;
   text-decoration: none;
+
+  p {
+    margin: 0;
+  }
+
+  > * {
+    width: 100%;
+  }
 }
 
-.stay-preview>* {
-  width: 100%;
-}
-
-.stay-preview p {
-  margin: 0;
-}
 
 .preview-title,
 .preview-details,
