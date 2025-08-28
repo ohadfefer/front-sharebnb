@@ -5,6 +5,7 @@ import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
 import { AdminIndex } from './pages/AdminIndex.jsx'
+import { AddStay } from './pages/AddStay.jsx'
 
 
 import { StayDetails } from './pages/StayDetails'
@@ -41,6 +42,7 @@ export function RootCmp() {
                         <Route path="login" element={<Login />} />
                         <Route path="signup" element={<Signup />} />
                     </Route>
+                    <Route path="hosting/listings" element={<AddStay />} />
                 </Routes>
             </main>
             <AppFooter />
