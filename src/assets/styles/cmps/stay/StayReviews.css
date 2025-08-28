@@ -87,7 +87,7 @@
 .review-header {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 0.35rem; /* tighter spacing to the content */
+    margin-bottom: 0.35rem; 
 }
 
 .user-info {
@@ -169,7 +169,7 @@
 }
 
 .review-content {
-    margin-top: 0.25rem; /* bring text closer to additional info */
+    margin-top: 0.25rem; 
 }
 
 .review-text {

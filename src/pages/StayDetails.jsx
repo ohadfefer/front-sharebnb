@@ -30,7 +30,6 @@ export function StayDetails() {
       setIsLoading(true)
       try {
         const stay = await stayService.getById(stayId)
-        console.log('Fetched stay:', stay) // Debug
         dispatch(getCmdSetStay(stay))
         setIsLoading(false)
       } catch (err) {
@@ -46,7 +45,6 @@ export function StayDetails() {
     function handleScroll() {
       if (galleryRef.current) {
         const rect = galleryRef.current.getBoundingClientRect()
-        // show header when the gallery bottom is above the top of the viewport
         const shouldShow = rect.bottom <= 0
         setShowNav(shouldShow)
       }
@@ -56,7 +54,6 @@ export function StayDetails() {
         setShowCardLink(!inView)
       }
     }
-    // run once to set initial state
     handleScroll()
     window.addEventListener('scroll', handleScroll, { passive: true })
     window.addEventListener('resize', handleScroll)
@@ -93,7 +90,6 @@ export function StayDetails() {
 
   return (
     <section className="stay-details">
-      {/* Sticky in-page navigation header */}
       <nav className={`details-nav ${showNav ? 'shown' : ''}`}>
         <div className="details-nav-left">
           <a href="#photos"><span>Photos</span></a>

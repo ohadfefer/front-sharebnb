@@ -31,7 +31,6 @@
     border-radius: 12px;
 }
 
-/* Responsive design */
 @media (max-width: 768px) {
     .stay-map {
         padding: 0 0.5rem;

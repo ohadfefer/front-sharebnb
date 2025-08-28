@@ -10,7 +10,6 @@ export function StayMap({ stay }) {
     useEffect(() => {
         if (!stay || !stay.loc || !mapRef.current) return
 
-        // Load Google Maps script if not already loaded
         if (!window.google || !window.google.maps) {
             const script = document.createElement('script')
             script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`
@@ -26,7 +25,6 @@ export function StayMap({ stay }) {
             const { lat, lng } = stay.loc
             const position = { lat, lng }
 
-            // Create map instance
             const map = new window.google.maps.Map(mapRef.current, {
                 center: position,
                 zoom: 15,
@@ -43,7 +41,6 @@ export function StayMap({ stay }) {
                 ]
             })
 
-            // Create marker
             const marker = new window.google.maps.Marker({
                 position: position,
                 map: map,
@@ -59,12 +56,10 @@ export function StayMap({ stay }) {
                 title: stay.name
             })
 
-            // Store references
             mapInstanceRef.current = map
             markerRef.current = marker
         }
 
-        // Cleanup function
         return () => {
             if (markerRef.current) {
                 markerRef.current.setMap(null)

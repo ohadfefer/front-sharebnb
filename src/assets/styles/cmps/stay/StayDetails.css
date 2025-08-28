@@ -4,7 +4,6 @@
     padding: 40px;
 }
 
-/* Sticky in-page navigation header */
 .details-nav {
     position: sticky;
     top: 0;
@@ -15,13 +14,11 @@
     justify-content: space-between;
     background: var(--header-bg);
     backdrop-filter: blur(var(--header-backdrop-blur));
-    /* border-bottom: 1px solid var(--divider); */
-    padding: 0; /* header fills links height */
-    height: 80px; /* header height */
+    padding: 0; 
+    height: 80px; 
     position: sticky;
 }
 
-/* full-width bottom border across the page */
 .details-nav::after {
     content: '';
     position: absolute;
@@ -46,18 +43,17 @@
     display: inline-flex;
     align-items: center;
     height: 100%;
-    padding: 0 16px; /* square-ish padding */
+    padding: 0 16px; 
     color: var(--text-primary);
     text-decoration: none;
     font-family: 'Roboto-Medium';
     box-sizing: border-box;
 }
 
-/* underline that matches exactly the word width */
 .details-nav a span {
     display: inline-block;
     border-bottom: 4px solid transparent;
-    line-height: 80px; /* match header height for vertical centering */
+    line-height: 80px; 
 }
 
 .details-nav a:hover span,
@@ -99,12 +95,10 @@
     font-size: 12px;
 }
 
-/* Invisible sentinel to detect gallery scroll-out */
 .gallery-sentinel {
     height: 1px;
 }
 
-/* Offset in-page scroll so titles remain visible under the sticky header */
 #photos,
 #amenities,
 #reviews,
@@ -166,7 +160,6 @@
     }
 }
 
-/* smooth scrolling for in-page links */
 html {
     scroll-behavior: smooth;
 }

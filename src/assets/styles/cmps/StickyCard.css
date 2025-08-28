@@ -17,7 +17,6 @@
     color: var(--text-primary);
 }
 
-/* single framed fields with internal separators */
 .sticky-card-fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -36,12 +35,10 @@
     padding: 12px 14px;
 }
 
-/* vertical divider between check-in and check-out */
 .sticky-card-fields .field:nth-child(1) {
     border-right: 1px solid var(--neutrals-o7);
 }
 
-/* horizontal divider above the guests row */
 .sticky-card-fields .field:nth-child(3) {
     border-top: 1px solid var(--neutrals-o7);
 }
@@ -55,7 +52,6 @@
     font-family: 'Roboto-Medium';
 }
 
-/* inputs are frameless inside the single frame */
 .like-input {
     border: none;
     border-radius: 0;
