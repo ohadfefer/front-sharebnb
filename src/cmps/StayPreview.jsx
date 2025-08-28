@@ -29,18 +29,18 @@ export function StayPreview({ stay }) {
     }
 
     return (
-        <NavLink to={toUrl} className="stay-details">
-            <Swiper
-                cssMode={true}
-                navigation={true}
-                pagination={true}
-                mousewheel={true}
-                keyboard={true}
-                modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-                className="carousel"
-            >
-                <i className="fa-solid fa-heart heart-icon "></i>
-                {stay.imgUrls.map((img, idx) => (
+        <NavLink to={`/stay/${stay._id}`} className="stay-preview">
+                <Swiper
+                    cssMode={true}
+                    navigation={true}
+                    pagination={true}
+                    mousewheel={true}
+                    keyboard={true}
+                    modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+                    className="carousel"
+                >
+                    <i className="fa-solid fa-heart heart-icon "></i>
+                    {stay.imgUrls.map((img, idx) => (
 
                     <SwiperSlide className='preview-picture' key={idx}>
                         <img className='carousel-img' src={img} alt="" />

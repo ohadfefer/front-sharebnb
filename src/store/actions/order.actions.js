@@ -1,0 +1,129 @@
+import { orderService } from '../../services/order/order.service.local.js'
+import { store } from '../store'
+import {
+    ADD_ORDER,
+    REMOVE_ORDER,
+    SET_ORDERS,
+    SET_ORDER,
+    UPDATE_ORDER,
+    ADD_ORDER_MSG,
+    SET_FILTER_BY,
+    SET_IS_LOADING,
+} from '../reducers/order.reducer.js'
+
+export async function loadOrders() {
+    const { filterBy } = store.getState().orderModule
+    
+    try {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: true })
+        const orders = await orderService.query(filterBy)
+        
+        
+        store.dispatch({ type: SET_ORDERS, orders })
+        return orders
+    } catch (err) {
+        console.log('order action -> Cannot load orders')
+        throw err
+    } finally {
+        store.dispatch({ type: SET_IS_LOADING, isLoading: false })
+    }
+}
+
+export async function removeOrder(orderId) {
+    try {
+        await orderService.remove(orderId)
+        store.dispatch(getCmdRemoveOrder(orderId))
+    } catch (err) {
+        console.log('Cannot remove order', err)
+        throw err
+    }
+}
+
+export async function addOrder(order) {
+    try {
+        const savedOrder = await orderService.save(order)
+        store.dispatch(getCmdAddOrder(savedOrder))
+        return savedOrder
+    } catch (err) {
+        console.log('Cannot add order', err)
+        throw err
+    }
+}
+
+export async function updateOrder(order) {
+    try {
+        const savedOrder = await orderService.save(order)
+        store.dispatch(getCmdUpdateOrder(savedOrder))
+        return savedOrder
+    } catch (err) {
+        console.log('Cannot save order', err)
+        throw err
+    }
+}
+
+export async function addOrderMsg(orderId, txt) {
+    try {
+        const msg = await orderService.addOrderMsg(orderId, txt)
+        store.dispatch(getCmdAddOrderMsg(msg))
+        return msg
+    } catch (err) {
+        console.log('Cannot add order msg', err)
+        throw err
+    }
+}
+
+export function setFilter(filterBy) {
+    store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
+
+
+// Command Creators:
+export function getCmdSetOrders(orders) {
+    return {
+        type: SET_ORDERS,
+        orders
+    }
+}
+export function getCmdSetOrder(order) {
+    return {
+        type: SET_ORDER,
+        order
+    }
+}
+export function getCmdRemoveOrder(orderId) {
+    return {
+        type: REMOVE_ORDER,
+        orderId
+    }
+}
+export function getCmdAddOrder(order) {
+    return {
+        type: ADD_ORDER,
+        order
+    }
+}
+export function getCmdUpdateOrder(order) {
+    return {
+        type: UPDATE_ORDER,
+        order
+    }
+}
+export function getCmdAddOrderMsg(msg) {
+    return {
+        type: ADD_ORDER_MSG,
+        msg
+    }
+}
+
+// unitTestActions()
+async function unitTestActions() {
+    await loadOrders()
+    await addOrder(orderService.getEmptyOrder())
+    await updateOrder({
+        _id: 'eQXRn',
+        name: 'Order-Good',
+        price: 333
+    })
+    // await removeOrder('m1oC7')
+    // // TODO unit test addOrderMsg
+}

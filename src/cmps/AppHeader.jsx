@@ -17,16 +17,13 @@ export function AppHeader() {
     hysteresisPx: 12,
   })
 
-  // Manual override: when null, follow hook; when boolean, force value
   const [manualMini, setManualMini] = useState(null)
   const mini = manualMini ?? miniFromHook
 
-  // Called by StayFilter when user clicks a mini chip
   function handleRequestExpand() {
-    setManualMini(false)          // expand header
+    setManualMini(false)
   }
 
-  // When the popover finishes (user chosen/closed), give control back to the hook
   function handlePopoverComplete() {
     setManualMini(null)
   }
@@ -45,12 +42,12 @@ export function AppHeader() {
           <img src={hamburger} alt="" width={40} className='hamburger-btn' />
         </div>
 
-        <div>
+        <div className="header-main">
           {!mini && (
             <div className="nav-links">
-              <NavLink to="about">🏠 <span>Homes</span></NavLink>
-              <NavLink to="stay">🪂 <span>Experiences</span></NavLink>
-              <NavLink to="chat">🛎️ <span>Services</span></NavLink>
+              <NavLink to="stay"><span className="nav-icon">🏠  </span><span className="nav-text">Homes</span></NavLink>
+              <NavLink to="about"><span className="nav-icon">🪂  </span><span className="nav-text">Experiences</span></NavLink>
+              <NavLink to="chat"><span className="nav-icon">🛎️  </span><span className="nav-text">Services</span></NavLink>
             </div>
           )}
 
