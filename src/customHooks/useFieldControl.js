@@ -1,3 +1,6 @@
+// Manages which filter cell is active (where | checkin | checkout | who),
+
+
 import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import {
@@ -5,20 +8,10 @@ import {
   clearActiveFilterCell as clearActiveFilterCellAction,
 } from "../store/reducers/filter.panel.reducer"
 
-/**
- * useFieldControl
- * Manages which filter cell is active (where | checkin | checkout | who),
- * supports Enter-to-next, and optional outside-click-to-close.
- *
- * @param {string[]} fieldOrder - e.g. ["where", "checkin", "checkout", "who"]
- * @param {{ enableOutsideClickClose?: boolean }} options
- */
-
 
 export function useFieldControl(fieldOrder, { enableOutsideClickClose = true } = {}) {
   const dispatch = useDispatch()
 
-  // IMPORTANT: this selector key must match your combineReducers key
   const activeFilterCell = useSelector(
     (state) => state.filterPanelModule?.activeFilterCell ?? null
   )

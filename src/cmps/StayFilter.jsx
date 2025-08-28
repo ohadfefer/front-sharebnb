@@ -28,7 +28,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     if ([...searchParams.keys()].length === 0) return
     const fromUrl = parseSearchParams(searchParams)
     if (Object.keys(fromUrl).length) dispatch(setFilter(fromUrl))
-  }, []) // run once
+  }, [])
 
   const fieldOrder = ["where", "checkin", "checkout", "who"]
 
@@ -58,13 +58,8 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
   function handleSubmit(ev) {
     ev.preventDefault()
     const params = buildSearchParams(filterBy)
-    // Option A: stay on the same route and update the query string:
     setSearchParams(params)
-    // Option B: navigate to results page:
-    // navigate(`/stays?${params.toString()}`)
     clearActiveFilterCell()
-    // If you trigger a search side-effect elsewhere (e.g. on route change),
-    // this will naturally kick it off.
   }
 
 

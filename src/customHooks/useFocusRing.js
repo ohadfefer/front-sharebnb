@@ -11,7 +11,6 @@ export function useFocusRing() {
     setRing({ x: r.left - p.left, y: r.top - p.top, w: r.width, h: r.height, visible: true })
   }
 
-  // שמירה על יישור בריסייז
   useEffect(() => {
     const reflow = () => {
       const el = document.querySelector('[data-focus-ring-target="true"]')
