@@ -35,7 +35,7 @@
     border: none;
     border-top: 1px solid var(--divider);
     margin: 20px 0;
-    max-width: 550px;
+    max-width: 640px;
 }
 
 .stay-info-grid.host-grid {
@@ -53,15 +53,16 @@
 .stay-info-grid.features-grid {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
     max-width: 600px;
+    padding: 15px 0;
 }
 
 .grid-row {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 20px;
-    align-items: center;
+    gap: 35px;
+    align-items: start;
 }
 
 .column-1 {
@@ -93,15 +94,16 @@
 }
 
 .info-item p:first-child {
-    font-family: 'Roboto-Medium';
+    font-family: 'Roboto-SemiBold';
     font-weight: normal;
+    color: var(--neutrals-o8);
     margin-bottom: 0;
-    font-size: 1em;
+    font-size: 0.93em;
 }
 
 .info-item p:last-child {
     font-weight: normal;
-    color: var(--neutrals-o7);
+    color: var(--gray3);
     font-size: 0.875rem;
     margin-top: 6px;
 }

@@ -95,22 +95,28 @@ export function StayReviews({ stay }) {
                         <div key={review.id} className="review-card">
                             <div className="review-header">
                                 <div className="user-info">
-                                    <img
-                                        src={review.by.imgUrl}
-                                        alt={review.by.fullname}
-                                        className="user-avatar"
-                                        onError={(e) => {
-                                            e.target.src = '/img/default-avatar.jpg'
-                                        }}
-                                    />
-                                    <div className="user-details">
-                                        <h4 className="user-name">{review.by.fullname}</h4>
-                                        <p className="user-location">
-                                            {stay.loc.city}, {stay.loc.country}
-                                        </p>
+                                    <div className="user-personal-info">
+                                        <img
+                                            src={review.by.imgUrl}
+                                            alt={review.by.fullname}
+                                            className="user-avatar"
+                                            onError={(e) => {
+                                                e.target.src = '/img/default-avatar.jpg'
+                                            }}
+                                        />
+                                        <div className="user-details">
+                                            <h4 className="user-name">{review.by.fullname}</h4>
+                                            <p className="user-location">
+                                                {stay.loc.city}, {stay.loc.country}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="additional-info-container">
                                         <div className="rating">
                                             {renderStars(review.rate)}
                                         </div>
+                                        ·<span className='date-published'> June 2025 </span> ·
+                                        <span className='additional-user-info'>Stayed with kids</span>
                                     </div>
                                 </div>
                             </div>

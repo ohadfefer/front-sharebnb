@@ -28,7 +28,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     if ([...searchParams.keys()].length === 0) return
     const fromUrl = parseSearchParams(searchParams)
     if (Object.keys(fromUrl).length) dispatch(setFilter(fromUrl))
-  }, []) // run once
+  }, [])
 
   const fieldOrder = ["where", "checkin", "checkout", "who"]
 
@@ -58,13 +58,8 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
   function handleSubmit(ev) {
     ev.preventDefault()
     const params = buildSearchParams(filterBy)
-    // Option A: stay on the same route and update the query string:
     setSearchParams(params)
-    // Option B: navigate to results page:
-    // navigate(`/stays?${params.toString()}`)
     clearActiveFilterCell()
-    // If you trigger a search side-effect elsewhere (e.g. on route change),
-    // this will naturally kick it off.
   }
 
 
@@ -84,20 +79,23 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             {formatDateForDisplay(checkIn) || "Anytime"}
           </button>
 
-          <button type="button"
-            className="chip"
-            onClick={() => { 
-              onRequestExpand?.()
-              setActiveFilterCell("who") }}>
-            {guestsLabel}
-          </button>
+          <div className="who-serach">
+            <button type="button"
+              className="chip"
+              onClick={() => {
+                onRequestExpand?.()
+                setActiveFilterCell("who")
+              }}>
+              {guestsLabel}
+            </button>
 
-          <button type="button"
-            className="search-btn"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
-            aria-label="Search">
-            <img src={searchIcon} alt="search icon" className="loupe" width={14} />
-          </button>
+            <button type="button"
+              className="search-btn"
+              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who"); }}
+              aria-label="Search">
+              <img src={searchIcon} alt="search icon" className="loupe" width={14} />
+            </button>
+          </div>
         </div>
       ) : (
         <form ref={pillElementRef} className="filter-pill" onSubmit={handleSubmit}>
@@ -115,8 +113,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             />
           </label>
 
-          <div className="vertical-divider" />
-
           {/* CHECK-IN */}
           <div {...getCellProps("checkin")}>
             <span className="title">Check in</span>
@@ -125,8 +121,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             </span>
           </div>
 
-          <div className="vertical-divider" />
-
           {/* CHECK-OUT */}
           <div {...getCellProps("checkout")}>
             <span className="title">Check out</span>
@@ -134,8 +128,6 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
               {formatDateForDisplay(checkOut) || "Add date"}
             </span>
           </div>
-
-          <div className="vertical-divider" />
 
           {/* WHO + Search */}
           <div {...getCellProps("who")}>

@@ -35,13 +35,11 @@ export function StayAmenities({ stay }) {
             <div className="amenities-grid">
                 {stay.amenities.map((amenity, idx) => (
                     <div className="amenity-row" key={idx}>
-                        <div className="amenity-icon"> <img src={getAmenityIcon(amenity)} alt="" width={24} /></div>
-                       
+                        <img src={getAmenityIcon(amenity)} alt="" width={24} />
                         <div className="amenity-name">{amenity}</div>
                     </div>
                 ))}
             </div>
-            <hr className="divider" />
         </div>
     )
 }

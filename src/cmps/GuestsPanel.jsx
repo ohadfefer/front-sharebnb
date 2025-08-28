@@ -5,6 +5,7 @@
  *  - onChange: (partialFilter) => void   // we call onChange({ guests: next })
  *  - onComplete?: () => void
  */
+
 export function GuestsPanel({ value = {}, onChange, onComplete }) {
   // Accept either shape: {guests:{...}} or {adults,...}
   const src = value.guests ?? value
@@ -28,7 +29,6 @@ export function GuestsPanel({ value = {}, onChange, onComplete }) {
 
   function inc(key) {
     const next = { ...guests, [key]: guests[key] + 1 }
-    // If adding children and adults is 0, auto-raise adults to 1
     if (key === "children" && next.adults === 0) next.adults = 1
     commit(next)
   }

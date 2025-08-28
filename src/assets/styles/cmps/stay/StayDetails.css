@@ -4,49 +4,101 @@
     padding: 40px;
 }
 
-/* Sticky in-page navigation header */
 .details-nav {
     position: sticky;
     top: 0;
     z-index: 10;
     display: none;
-    gap: 24px;
+    gap: 2px;
     align-items: center;
+    justify-content: space-between;
     background: var(--header-bg);
     backdrop-filter: blur(var(--header-backdrop-blur));
+    padding: 0; 
+    height: 80px; 
+    position: sticky;
+}
+
+.details-nav::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 100vw;
     border-bottom: 1px solid var(--divider);
-    padding: 0; /* header fills links height */
-    height: 80px; /* header height */
+    pointer-events: none;
 }
 
 .details-nav.shown {
     display: flex;
 }
 
+.details-nav-left {
+    display: inline-flex;
+    height: 100%;
+}
+
 .details-nav a {
     display: inline-flex;
     align-items: center;
     height: 100%;
-    padding: 0 16px; /* square-ish padding */
+    padding: 0 16px; 
     color: var(--text-primary);
     text-decoration: none;
     font-family: 'Roboto-Medium';
-    border-bottom: 4px solid transparent; /* thick hover indicator */
     box-sizing: border-box;
 }
 
-.details-nav a:hover,
-.details-nav a:focus {
-    text-decoration: none;
+.details-nav a span {
+    display: inline-block;
+    border-bottom: 4px solid transparent;
+    line-height: 80px; 
+}
+
+.details-nav a:hover span,
+.details-nav a:focus span {
     border-bottom-color: var(--text-primary);
 }
 
-/* Invisible sentinel to detect gallery scroll-out */
+.details-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.details-nav-right .btn-link {
+    display: inline-flex;
+    align-items: center;
+    height: 40px;
+    padding: 16px;
+    border-radius: 20px;
+    background: linear-gradient(var(--gradient-direction), var(--gradient-start-color), var(--gradient-end-color));
+    color: var(--shades-01);
+    text-decoration: none;
+    font-family: 'Roboto-Medium';
+}
+
+.nav-right-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+}
+
+.nav-right-text .title {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.nav-right-text .sub {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
 .gallery-sentinel {
     height: 1px;
 }
 
-/* Offset in-page scroll so titles remain visible under the sticky header */
 #photos,
 #amenities,
 #reviews,
@@ -56,8 +108,31 @@
 
 .stay-details .amenities-header {
     font-size: 22px;
-    padding-bottom: 5px;
+    padding: 25px 0 5px 0;
     font-family: 'Roboto-Medium';
+    color: var(--text-primary);
+}
+
+.date-picker-header {
+    padding-bottom: 18px;
+}
+
+.date-picker-header :first-child {
+    font-size: 22px;
+    padding: 25px 0 5px 0;
+    font-family: 'Roboto-Medium';
+    color: var(--text-primary);
+}
+
+.date-picker-header :last-child {
+    font-weight: normal;
+    color: var(--gray3);
+    font-size: 0.875rem;
+    margin-top: 6px;
+}
+
+.date-picker-container {
+    padding-bottom: 25px;
 }
 
 .divider-long {
@@ -85,7 +160,6 @@
     }
 }
 
-/* smooth scrolling for in-page links */
 html {
     scroll-behavior: smooth;
 }

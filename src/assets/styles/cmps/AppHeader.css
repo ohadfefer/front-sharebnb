@@ -3,17 +3,34 @@
   z-index: 100;
   display: grid;
   grid-template-rows: auto;
-  background: var(--header-bg);
+  background: linear-gradient(#fff, #f8f8f8);
   backdrop-filter: blur(var(--header-backdrop-blur));
   transition: box-shadow 0.25s ease, transform 0.2s ease;
   border-bottom: solid 0.75px var(--divider);
+  padding: 24px 48px;
+}
+
+.app-header.is-expanded .header-main {
+  grid-area: header-main;
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 100%;
+
+  span {
+    width: max-content;
+  }
+}
+
+.filter {
+  width: 100%;
 }
 
 .app-header.is-expanded {
   box-shadow: none;
+  height: 200px;
 }
 
-.app-header.mini {
+.app-header.is-mini {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
@@ -22,21 +39,18 @@
   top: 0;
 }
 
-
 .nav-bar {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
-  grid-template-areas: "logo nav-links side-links";
+  grid-template-areas: "logo header-main side-links";
   align-items: center;
   height: var(--header-height-expanded);
-  padding: 12px 24px;
   transition: height 0.25s ease, padding 0.25s ease;
   height: auto;
 }
 
-.app-header.mini .nav-bar {
-  height: var(--header-height-mini);
-  padding: 6px 20px;
+.app-header.is-mini .nav-bar {
+  height: 50px;
 }
 
 .logo {
@@ -46,7 +60,6 @@
   justify-self: start;
   gap: 8px;
   text-decoration: none;
-  margin: 1em;
   padding-top: 0.5em;
 }
 
@@ -55,6 +68,8 @@
   color: var(--primary-01);
   font-family: Roboto-Medium, sans-serif;
 }
+
+
 
 .nav-links {
   grid-area: nav-links;
@@ -78,19 +93,34 @@
   gap: 8px;
 
   transition: background-color 0.2s ease, color 0.2s ease;
+
+  &.active {
+    font-family: Roboto-Medium;
+  }
 }
 
-.nav-links a span {
-  font-size: 16px;
+
+
+.nav-links a .nav-text {
+  font-size: 14px;
 }
 
-.nav-links a.active span {
+.nav-links a.active .nav-text {
   text-decoration: underline 3px var(--text-primary);
-  text-underline-offset: 8px;
+  text-underline-offset: 12px;
 }
 
-.nav-links a:hover {
-  background: rgba(0, 0, 0, 0.04);
+.nav-links a:hover .nav-text {
+  font-family: Roboto-Medium;
+}
+
+.nav-links a:hover .nav-icon {
+  transform: scale(1.15);
+}
+
+.nav-links a .nav-icon {
+  transform: scale(1);
+  transition: 0.4s;
 }
 
 .side-links {
@@ -99,7 +129,7 @@
   justify-self: flex-end;
   align-self: flex-start;
   gap: 16px;
-  padding-top: 0.5em;
+  z-index: 100;
 
   img {
     padding: 12px;
