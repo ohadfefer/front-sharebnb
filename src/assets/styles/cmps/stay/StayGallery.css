@@ -68,6 +68,7 @@
 .gallery-grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
+    /* max-width: 1200px; */
     /* grid-template-rows: 250px 250px; */
     gap: 8px;
     /* padding-top: 17px; */

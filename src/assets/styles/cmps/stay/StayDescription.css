@@ -35,7 +35,7 @@
     border: none;
     border-top: 1px solid var(--divider);
     margin: 20px 0;
-    max-width: 670px;
+    max-width: 640px;
 }
 
 .stay-info-grid.host-grid {
