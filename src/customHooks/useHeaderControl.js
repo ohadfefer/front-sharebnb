@@ -1,36 +1,23 @@
 import { useEffect, useState } from "react"
-import { useMatch } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
-export function useHeaderControl(
-  distance = 80,
-  {
-    forceMiniOnMatch = "/stay/:id", 
-    hysteresisPx = 12,
-    disabled = false,
-  } = {}
-) {
-  const isForcedMiniRoute = forceMiniOnMatch ? !!useMatch(forceMiniOnMatch) : false
-  const [mini, setMini] = useState(isForcedMiniRoute ? true : false)
+export function useHeaderControl() {
+  const { pathname } = useLocation()
+  const isHome = pathname === "/" || pathname === "/stay"
+  const isDetailPage = /^\/stay\/[^/]+$/.test(pathname)
+
+  const [mini, setMini] = useState(true)
+  const sticky = !isDetailPage
 
   useEffect(() => {
-    if (disabled || isForcedMiniRoute) {
-      setMini(true)
-      return
+    const handleScroll = () => {
+      const atTop = window.scrollY === 0
+      setMini(!(isHome && atTop))
     }
-
-    const onScroll = () => {
-      const y = window.scrollY || 0
-      setMini(prev =>
-        prev ? y > distance - hysteresisPx : y > distance + hysteresisPx
-      )
-    }
-
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [distance, hysteresisPx, disabled, isForcedMiniRoute])
-
-  const sticky = !isForcedMiniRoute
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [isHome, pathname])
 
   return { mini, sticky }
 }

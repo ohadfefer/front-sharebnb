@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { showSuccessMsg } from '../services/event-bus.service.js'
 import { orderService } from '../services/order/order.service.local.js'
+import viza from '../assets/logo/vize-card.png'
+import arrow from '../assets/logo/arrow.png'
+import { Link } from 'react-router-dom'
 
 export function StayOrder() {
 
@@ -13,8 +16,6 @@ export function StayOrder() {
     const [error, setError] = useState(null)
     const [stay, setStay] = useState(null)
 
-    // Debug logs to see what we're getting
-    console.log('URL Params - stayId:', stayId)
 
     useEffect(() => {
         if (stayId) {
@@ -47,7 +48,6 @@ export function StayOrder() {
                 return
             }
             setStay(stayData)
-            // Update order with stay data if order already exists
             if (order) {
                 updateOrderWithStayData(stayData)
             }
@@ -114,6 +114,7 @@ export function StayOrder() {
 
     return (
         <div className="main-order">
+            <Link to={`/stay/${stayId} `}> <button className='arrow-btn'><img src={arrow} alt="" /></button></Link>
             <header>
                 <h1>Request to book</h1>
             </header>
@@ -140,8 +141,6 @@ export function StayOrder() {
                             />
                         </label>
 
-                        <hr />
-
                         <label className="payment-option">
                             <div >
                                 <h1>
@@ -159,12 +158,19 @@ export function StayOrder() {
                                 className="payment-radio"
                             />
                         </label>
-                        <hr />
-                        {/* <div className="payment-btn">
-                            <button ><span>Next</span></button>
-                        </div> */}
+
                     </div>
+
+                    <div className="payment-card">
+                        <p>Payment method</p>
+                        <div className="payment-row">
+                            <img src={viza} alt="Visa" />
+                            <span>3867</span>
+                        </div>
+                    </div>
+
                     <hr />
+
                     <div className="confirm">
                         <button onClick={handleSave} onMouseMove={handleMouseMove} className="action-btn">
                             <p>
@@ -210,11 +216,18 @@ export function StayOrder() {
 
                                 <hr />
 
-                                {/* <div className='date-guests'>
+                                <div className='date-guests'>
                                     <p className='date'>
-                                        Date & guests
+                                        Dates & guests
                                     </p>
-                                </div> */}
+                                    <div className='guests'>
+                                        <span>12-17 Sept 2025</span>
+                                        <span>1 adult</span>
+
+                                    </div>
+                                </div>
+
+                                <hr />
 
                                 <div className='price'>
                                     <p>
@@ -226,12 +239,15 @@ export function StayOrder() {
                                 </div>
 
                                 <hr />
-                                <div className='total'>
-                                    <p>Total</p>
-                                    <p>{stay.price}$</p>
+                                <div className='total-details'>
+                                    <div className='total'>
+                                        <p>Total</p>
+                                        <p>{stay.price}$</p>
+                                    </div>
+                                    <p className='item'>Price breakdown</p>
                                 </div>
 
-                                
+
                             </div>
                         ) : (
                             <p>Stay not found</p>

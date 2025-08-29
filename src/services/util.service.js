@@ -22,7 +22,7 @@ export function makeLorem(size = 100) {
 export function getRandomIntInclusive(min, max) {
     min = Math.ceil(min)
     max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive 
+    return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 
@@ -52,33 +52,64 @@ export function loadFromStorage(key) {
     return (data) ? JSON.parse(data) : undefined
 }
 
-// src/services/helpers/searchParams.js
-export function buildSearchParams({ address, checkIn, checkOut, guests }) {
-    const param = new URLSearchParams()
-    if (address?.trim()) param.set('address', address.trim())
-    if (checkIn) param.set('checkin', checkIn)     // keep as ISO (yyyy-mm-dd or full ISO)
-    if (checkOut) param.set('checkout', checkOut)
-    if (guests != null && guests !== '') param.set('guests', String(guests))
-    return param
+// util.service.js
+
+// Turn the current filter into URLSearchParams
+export function buildSearchParams(filter = {}) {
+    const params = new URLSearchParams();
+
+    const { address, checkIn, checkOut, guests } = filter;
+
+    if (address) params.set("address", address);
+    if (checkIn) params.set("checkIn", checkIn);
+    if (checkOut) params.set("checkOut", checkOut);
+
+    // ---- flatten guests ----
+    // support either a number (legacy “total”) or an object
+    if (typeof guests === "number") {
+        if (guests > 0) params.set("adults", String(guests));
+    } else if (guests && typeof guests === "object") {
+        for (const [k, v] of Object.entries(guests)) {
+            const n = Number(v) || 0;
+            if (n > 0) params.set(k, String(n)); // k: adults|children|infants|pets|...; omit zeros
+        }
+    }
+
+    return params;
 }
 
 export function parseSearchParams(searchParams) {
-    const obj = Object.fromEntries(searchParams.entries())
-    // normalize types
-    if ('guests' in obj) obj.guests = Number(obj.guests) || 0
-    return obj
+    const sp = searchParams instanceof URLSearchParams
+        ? searchParams
+        : new URLSearchParams(searchParams)
+
+    const filter = {}
+    const val = (k) => sp.get(k) || ""
+
+    if (val("address")) filter.address = val("address")
+    if (val("checkIn")) filter.checkIn = val("checkIn")
+    if (val("checkOut")) filter.checkOut = val("checkOut")
+
+    const keys = ["adults", "children", "infants", "pets"]
+    const guests = {}
+    for (const k of keys) {
+        const v = sp.get(k)
+        if (v != null && v !== "" && Number(v) > 0) guests[k] = Number(v)
+    }
+
+    const legacyTotal = sp.get("guests")
+    if (!Object.keys(guests).length && legacyTotal && Number(legacyTotal) > 0) {
+        guests.adults = Number(legacyTotal)
+    }
+
+    if (Object.keys(guests).length) filter.guests = guests
+
+    return filter
 }
 
 export function formatGuestsLabel(guests) {
-    const formatedGuests = guests || 0
-    if (typeof formatedGuests === "number") return formatedGuests ? `${formatedGuests} ${formatedGuests === 1 ? "guest" : "guests"}` : "Add guests"
-    const adultsChildren = (Number(formatedGuests.adults || 0) + Number(formatedGuests.children || 0)) || 0
-    const infants = Number(formatedGuests.infants || 0) || 0
-    const pets = Number(formatedGuests.pets || 0) || 0
-    if (!adultsChildren && !infants && !pets) return "Add guests"
-    const parts = []
-    if (adultsChildren) parts.push(`${adultsChildren} ${adultsChildren === 1 ? "guest" : "guests"}`)
-    if (infants) parts.push(`${infants} ${infants === 1 ? "infant" : "infants"}`)
-    if (pets) parts.push(`${pets} ${pets === 1 ? "pet" : "pets"}`)
-    return parts.join(", ")
+    if (!guests) return "Add guests";
+    if (typeof guests === "number") return guests ? `${guests} guests` : "Add guests"
+    const total = Object.values(guests).reduce((a, b) => a + (Number(b) || 0), 0)
+    return total ? `${total} guest${total > 1 ? "s" : ""}` : "Add guests"
 }

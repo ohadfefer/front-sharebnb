@@ -20,7 +20,6 @@ const initialState = {
 
 export function orderReducer(state = initialState, action) {
     var newState = state
-    // var orders
     switch (action.type) {
         case SET_ORDERS:
             newState = { ...state, orders: action.orders }
@@ -55,7 +54,6 @@ export function orderReducer(state = initialState, action) {
     return newState
 }
 
-// unitTestReducer()
 
 function unitTestReducer() {
     var state = initialState

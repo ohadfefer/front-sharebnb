@@ -35,7 +35,6 @@ export async function removeReview(reviewId) {
 		throw err
 	}
 }
-// Command Creators
 export function getActionRemoveReview(reviewId) {
 	return { type: REMOVE_REVIEW, reviewId }
 }

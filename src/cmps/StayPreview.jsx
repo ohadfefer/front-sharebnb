@@ -20,16 +20,8 @@ export function StayPreview({ stay }) {
 
     const len = stay.imgUrls.length || 1
 
-    function next() {
-        setIdx((idx + 1) % len)
-    }
-
-    function prev() {
-        setIdx((idx - 1 + len) % len)
-    }
-
     return (
-        <NavLink to={`/stay/${stay._id}`} className="stay-preview">
+        <NavLink to={toUrl} className="stay-preview">
                 <Swiper
                     cssMode={true}
                     navigation={true}
@@ -49,10 +41,12 @@ export function StayPreview({ stay }) {
                 ))}
             </Swiper>
 
+<div className='preview-txt'>
 
             <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
             <p className='preview-date'>8-9 Sept</p>
             <p className='preview-details'><span>${stay.price.toLocaleString()} for 1 night</span></p>
+</div>
         </NavLink>
     )
 }

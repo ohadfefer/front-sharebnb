@@ -77,7 +77,6 @@ export function setFilter(filterBy) {
 }
 
 
-// Command Creators:
 export function getCmdSetOrders(orders) {
     return {
         type: SET_ORDERS,
@@ -115,7 +114,6 @@ export function getCmdAddOrderMsg(msg) {
     }
 }
 
-// unitTestActions()
 async function unitTestActions() {
     await loadOrders()
     await addOrder(orderService.getEmptyOrder())
@@ -124,6 +122,5 @@ async function unitTestActions() {
         name: 'Order-Good',
         price: 333
     })
-    // await removeOrder('m1oC7')
-    // // TODO unit test addOrderMsg
+    
 }

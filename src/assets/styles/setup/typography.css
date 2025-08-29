@@ -17,3 +17,13 @@ src:url("../fonts/Roboto-Medium.ttf")
 font-family: Roboto-SemiBold;
 src:url("../fonts/Roboto-SemiBold.ttf")
 }
+
+@font-face {
+font-family: Poppins-SemiBold;
+src:url("../fonts/Poppins-SemiBold.ttf")
+}
+
+@font-face {
+font-family: Poppins;
+src:url("../fonts/Poppins-Regular.ttf")
+}

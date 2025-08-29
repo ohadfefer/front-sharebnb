@@ -4,7 +4,6 @@ import { stayService } from '../stay/stay.service.local'
 import { makeId } from '../util.service'
 
 const ORDER_KEY = 'order'
-// createOrders()
 
 export const orderService = {
     getById,
@@ -44,36 +43,7 @@ async function getStayById(stayId) {
     return await stayService.getById(stayId)
 }
 
-function createOrders() {
-    let orders = JSON.parse(localStorage.getItem(ORDER_KEY))
-    if (!orders || !orders.length) {
-        const orders = [
-            {
-                _id: 'o1225',
-                hostId: { _id: 'u102', fullname: "bob", imgUrl: "..." },
-                guest: {
-                    _id: 'u101',
-                    fullname: 'User 1',
-                },
-                totalPrice: 160,
-                startDate: '2025/10/15',
-                endDate: '2025/10/17',
-                guests: {
-                    adults: 1,
-                    kids: 2,
-                },
-                order: {
-                    _id: 'h102',
-                    name: 'House Of Uncle My',
-                    price: 80.0,
-                },
-                msgs: [],
-                status: 'pending',
-            }
-        ]
-        localStorage.setItem(ORDER_KEY, JSON.stringify(orders))
-    }
-}
+
 
 async function createOrder(stayId, stayData) {
     try {
@@ -106,3 +76,34 @@ async function createOrder(stayId, stayData) {
         throw err
     }
 }
+// save for later
+// function createOrders() {
+//     let orders = JSON.parse(localStorage.getItem(ORDER_KEY))
+//     if (!orders || !orders.length) {
+//         const orders = [
+//             {
+//                 _id: 'o1225',
+//                 hostId: { _id: 'u102', fullname: "bob", imgUrl: "..." },
+//                 guest: {
+//                     _id: 'u101',
+//                     fullname: 'User 1',
+//                 },
+//                 totalPrice: 160,
+//                 startDate: '2025/10/15',
+//                 endDate: '2025/10/17',
+//                 guests: {
+//                     adults: 1,
+//                     kids: 2,
+//                 },
+//                 order: {
+//                     _id: 'h102',
+//                     name: 'House Of Uncle My',
+//                     price: 80.0,
+//                 },
+//                 msgs: [],
+//                 status: 'pending',
+//             }
+//         ]
+//         localStorage.setItem(ORDER_KEY, JSON.stringify(orders))
+//     }
+// }

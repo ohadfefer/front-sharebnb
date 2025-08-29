@@ -3,7 +3,6 @@ const { DEV, VITE_LOCAL } = import.meta.env
 import { getRandomIntInclusive, makeLorem } from '../util.service'
 
 import { orderService as local } from './order.service.local'
-// import { orderService as remote } from './order.service.remote'
 
 function getEmptyOrder() {
 	return {
@@ -29,7 +28,5 @@ function getDefaultFilter() {
 const service = (VITE_LOCAL === 'true') ? local : local 
 export const orderService = { getEmptyOrder, getDefaultFilter, ...service }
 
-// Easy access to this service from the dev tools console
-// when using script - dev / dev:local
 
 if (DEV) window.orderService = orderService
