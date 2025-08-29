@@ -56,7 +56,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     return total ? `${total} guests` : "Add guests"
   })()
 
-  // Mutate *filterByToEdit* only
+
   function handleInputChange(event) {
     const { name, type } = event.target
     let { value } = event.target
@@ -68,10 +68,10 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
   function handleSubmit(ev) {
     ev.preventDefault()
     setFilter(filterByToEdit)
-    const params = buildSearchParams(filterByToEdit)
-    setSearchParams(params)
-    clearActiveFilterCell()
-    onPopoverComplete?.()
+    const params = buildSearchParams(filterByToEdit);
+    navigate({ pathname: '/explore', search: params.toString() });
+    clearActiveFilterCell();
+    onPopoverComplete?.();
   }
 
   return (
@@ -171,7 +171,10 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
       )}
 
       {!mini && activeFilterCell && (
-        <div ref={popoverElementRef} className="filter-popover">
+        <div
+          ref={popoverElementRef}
+          className={`filter-popover ${activeFilterCell === 'who' ? 'align-right' : activeFilterCell === 'where' ? 'align-left' : 'align-center'}`}
+        >
           <DynamicPanel
             activeKey={activeFilterCell}
             registry={PANELS_BY_KEY}

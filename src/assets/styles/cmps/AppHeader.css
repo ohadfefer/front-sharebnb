@@ -105,8 +105,6 @@
   }
 }
 
-
-
 .nav-links a .nav-text {
   font-size: 14px;
   align-self: center;
@@ -118,6 +116,11 @@
 }
 
 .nav-links a:hover .nav-text {
+  font-family: Roboto-Medium;
+}
+
+.become-host {
+  font-size: 0.875rem;
   font-family: Roboto-Medium;
 }
 
@@ -154,7 +157,7 @@
   z-index: 10;
 
   img {
-    padding: 12px;
+    padding: 4px;
     background-color: var(--icons-bg);
     border-radius: 360px;
   }

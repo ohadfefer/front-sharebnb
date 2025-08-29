@@ -109,8 +109,8 @@ form.filter-pill>*:not(:first-child):hover::after {
   background-color: var(--button-bg-hover);
 }
 
-.filter-pill > .cell.who.active:hover,
-.filter-pill > .active .cell.who:hover {
+.filter-pill>.cell.who.active:hover,
+.filter-pill>.active .cell.who:hover {
   background-color: white;
   box-shadow: none;
 }
@@ -213,6 +213,16 @@ form.filter-pill>*:not(:first-child):hover::after {
 
 .filter-pill {
   position: relative;
+
+  span,
+  label,
+  .place-holder {
+    cursor: pointer;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .dates-popover {
