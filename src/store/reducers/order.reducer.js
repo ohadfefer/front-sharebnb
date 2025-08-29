@@ -57,8 +57,8 @@ export function orderReducer(state = initialState, action) {
 
 function unitTestReducer() {
     var state = initialState
-    const order1 = { _id: 'b101', name: 'Order ' + parseInt('' + Math.random() * 10), price: 12, owner: null, msgs: [] }
-    const order2 = { _id: 'b102', name: 'Order ' + parseInt('' + Math.random() * 10), price: 13, owner: null, msgs: [] }
+    const order1 = { _id: 'b101', name: 'Order ' + parseInt('' + Math.random() * 10), price: 12, host: null, msgs: [] }
+    const order2 = { _id: 'b102', name: 'Order ' + parseInt('' + Math.random() * 10), price: 13, host: null, msgs: [] }
 
     state = orderReducer(state, { type: SET_ORDERS, orders: [order1] })
     console.log('After SET_ORDERS:', state)
