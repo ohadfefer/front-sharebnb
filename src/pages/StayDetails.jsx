@@ -24,6 +24,7 @@ export function StayDetails() {
   const [error, setError] = useState(null)
   const [showNav, setShowNav] = useState(false)
   const [showCardLink, setShowCardLink] = useState(false)
+  const [dateRange, setDateRange] = useState({ checkIn: '', checkOut: '' })
   const galleryRef = useRef(null)
   const stickyRef = useRef(null)
 
@@ -132,13 +133,13 @@ export function StayDetails() {
             <p>Add your travel dates for exact pricing</p>
           </div>
           <div className="date-picker-container">
-            <DateRangePanel />
+            <DateRangePanel value={dateRange} onChange={setDateRange} />
           </div>
 
         </div>
 
         <div className="right-col" id="sticky-card" ref={stickyRef}>
-          <StickyCard />
+          <StickyCard selectedDates={dateRange} />
         </div>
       </div>
 
@@ -153,6 +154,7 @@ export function StayDetails() {
       <div id="location">
         <StayMap stay={stay} />
       </div>
+
 
 
     </section>

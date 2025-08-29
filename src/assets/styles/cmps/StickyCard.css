@@ -17,6 +17,7 @@
     color: var(--text-primary);
 }
 
+/* single framed fields with internal separators */
 .sticky-card-fields {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -35,10 +36,12 @@
     padding: 12px 14px;
 }
 
+/* vertical divider between check-in and check-out */
 .sticky-card-fields .field:nth-child(1) {
     border-right: 1px solid var(--neutrals-o7);
 }
 
+/* horizontal divider above the guests row */
 .sticky-card-fields .field:nth-child(3) {
     border-top: 1px solid var(--neutrals-o7);
 }
@@ -52,6 +55,7 @@
     font-family: 'Roboto-Medium';
 }
 
+/* inputs are frameless inside the single frame */
 .like-input {
     border: none;
     border-radius: 0;
@@ -71,6 +75,21 @@
     font-size: 17px;
     cursor: pointer;
 }
+
+/* small popovers */
+.popover-small {
+    position: absolute;
+    z-index: 1000;
+    right: 0; /* open to the left */
+    margin-top: 8px;
+    background: var(--shades-01);
+    border: 1px solid var(--neutrals-o3);
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(0,0,0,.12);
+    padding: 12px;
+}
+
+.popover-small.right-aligned { right: 0; }
 
 @media (max-width: 900px) {
     .sticky-card-inner {
