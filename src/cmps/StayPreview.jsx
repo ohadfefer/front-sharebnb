@@ -21,7 +21,7 @@ export function StayPreview({ stay }) {
     const len = stay.imgUrls.length || 1
 
     return (
-        <NavLink to={`/stay/${stay._id}`} className="stay-preview">
+        <NavLink to={toUrl} className="stay-preview">
                 <Swiper
                     cssMode={true}
                     navigation={true}

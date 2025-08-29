@@ -7,15 +7,17 @@ const ISO_FORMAT = 'yyyy-MM-dd'
 const toIso = d => (d ? format(d, ISO_FORMAT) : '')
 const fromIso = s => (s ? (isValid(parseISO(s)) ? parseISO(s) : undefined) : undefined)
 
-export function DateRangePanel({ value, onChange, onComplete }) {
+export function DateRangePanel({ value, onChange }) {
     const selectedRange = useMemo(
         () => ({ from: fromIso(value?.checkIn), to: fromIso(value?.checkOut) }),
         [value?.checkIn, value?.checkOut]
     )
 
     function handleSelect(range) {
-        onChange({ checkIn: toIso(range?.from), checkOut: toIso(range?.to) })
-        if (range?.from && range?.to) onComplete?.()
+        onChange({
+            checkIn: toIso(range?.from),
+            checkOut: toIso(range?.to),
+        })
     }
 
     return (

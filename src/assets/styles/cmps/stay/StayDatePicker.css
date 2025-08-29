@@ -11,6 +11,7 @@
     flex-wrap: nowrap;
     /* prevent wrapping to a new line */
     align-items: flex-start;
+    z-index: 0;
 }
 
 .stay-picker .rdp-month {
