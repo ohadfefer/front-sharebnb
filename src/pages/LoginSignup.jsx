@@ -10,29 +10,18 @@ import { ImgUploader } from '../cmps/ImgUploader'
 export function LoginSignup() {
     return (
         <div className="login-page">
-            <nav>
+            {/* <nav>
                 <NavLink to="login">Login</NavLink>
                 <NavLink to="signup">Signup</NavLink>
-            </nav>
-            <Outlet/>
+            </nav> */}
+            <Outlet />
         </div>
     )
 }
 
 export function Login() {
-    const [users, setUsers] = useState([])
-    const [credentials, setCredentials] = useState({ username: '', password: '', fullname: '' })
-
+    const [credentials, setCredentials] = useState({ username: '', password: '' })
     const navigate = useNavigate()
-
-    useEffect(() => {
-        loadUsers()
-    }, [])
-
-    async function loadUsers() {
-        const users = await userService.getUsers()
-        setUsers(users)
-    }
 
     async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
@@ -47,17 +36,37 @@ export function Login() {
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
     }
-    
+
     return (
         <form className="login-form" onSubmit={onLogin}>
-            <select
+            <div className="form-header-container">
+                <h2>Log in</h2>
+            </div>
+            <input
+                type="text"
                 name="username"
                 value={credentials.username}
-                onChange={handleChange}>
-                    <option value="">Select User</option>
-                    {users.map(user => <option key={user._id} value={user.username}>{user.fullname}</option>)}
-            </select>
-            <button>Login</button>
+                placeholder="Username"
+                onChange={handleChange}
+                required
+            />
+            <input
+                type="password"
+                name="password"
+                value={credentials.password}
+                placeholder="Password"
+                onChange={handleChange}
+                required
+            />
+            <button type="submit">Log in</button>
+            <div className="or-divider">
+                <hr /> <span>or</span> <hr />
+            </div>
+            <NavLink to="/auth/signup">
+                <div className="form-nav-container">
+                    Sign up
+                </div>
+            </NavLink>
         </form>
     )
 }
@@ -77,7 +86,7 @@ export function Signup() {
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
     }
-    
+
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
 
@@ -93,6 +102,9 @@ export function Signup() {
 
     return (
         <form className="signup-form" onSubmit={onSignup}>
+            <div className="form-header-container">
+                <h2>Sign up</h2>
+            </div>
             <input
                 type="text"
                 name="fullname"
@@ -118,7 +130,17 @@ export function Signup() {
                 required
             />
             <ImgUploader onUploaded={onUploaded} />
-            <button>Signup</button>
+            <button>Sign up</button>
+
+            <div className="or-divider">
+                <hr /> <span>or</span> <hr />
+            </div>
+
+            <NavLink to="/auth/login">
+                <div className="form-nav-container">
+                    Log in
+                </div>
+            </NavLink>
         </form>
     )
 }
