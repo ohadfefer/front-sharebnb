@@ -13,7 +13,7 @@ export function StayDescription({ stay }) {
                 <div className='header'>{stay.type} hosted by {stay.host.fullname}</div>
                 <p className="capacity">{stay.capacity} guests · 2 bedrooms · 2 beds · 2 baths</p>
                 <div className="reviews-modal">
-                    <img src={star} alt="" width={8}/> <span>{(avgRate || 'No').toFixed(2)} · {stay.reviews.length} reviews</span>
+                    <img src={star} alt="" width={8}/> <span>{(typeof avgRate === 'number' ? avgRate.toFixed(2) : 'No')} · {stay.reviews.length} reviews</span>
                 </div>
             </div>
             <hr className="divider" />

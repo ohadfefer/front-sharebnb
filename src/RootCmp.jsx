@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router'
 
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
+import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs.jsx'
 import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
@@ -10,12 +10,12 @@ import { AddStay } from './pages/AddStay.jsx'
 import { TripIndex } from './pages/TripIndex.jsx' 
 
 
-import { StayDetails } from './pages/StayDetails'
+import { StayDetails } from './pages/StayDetails.jsx'
 
-import { UserDetails } from './pages/UserDetails'
+import { UserDetails } from './pages/UserDetails.jsx'
 
-import { AppHeader } from './cmps/AppHeader'
-import { AppFooter } from './cmps/AppFooter'
+import { AppHeader } from './cmps/AppHeader.jsx'
+import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { StayOrder } from './pages/StayOrder.jsx'

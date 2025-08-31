@@ -7,17 +7,17 @@ import { makeId } from '../util.service'
 const ORDER_KEY = 'order'
 
 // seed once
-seedDemoOrders()
+// seedDemoOrders()
 
 export const orderService = {
     query,
     getById,
     save,
-    remove,
-    addOrderMsg,
-    updateStatus,
-    getDefaultFilter,
-    getEmptyOrder,
+    // remove,
+    // addOrderMsg,
+    // updateStatus,
+    // getDefaultFilter,
+    // getEmptyOrder,
     getStayById,
     createOrder,
 }
