@@ -71,6 +71,10 @@
   color: black;
 }
 
+.swiper-button-disabled {
+  display: none ;
+}
+
 .swiper-pagination-bullet {
   background: rgb(160, 160, 160) !important;
   opacity: 0.8;

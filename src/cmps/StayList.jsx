@@ -8,7 +8,7 @@ export function StayList({ stays, onRemoveStay, onUpdateStay }) {
         
         if (!user) return false
         if (user.isAdmin) return true
-        return stay.owner?._id === user._id
+        return stay.host?._id === user._id
     }
 
     return <section>

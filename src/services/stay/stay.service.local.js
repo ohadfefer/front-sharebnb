@@ -37,7 +37,7 @@ async function query(filterBy = { address: '', maxPrice: 0 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    stays = stays.map(({ _id, name, price, owner, imgUrls, type, loc }) => ({ _id, name, price, owner, imgUrls, type, loc }))
+    stays = stays.map(({ _id, name, price, host, imgUrls, type, loc }) => ({ _id, name, price, host, imgUrls, type, loc }))
     return stays
 }
 
@@ -54,16 +54,36 @@ async function save(stay) {
     if (stay._id) {
         const stayToSave = {
             _id: stay._id,
-            price: stay.price
+            name: stay.name,
+            type: stay.type,
+            price: stay.price,
+            imgUrls: stay.imgUrls,
+            loc: stay.loc,
+            host: stay.host
         }
         savedStay = await storageService.put(STORAGE_KEY, stayToSave)
 
     } else {
         const stayToSave = {
             name: stay.name,
-            price: stay.price,
-            owner: userService.getLoggedinUser(),
-            msgs: []
+            type: stay.type,
+            price: Number(stay.price) || 0,
+            imgUrls: stay.imgUrls.length ? stay.imgUrls : [],
+            loc: stay.city || {
+                country: 'Norway',
+                countryCode: 'NO',
+                city: 'Bergen',
+                address: '12 Fjord Lane',
+                lat: 60.39299,
+                lng: 5.32415
+            },
+            reviews: [],
+            amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking', 'Heating', 'Elevator'],
+            host: stay.host || {
+                _id: 'u103',
+                fullname: 'Maria Gomez',
+                imgUrl: 'https://a0.muscache.com/im/pictures/maria.jpg',
+            }
         }
         savedStay = await storageService.post(STORAGE_KEY, stayToSave)
     }
@@ -353,8 +373,8 @@ const orders = [
             name: 'House Of Uncle My',
             price: 80.0,
         },
-        msgs: [], 
-        status: 'pending', 
+        msgs: [],
+        status: 'pending',
     },
 ]
 
