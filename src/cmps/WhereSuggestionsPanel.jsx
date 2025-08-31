@@ -1,32 +1,16 @@
 // src/cmps/WherePanel.jsx
 import { useMemo, useState } from "react"
-
-// tiny, fixed suggestions list (use any images you already have in /src/assets/imgs)
-import nearBy from "../assets/imgs/near-by.png"
-import telAviv from "../assets/imgs/tel-aviv.png"
-import jerusalem from "../assets/imgs/jerusalem.webp"
-import paris from "../assets/imgs/paris.png"
-import london from "../assets/imgs/london.png"
-import athens from "../assets/imgs/athens.png"
-
-const SUGGESTED = [
-    { id: "nearby", label: "Nearby", sub: "Find what’s around you", icon: nearBy },
-    { id: "tel-aviv", label: "Tel Aviv-Yafo", sub: "Israel", icon: telAviv },
-    { id: "jeru", label: "Jerusalem", sub: "Israel", icon: jerusalem },
-    { id: "paris", label: "Paris", sub: "France", icon: paris },
-    { id: "london", label: "London", sub: "United Kingdom", icon: london },
-    { id: "athens", label: "Athens", sub: "Greece", icon: athens },
-];
+import { SUGGESTED } from "../services/helpers/where.suggestions.icons"
 
 export function WhereSuggestionsPanel({ value = {}, onChange, onAdvance }) {
     const [query, setQuery] = useState(value.address || "")
 
     const items = useMemo(() => {
-        const q = query.trim().toLowerCase()
-        if (!q) return SUGGESTED;
+        const queris = query.trim().toLowerCase()
+        if (!queris) return SUGGESTED;
         return SUGGESTED.filter(i =>
-            i.label.toLowerCase().includes(q) || (i.sub || "").toLowerCase().includes(q)
-        );
+            i.label.toLowerCase().includes(queris) || (i.sub || "").toLowerCase().includes(queris)
+        )
     }, [query])
 
     function select(item) {
@@ -55,5 +39,5 @@ export function WhereSuggestionsPanel({ value = {}, onChange, onAdvance }) {
                 ))}
             </ul>
         </div>
-    );
+    )
 }

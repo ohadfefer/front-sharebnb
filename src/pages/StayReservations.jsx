@@ -30,7 +30,6 @@ const HEADERS = [
     { key: 'guest', label: 'Guest' },
     { key: 'startDate', label: 'Check-in' },
     { key: 'endDate', label: 'Checkout' },
-    { key: 'bookedAt', label: 'Booked' },
     { key: 'listing', label: 'Listing' },
     { key: 'payout', label: 'Total Payout' },
     { key: 'status', label: 'Status' },
@@ -67,7 +66,6 @@ export function StayReservations() {
                 case 'guest': return order.guest?.fullname || ''
                 case 'startDate': return new Date(order.startDate || 0).getTime()
                 case 'endDate': return new Date(order.endDate || 0).getTime()
-                case 'bookedAt': return new Date(order.bookedAt || 0).getTime()
                 case 'listing': return order.listing || ''
                 case 'payout': return Number(order.payout) || 0
                 case 'status': return order.status || ''
@@ -153,7 +151,6 @@ export function StayReservations() {
                                 {/* Dates */}
                                 <td className="col-startDate">{formatDate(order.startDate)}</td>
                                 <td className="col-endDate">{formatDate(order.endDate)}</td>
-                                <td className="col-bookedAt">{formatDate(order.bookedAt)}</td>
 
                                 {/* Listing */}
                                 <td className="col-listing">
@@ -196,12 +193,12 @@ export function StayReservations() {
                                         >
                                             Reject
                                         </button>
-                                        <button
+                                        {/* <button
                                             className="btn-delete"
                                             onClick={() => removeOrder(order._id)}
                                         >
                                             Delete
-                                        </button>
+                                        </button> */}
                                     </div>
                                 </td>
                             </tr>

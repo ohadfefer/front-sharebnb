@@ -1,6 +1,6 @@
 // StayFilter.jsx
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState, useRef } from "react"
+import { useSelector } from "react-redux"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { setFilter } from "../store/actions/stay.actions"
 import { useFieldControl } from "../customHooks/useFieldControl.js"
@@ -17,7 +17,6 @@ function formatDateForDisplay(isoString) {
 }
 
 export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -29,7 +28,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     if (!mini) setfilterByToEdit(storeFilter)
   }, [mini])
 
-  // Keep filterByToEdit in sync while collapsed
+  // Keep filterByToEdit in filter pill while collapsed
   useEffect(() => {
     if (mini) setfilterByToEdit(storeFilter)
   }, [storeFilter])
@@ -45,8 +44,20 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     goToNextCell,
   } = useFieldControl(fieldOrder, { enableOutsideClickClose: true })
 
+  // collapse to mini when clicked outside
+  const wasOpenRef = useRef(false)
 
-  // Render values: in mini show committed (store), in expanded show filterByToEdit
+  useEffect(() => {
+    if (activeFilterCell) {
+      wasOpenRef.current = true
+      return
+    }
+    if (wasOpenRef.current) {
+      onPopoverComplete?.()
+      wasOpenRef.current = false
+    }
+  }, [activeFilterCell, onPopoverComplete])
+
   const view = mini ? storeFilter : filterByToEdit
   const { address, checkIn, checkOut, guests } = view
 
@@ -179,11 +190,8 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             activeKey={activeFilterCell}
             registry={PANELS_BY_KEY}
             panelProps={{
-              // IMPORTANT: pass the *filterByToEdit* into panels
               value: filterByToEdit,
-              // Panels only update the filterByToEdit (not Redux)
               onChange: (partial) => setfilterByToEdit(prev => ({ ...prev, ...partial })),
-              // Close only; do not commit here
               onAdvance: goToNextCell,
             }}
           />

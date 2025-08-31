@@ -17,10 +17,10 @@ export function GuestsPanel({ value = {}, onChange, onComplete }) {
   }
 
   const rows = [
-    { key: "adults",   label: "Adults",   desc: "Ages 13 or above" },
+    { key: "adults", label: "Adults", desc: "Ages 13 or above" },
     { key: "children", label: "Children", desc: "Ages 2 – 12" },
-    { key: "infants",  label: "Infants",  desc: "Under 2" },
-    { key: "pets",     label: "Pets",     desc: <a href="#" onClick={(e)=>e.preventDefault()}>Bringing a service animal?</a> },
+    { key: "infants", label: "Infants", desc: "Under 2" },
+    { key: "pets", label: "Pets", desc: <a href="#" onClick={(e) => e.preventDefault()}>Bringing a service animal?</a> },
   ]
 
   function commit(next) {
@@ -82,11 +82,6 @@ export function GuestsPanel({ value = {}, onChange, onComplete }) {
           </div>
         </div>
       ))}
-
-      <div className="guests-footer">
-        <button type="button" className="link-btn" onClick={clearAll}>Clear</button>
-        <button type="button" className="done-btn" onClick={onComplete}>Done</button>
-      </div>
     </div>
   )
 }
