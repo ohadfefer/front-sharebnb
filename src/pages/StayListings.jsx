@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { stayService } from '../services/stay/stay.service.local.js'
 
 export function StayListings() {
@@ -7,6 +7,7 @@ export function StayListings() {
     const [sortedStays, setSortedStays] = useState([])
     const [sortConfig, setSortConfig] = useState({ field: null, direction: null })
     const navigate = useNavigate()
+    const location = useLocation()
 
     useEffect(() => {
         loadStays()
@@ -18,13 +19,14 @@ export function StayListings() {
 
     async function loadStays() {
         try {
-
+            // Force refresh the stays data by calling createStays first
             if (typeof stayService.createStays === 'function') {
                 stayService.createStays()
             }
             
             const staysData = await stayService.query()
             setStays(staysData)
+            console.log('Loaded stays:', staysData)
         } catch (error) {
             console.error('Error loading stays:', error)
         }
@@ -33,11 +35,10 @@ export function StayListings() {
     const formatDate = (dateString) => {
         if (!dateString) return 'N/A'
         const date = new Date(dateString)
-        return date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-        })
+        const month = (date.getMonth() + 1).toString().padStart(2, '0')
+        const day = date.getDate().toString().padStart(2, '0')
+        const year = date.getFullYear().toString().slice(-2)
+        return `${month}/${day}/${year}`
     }
 
     const handleListingClick = (stayId) => {
@@ -78,35 +79,44 @@ export function StayListings() {
     }
 
     const getSortIcon = (field) => {
-        if (sortConfig.field !== field) return <span class="sort-icon">&#8597;</span>
-        if (sortConfig.direction === 'asc') return  <span class="sort-icon">&#x25BE;</span>
-        if (sortConfig.direction === 'desc') return  <span class="sort-icon">&#x25B4;</span>
-        return  <span class="sort-icon">&#8597;</span>
+        if (sortConfig.field !== field) return <span className="sort-icon">&#8597;</span>
+        if (sortConfig.direction === 'asc') return  <span className="sort-icon">&#x25BE;</span>
+        if (sortConfig.direction === 'desc') return  <span className="sort-icon">&#x25B4;</span>
+        return  <span className="sort-icon">&#8597;</span>
     }
 
     return (
         <div className="stay-listings-page">
-            {/* header navigation */}
+            {/* Header Navigation */}
             <header className="listings-header">
                 <nav className="listings-nav">
-                    <NavLink to="/dashboard/stay/edit" className="nav-link">
+                    <NavLink 
+                        to="/dashboard/stay/edit" 
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Create listing
                     </NavLink>
-                    <NavLink to="/dashboard/listings" className="nav-link active">
+                    <NavLink 
+                        to="/dashboard/listings" 
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Listings
                     </NavLink>
-                    <NavLink to="/dashboard/reservations" className="nav-link">
+                    <NavLink 
+                        to="/dashboard/reservations" 
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Reservations
                     </NavLink>
                 </nav>
             </header>
 
-            {/* item count */}
+            {/* Item Count */}
             <div className="listings-count">
                 <span>{sortedStays.length} items</span>
             </div>
 
-            {/* stays grid */}
+            {/* Stays Grid */}
             <div className="stays-grid-container">
                 <table className="stays-table">
                     <thead>

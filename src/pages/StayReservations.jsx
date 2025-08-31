@@ -88,13 +88,22 @@ export function StayReservations() {
 
             <header className="listings-header">
                 <nav className="listings-nav">
-                    <NavLink to="/dashboard/stay/edit" className="nav-link">
+                    <NavLink
+                        to="/dashboard/stay/edit"
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Create listing
                     </NavLink>
-                    <NavLink to="/dashboard/listings" className="nav-link active">
+                    <NavLink
+                        to="/dashboard/listings"
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Listings
                     </NavLink>
-                    <NavLink to="/dashboard/reservations" className="nav-link">
+                    <NavLink
+                        to="/dashboard/reservations"
+                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                    >
                         Reservations
                     </NavLink>
                 </nav>

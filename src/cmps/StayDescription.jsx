@@ -7,7 +7,6 @@ import star from '../assets/logo/icons/star.svg'
 export function StayDescription({ stay }) {
 
     const avgRate = stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
-    console.log(avgRate)
     return (
         <div className="stay-description">
             <div className="stay-info">
@@ -20,7 +19,14 @@ export function StayDescription({ stay }) {
             <hr className="divider" />
             <div className="stay-info-grid host-grid">
                 <div className="column-1">
-                    <img src={stay.host.imgUrl} alt={stay.host.fullname} className="host-image" />
+                    <img 
+                        src={stay.host.imgUrl} 
+                        alt={stay.host.fullname} 
+                        className="host-image"
+                        onError={(e) => {
+                            e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+                        }}
+                    />
                 </div>
                 <div className="column-2">
                     <p>Hosted by {stay.host.fullname}</p>

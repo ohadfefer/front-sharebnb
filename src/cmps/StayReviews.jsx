@@ -107,7 +107,7 @@ export function StayReviews({ stay }) {
                                             alt={review.by.fullname}
                                             className="user-avatar"
                                             onError={(e) => {
-                                                e.target.src = '/img/default-avatar.jpg'
+                                                e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
                                             }}
                                         />
                                         <div className="user-details">
@@ -159,7 +159,7 @@ export function StayReviews({ stay }) {
                                                     alt={review.by.fullname}
                                                     className="user-avatar"
                                                     onError={(e) => {
-                                                        e.target.src = '/img/default-avatar.jpg'
+                                                        e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
                                                     }}
                                                 />
                                                 <div className="user-details">

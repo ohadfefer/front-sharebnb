@@ -23,7 +23,7 @@
     border: 0;
     padding: 8px;
     border-radius: 999px;
-    display: grid;
+    display: flex;
     place-items: center;
     background: var(--icons-bg);
     cursor: pointer;
