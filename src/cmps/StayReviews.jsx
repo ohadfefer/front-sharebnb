@@ -137,7 +137,7 @@ export function StayReviews({ stay }) {
                 </div>
             </div>
 
-            {/* Reviews Modal */}
+            {/* reviews modal */}
             {isModalOpen && (
                 <div className="reviews-modal-overlay" onClick={closeModal}>
                     <div className="reviews-modal" onClick={(e) => e.stopPropagation()}>
@@ -146,7 +146,7 @@ export function StayReviews({ stay }) {
                                 <img src={star} alt="average rating" width={20} />
                                 <span>{avgRate.toFixed(2)} · {stay.reviews.length} reviews</span>
                             </div>
-                            <button className="modal-close" onClick={closeModal}>×</button>
+                            <button className="modal-close" onClick={closeModal}>x</button>
                         </div>
                         <div className="modal-content">
                             {stay.reviews.map((review) => (
