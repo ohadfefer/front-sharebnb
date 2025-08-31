@@ -18,14 +18,13 @@ export function StayListings() {
 
     async function loadStays() {
         try {
-            // Force refresh the stays data by calling createStays first
+
             if (typeof stayService.createStays === 'function') {
                 stayService.createStays()
             }
             
             const staysData = await stayService.query()
             setStays(staysData)
-            console.log('Loaded stays:', staysData)
         } catch (error) {
             console.error('Error loading stays:', error)
         }
@@ -87,7 +86,7 @@ export function StayListings() {
 
     return (
         <div className="stay-listings-page">
-            {/* Header Navigation */}
+            {/* header navigation */}
             <header className="listings-header">
                 <nav className="listings-nav">
                     <NavLink to="/dashboard/stay/edit" className="nav-link">
@@ -102,12 +101,12 @@ export function StayListings() {
                 </nav>
             </header>
 
-            {/* Item Count */}
+            {/* item count */}
             <div className="listings-count">
                 <span>{sortedStays.length} items</span>
             </div>
 
-            {/* Stays Grid */}
+            {/* stays grid */}
             <div className="stays-grid-container">
                 <table className="stays-table">
                     <thead>
