@@ -65,5 +65,9 @@
     --white: #fff;
 
     --light-blue: #2baaf3;
+    --form-nav-border: #a0cfffc9;
+    --form-nav-background: #f0f8ff;
+    --form-nav-color: #409eff;
+    --form-nav-color-lighter: #40a0ffc0;
 
 }

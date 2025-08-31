@@ -7,8 +7,11 @@ import value from '../assets/logo/icons/value.svg'
 import star from '../assets/logo/icons/star.svg'
 
 import { FaStar } from 'react-icons/fa'
+import { useState } from 'react'
 
 export function StayReviews({ stay }) {
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
     if (!stay || !stay.reviews || stay.reviews.length === 0) {
         return (
             <div className="stay-reviews">
@@ -30,6 +33,9 @@ export function StayReviews({ stay }) {
     const avgRate = stay.reviews.length
         ? stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
         : 0
+
+    const openModal = () => setIsModalOpen(true)
+    const closeModal = () => setIsModalOpen(false)
 
     return (
         <>
@@ -126,7 +132,61 @@ export function StayReviews({ stay }) {
                         </div>
                     ))}
                 </div>
+                <div className="show-all-reviews">
+                    <button onClick={openModal}>Show all {stay.reviews.length} reviews</button>
+                </div>
             </div>
+
+            {/* Reviews Modal */}
+            {isModalOpen && (
+                <div className="reviews-modal-overlay" onClick={closeModal}>
+                    <div className="reviews-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div className="modal-title">
+                                <img src={star} alt="average rating" width={20} />
+                                <span>{avgRate.toFixed(2)} · {stay.reviews.length} reviews</span>
+                            </div>
+                            <button className="modal-close" onClick={closeModal}>×</button>
+                        </div>
+                        <div className="modal-content">
+                            {stay.reviews.map((review) => (
+                                <div key={review.id} className="modal-review-item">
+                                    <div className="review-header">
+                                        <div className="user-info">
+                                            <div className="user-personal-info">
+                                                <img
+                                                    src={review.by.imgUrl}
+                                                    alt={review.by.fullname}
+                                                    className="user-avatar"
+                                                    onError={(e) => {
+                                                        e.target.src = '/img/default-avatar.jpg'
+                                                    }}
+                                                />
+                                                <div className="user-details">
+                                                    <h4 className="user-name">{review.by.fullname}</h4>
+                                                    <p className="user-location">
+                                                        {stay.loc.city}, {stay.loc.country}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="additional-info-container">
+                                                <div className="rating">
+                                                    {renderStars(review.rate)}
+                                                </div>
+                                                ·<span className='date-published'> June 2025 </span> ·
+                                                <span className='additional-user-info'>Stayed with kids</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="review-content">
+                                        <p className="review-text">{review.txt}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }
