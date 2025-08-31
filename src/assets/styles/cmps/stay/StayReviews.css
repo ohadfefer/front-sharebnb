@@ -116,23 +116,24 @@
 }
 
 .user-name {
+    font-family: 'Roboto-SemiBold';
     font-size: 1rem;
-    font-weight: 600;
-    margin: 0 0 0.25rem 0;
+   
     color: var(--text-primary);
 }
 
 .user-location {
     font-size: 0.875rem;
     color: var(--gray4);
-    margin: 0 0 0.5rem 0;
-    font-weight: 400;
+    
 }
 
 .additional-info-container {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 20px; /* why not working without height */
+    /* box-sizing: content-box; need to cancel box-sizing to render gray stars */
     gap: 4px;
 }
 
@@ -180,11 +181,12 @@
     padding-right: 50px;
 }
 
+
 /* Show All Reviews Button */
 .show-all-reviews {
     display: flex;
     align-items: center;
-    margin-top: 2rem;
+    /* margin-top: 2rem; */
     padding: 1rem 0;
 }
 
@@ -277,7 +279,7 @@
 
 .modal-review-item {
     padding: 24px 0;
-    border-bottom: 1px solid var(--gray1);
+    border-bottom: 1px solid var(--neutrals-o2);
 }
 
 .modal-review-item:last-child {
