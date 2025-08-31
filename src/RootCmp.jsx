@@ -20,6 +20,7 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { StayOrder } from './pages/StayOrder.jsx'
 import { StayReservations } from './pages/StayReservations.jsx'
+import { StayListings } from './pages/StayListings.jsx'
 
 
 export function RootCmp() {
@@ -35,6 +36,7 @@ export function RootCmp() {
                         <Route path="vision" element={<AboutVision />} />
                     </Route>
                     <Route path="dashboard/reservations" element={<StayReservations />}/>
+                    <Route path="dashboard/listings" element={<StayListings />}/>
                     <Route path="trips" element={<TripIndex />}/>
                     <Route path="stay" element={<StayIndex />} />
                     <Route path="explore" element={<StayExplore />} />

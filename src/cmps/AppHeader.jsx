@@ -150,6 +150,12 @@ export function AppHeader() {
 
               <hr />
 
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/trips'); setOpenMenu(false) }}>Trips</button>
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/reservations'); setOpenMenu(false) }}>Dashboard</button>
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/listings'); setOpenMenu(false) }}>Listings</button>
+              
+              <hr />
+
               <button className="menu-row" role="menuitem">Refer a Host</button>
               <button className="menu-row" role="menuitem">Find a co-host</button>
               <button className="menu-row" role="menuitem">Gift cards</button>
