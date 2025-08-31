@@ -79,25 +79,25 @@ export function buildSearchParams(filter = {}) {
 }
 
 export function parseSearchParams(searchParams) {
-    const sp = searchParams instanceof URLSearchParams
+    const params = searchParams instanceof URLSearchParams
         ? searchParams
         : new URLSearchParams(searchParams)
 
     const filter = {}
-    const val = (k) => sp.get(k) || ""
+    const value = (key) => params.get(key) || ""
 
-    if (val("address")) filter.address = val("address")
-    if (val("checkIn")) filter.checkIn = val("checkIn")
-    if (val("checkOut")) filter.checkOut = val("checkOut")
+    if (value("address")) filter.address = value("address")
+    if (value("checkIn")) filter.checkIn = value("checkIn")
+    if (value("checkOut")) filter.checkOut = value("checkOut")
 
     const keys = ["adults", "children", "infants", "pets"]
     const guests = {}
-    for (const k of keys) {
-        const v = sp.get(k)
-        if (v != null && v !== "" && Number(v) > 0) guests[k] = Number(v)
+    for (const key of keys) {
+        const value = params.get(key)
+        if (value != null && value !== "" && Number(value) > 0) guests[key] = Number(value)
     }
 
-    const legacyTotal = sp.get("guests")
+    const legacyTotal = params.get("guests")
     if (!Object.keys(guests).length && legacyTotal && Number(legacyTotal) > 0) {
         guests.adults = Number(legacyTotal)
     }
@@ -108,8 +108,21 @@ export function parseSearchParams(searchParams) {
 }
 
 export function formatGuestsLabel(guests) {
-    if (!guests) return "Add guests";
+    if (!guests) return "Add guests"
     if (typeof guests === "number") return guests ? `${guests} guests` : "Add guests"
-    const total = Object.values(guests).reduce((a, b) => a + (Number(b) || 0), 0)
-    return total ? `${total} guest${total > 1 ? "s" : ""}` : "Add guests"
+
+    const adults = Number(guests.adults) || 0
+    const children = Number(guests.children) || 0
+    const infants = Number(guests.infants) || 0
+    const pets = Number(guests.pets) || 0
+
+    const guestsLabel = adults + children
+    let label = guestsLabel ? `${guestsLabel} guest${guestsLabel === 1 ? "" : "s"}` : "Add guests"
+
+    const extras = []
+    if (infants) extras.push(`${infants} infant${infants === 1 ? "" : "s"}`)
+    if (pets) extras.push(`${pets} pet${pets === 1 ? "" : "s"}`)
+
+    if (extras.length) label += `, ${extras.join(", ")}`
+    return label
 }

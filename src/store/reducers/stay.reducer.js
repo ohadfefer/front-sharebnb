@@ -62,8 +62,8 @@ export function stayReducer(state = initialState, action) {
 
 function unitTestReducer() {
     var state = initialState
-    const stay1 = { _id: 'b101', name: 'Stay ' + parseInt('' + Math.random() * 10), price: 12, owner: null, msgs: [] }
-    const stay2 = { _id: 'b102', name: 'Stay ' + parseInt('' + Math.random() * 10), price: 13, owner: null, msgs: [] }
+    const stay1 = { _id: 'b101', name: 'Stay ' + parseInt('' + Math.random() * 10), price: 12, host: null, msgs: [] }
+    const stay2 = { _id: 'b102', name: 'Stay ' + parseInt('' + Math.random() * 10), price: 13, host: null, msgs: [] }
 
     state = stayReducer(state, { type: SET_STAYS, stays: [stay1] })
     console.log('After SET_STAYS:', state)

@@ -1,0 +1,217 @@
+.reservations-page {
+    padding: 0px;
+}
+
+.res-title {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 24px 0px;
+}
+
+.res-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+    overflow: hidden;
+}
+
+.res-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.reservation-row:hover {
+    background-color: var(--icons-bg);
+}
+
+.res-table th,
+.res-table td {
+    padding: 14px 18px;
+    vertical-align: middle;
+    width: max-content;
+    text-overflow: ellipsis;
+}
+
+.res-table thead th {
+    font-size: 13px;
+    color: #6b6b6b;
+    font-weight: 600;
+    background: #fafafa;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    user-select: none;
+    cursor: pointer;
+}
+
+.res-table thead th.no-sort {
+    cursor: default;
+}
+
+.res-table tbody tr+tr td {
+    border-top: 1px solid rgba(0, 0, 0, .06);
+}
+
+/* Sort arrow */
+th .sort {
+    margin-left: 6px;
+    border: 4px solid transparent;
+    border-top-color: #bbb;
+    display: inline-block;
+    transform: translateY(2px) rotate(0deg);
+}
+
+th .sort.desc {
+    transform: translateY(-2px) rotate(180deg);
+    border-top-color: #111;
+}
+
+th .sort.asc {
+    border-top-color: #111;
+}
+
+/* Guest cell */
+.guest-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    object-fit: cover;
+}
+
+.avatar-fallback {
+    background: #efefef;
+    color: #555;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+}
+
+.guest-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Listing column */
+.listing-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Status pill */
+.status-pill {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 999px;
+    display: inline-block;
+}
+
+.status-pill.pending {
+    background: #fff3cd;
+    color: #7a5c00;
+}
+
+.status-pill.ok {
+    background: #e8f7ee;
+    color: #0a8a43;
+}
+
+.status-pill.bad {
+    background: #fde8e8;
+    color: #b42318;
+}
+
+/* To do buttons */
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.btn-approve,
+.btn-reject {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn-approve {
+    color: #138a36;
+    background: #e8f7ee;
+    border-color: #cbeeda;
+}
+
+.btn-approve:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+.btn-reject {
+    color: #b42318;
+    background: #fde8e8;
+    border-color: #f7c2c0;
+}
+
+.btn-reject:disabled {
+    opacity: .5;
+    cursor: default;
+}
+
+/* Column widths (tweak to taste) */
+.col-guest {
+    width: 280px;
+}
+
+.col-startDate {
+    width: 120px;
+}
+
+.col-endDate {
+    width: 120px;
+}
+
+.col-bookedAt {
+    width: 120px;
+}
+
+.col-listing {
+    width: 220px;
+}
+
+.col-payout {
+    width: 140px;
+    text-align: right;
+}
+
+.col-status {
+    width: 130px;
+}
+
+.col-todo {
+    width: 180px;
+}
+
+.col-payout {
+    text-align: right;
+}
+
+/* Empty state */
+.empty {
+    text-align: center;
+    color: #6b6b6b;
+    padding: 40px 0 !important;
+}

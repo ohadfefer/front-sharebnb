@@ -13,12 +13,12 @@ import {
 
 export async function loadOrders() {
     const { filterBy } = store.getState().orderModule
-    
+
     try {
         store.dispatch({ type: SET_IS_LOADING, isLoading: true })
         const orders = await orderService.query(filterBy)
-        
-        
+
+
         store.dispatch({ type: SET_ORDERS, orders })
         return orders
     } catch (err) {
@@ -61,16 +61,34 @@ export async function updateOrder(order) {
     }
 }
 
-export async function addOrderMsg(orderId, txt) {
+// export async function addOrderMsg(orderId, txt) {
+//     try {
+//         const msg = await orderService.addOrderMsg(orderId, txt)
+//         store.dispatch(getCmdAddOrderMsg(msg))
+//         return msg
+//     } catch (err) {
+//         console.log('Cannot add order msg', err)
+//         throw err
+//     }
+// }
+
+export async function updateOrderStatus(orderId, nextStatus) {
     try {
-        const msg = await orderService.addOrderMsg(orderId, txt)
-        store.dispatch(getCmdAddOrderMsg(msg))
-        return msg
+        const updatedOrder = await orderService.updateStatus(orderId, nextStatus)
+        store.dispatch({ type: UPDATE_ORDER, order: updatedOrder })
+        return updatedOrder
     } catch (err) {
-        console.log('Cannot add order msg', err)
+        console.log('Cannot update order status', err)
         throw err
     }
 }
+
+export async function addOrderMsg(orderId, txt) {
+    const msg = await orderService.addOrderMsg(orderId, txt)
+    if (msg) store.dispatch({ type: ADD_ORDER_MSG, orderId, msg })
+    return msg
+}
+
 
 export function setFilter(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })
@@ -122,5 +140,5 @@ async function unitTestActions() {
         name: 'Order-Good',
         price: 333
     })
-    
+
 }
