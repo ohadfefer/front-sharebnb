@@ -78,10 +78,10 @@ export function StayListings() {
     }
 
     const getSortIcon = (field) => {
-        if (sortConfig.field !== field) return <span class="sort-icon">&#8597;</span>
-        if (sortConfig.direction === 'asc') return  <span class="sort-icon">&#x25BE;</span>
-        if (sortConfig.direction === 'desc') return  <span class="sort-icon">&#x25B4;</span>
-        return  <span class="sort-icon">&#8597;</span>
+        if (sortConfig.field !== field) return <span className="sort-icon">&#8597;</span>
+        if (sortConfig.direction === 'asc') return  <span className="sort-icon">&#x25BE;</span>
+        if (sortConfig.direction === 'desc') return  <span className="sort-icon">&#x25B4;</span>
+        return  <span className="sort-icon">&#8597;</span>
     }
 
     return (
@@ -92,7 +92,7 @@ export function StayListings() {
                     <NavLink to="/dashboard/stay/edit" className="nav-link">
                         Create listing
                     </NavLink>
-                    <NavLink to="/dashboard/listings" className="nav-link active">
+                    <NavLink to="/dashboard/listings" className="nav-link">
                         Listings
                     </NavLink>
                     <NavLink to="/dashboard/reservations" className="nav-link">

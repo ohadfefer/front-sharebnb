@@ -7,7 +7,6 @@
   --nav-translate: 0px;
 
   height: var(--h-current);
-  overflow: clip;
 
   transition:
     height .35s cubic-bezier(.2, .8, .2, 1),
