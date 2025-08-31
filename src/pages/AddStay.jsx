@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 import { loadStays, addStay, updateStay, removeStay } from '../store/actions/stay.actions'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
@@ -23,6 +24,7 @@ export function AddStay() {
         imgUrls: [],
         //get default stay 
     })
+    const navigate = useNavigate()
 
     useEffect(() => {
         loadStays(filterBy)
@@ -65,6 +67,8 @@ export function AddStay() {
             showSuccessMsg(`Stay added (id: ${savedStay._id})`)
             setFormState({ name: '', type: '', city: '', price: '', imgUrls: [] })
             closeModal()
+            // Redirect to stay list to see the new stay
+            navigate('/stay')
         } catch (err) {
             showErrorMsg('Cannot add stay')
         }

@@ -1,7 +1,7 @@
 
 import { storageService } from '../async-storage.service'
 import { makeId } from '../util.service'
-import { userService } from '../user'
+import { userService } from '../user/index.js'
 
 const STORAGE_KEY = 'stay'
 createStays()
@@ -13,7 +13,6 @@ export const stayService = {
     remove,
     addStayMsg
 }
-window.cs = stayService
 
 
 async function query(filterBy = { address: '', maxPrice: 0 }) {

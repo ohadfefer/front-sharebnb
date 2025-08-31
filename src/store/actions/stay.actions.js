@@ -1,4 +1,4 @@
-import { stayService } from '../../services/stay/stay.service.local.js'
+import { stayService } from '../../services/stay'
 import { store } from '../store'
 import {
     ADD_STAY,

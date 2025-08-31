@@ -1,5 +1,5 @@
 import { storageService } from '../async-storage.service'
-import { stayService } from '../stay/stay.service.local'
+import { stayService } from '../stay/stay.service.local.js'
 
 import { makeId } from '../util.service'
 
@@ -30,7 +30,7 @@ async function save(order) {
         guests: order.guests,
         order: order.order,
         msgs: order.msgs || [],
-        status: order.status || 'pending'
+        status: order.status || 'pending',
     }
 
     const savedOrder = await storageService.post(ORDER_KEY, orderToSave)
@@ -64,9 +64,11 @@ async function createOrder(stayId, stayData) {
                 _id: stayId,
                 name: stayData?.name || 'Stay Name',
                 price: stayData?.price || 0,
+                
             },
             msgs: [],
             status: 'pending',
+            createdAt: Date.now
         }
         
         const savedOrder = await save(newOrder)
