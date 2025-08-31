@@ -14,6 +14,8 @@ export const stayService = {
     addStayMsg
 }
 
+window.cs = stayService
+
 
 async function query(filterBy = { address: '', maxPrice: 0 }) {
     var stays = await storageService.query(STORAGE_KEY)
@@ -119,6 +121,9 @@ function createStays() {
                 price: 250.0,
                 summary: 'Luxury villa with private pool and ocean view.',
                 capacity: 6,
+                rooms: 2,
+                bedrooms: 2,
+                at: "2019-01-11T05:00:00.000Z",
                 amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking', 'Heating', 'Elevator'],
                 labels: ['Luxury', 'Beachfront', 'Family Friendly'],
                 host: {
@@ -206,6 +211,9 @@ function createStays() {
                 price: 120.0,
                 summary: 'Rustic cabin in the mountains with fireplace.',
                 capacity: 4,
+                rooms: 2,
+                bedrooms: 2,
+                at: "2019-01-11T05:00:00.000Z",
                 amenities: ['Fireplace', 'Wifi', 'Kitchen', 'Heating'],
                 labels: ['Cozy', 'Nature', 'Hiking'],
                 host: {
@@ -243,6 +251,9 @@ function createStays() {
                 price: 150.0,
                 summary: 'Modern loft in the heart of the city.',
                 capacity: 2,
+                rooms: 2,
+                bedrooms: 2,
+                at: "2019-01-11T05:00:00.000Z",
                 amenities: ['Wifi', 'Kitchen', 'Workspace', 'Elevator'],
                 labels: ['Business', 'Trendy', 'Central'],
                 host: {
@@ -280,6 +291,9 @@ function createStays() {
                 price: 90.0,
                 summary: 'Charming countryside stay with homemade breakfast.',
                 capacity: 3,
+                rooms: 2,
+                bedrooms: 2,
+                at: "2019-01-11T05:00:00.000Z",
                 amenities: ['Breakfast included', 'Wifi', 'Parking', 'Garden'],
                 labels: ['Charming', 'Relaxing', 'Countryside'],
                 host: {
@@ -317,6 +331,9 @@ function createStays() {
                 price: 180.0,
                 summary: 'Sleep under the stars in a desert dome.',
                 capacity: 2,
+                rooms: 2,
+                bedrooms: 2,
+                at: "2019-01-11T05:00:00.000Z",
                 amenities: ['AC', 'Private bathroom', 'Stargazing deck'],
                 labels: ['Unique', 'Adventure', 'Romantic'],
                 host: {

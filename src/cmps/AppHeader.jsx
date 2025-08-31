@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useState, useRef, useEffect } from "react"
 
@@ -9,10 +9,13 @@ import language from '../assets/logo/icons/language.svg'
 import { useHeaderControl } from '../customHooks/useHeaderControl.js'
 import { StayFilter } from '../cmps/StayFilter.jsx'
 import { HeaderMenu } from "../cmps/HeaderMenu.jsx"
+import { logout } from "../store/actions/user.actions"
 
 
 export function AppHeader() {
+  const navigate = useNavigate()
   const { filterBy } = useSelector(state => state.stayModule)
+  const loggedInUser = useSelector(state => state.userModule.user)
 
   const { mini: miniFromHook, sticky } = useHeaderControl(80, {
     forceMiniOnMatch: "/stay/:id",
@@ -23,7 +26,7 @@ export function AppHeader() {
   const mini = manualMini ?? miniFromHook
 
   const [openMenu, setOpenMenu] = useState(false)
-  const menuAnchorRef = useRef(null);
+  const menuAnchorRef = useRef(null)
   const toggleMenu = () => setOpenMenu(v => !v)
 
   // close on outside click
@@ -116,6 +119,9 @@ export function AppHeader() {
             aria-controls="header-menu"
             onClick={toggleMenu}
           >
+            {loggedInUser?.imgUrl && (
+              <img src={loggedInUser.imgUrl} alt="" width={30} height={30} style={{ borderRadius: '50%', marginRight: 8 }} />
+            )}
             <img src={hamburger} alt="" width={24} height={24} />
           </button>
 
@@ -144,13 +150,35 @@ export function AppHeader() {
 
               <hr />
 
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/trips'); setOpenMenu(false) }}>Trips</button>
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/reservations'); setOpenMenu(false) }}>Dashboard</button>
+              <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/listings'); setOpenMenu(false) }}>Listings</button>
+              
+              <hr />
+
               <button className="menu-row" role="menuitem">Refer a Host</button>
               <button className="menu-row" role="menuitem">Find a co-host</button>
               <button className="menu-row" role="menuitem">Gift cards</button>
 
               <hr />
 
-              <button className="menu-row" role="menuitem">Log in or sign up</button>
+              {loggedInUser ? (
+                <div className="menu-auth-rows">
+                  <button
+                    className="menu-row"
+                    role="menuitem"
+                    onClick={async () => {
+                      await logout()
+                      setOpenMenu(false)
+                    }}
+                  >Logout</button>
+                </div>
+              ) : (
+                <div className="menu-auth-rows">
+                  <button className="menu-row" role="menuitem" onClick={() => { navigate('/auth/login'); setOpenMenu(false) }}>Log in</button>
+                  <button className="menu-row" role="menuitem" onClick={() => { navigate('/auth/signup'); setOpenMenu(false) }}>Sign up</button>
+                </div>
+              )}
             </div>
           )}
         </div>

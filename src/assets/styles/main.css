@@ -19,6 +19,7 @@
 @import "cmps/HeaderMenu";
 
 @import "cmps/DynamicPanel.css";
+@import "cmps/TripIndex.css";
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";
 @import "cmps/UserMsg";
@@ -30,6 +31,8 @@
 @import "cmps/stay/StayOrder.css";
 @import "cmps/stay/StayDetails.css";
 @import "cmps/stay/StayExplore.css";
+@import "cmps/stay/StayReservations.css";
+@import "cmps/stay/StayListings.css";
 
 
 

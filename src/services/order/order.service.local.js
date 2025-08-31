@@ -1,3 +1,4 @@
+// src/services/order/order.service.local.js
 import { storageService } from '../async-storage.service'
 import { stayService } from '../stay/stay.service.local.js'
 
@@ -5,14 +6,26 @@ import { makeId } from '../util.service'
 
 const ORDER_KEY = 'order'
 
+// seed once
+seedDemoOrders()
+
 export const orderService = {
+    query,
     getById,
     save,
+    remove,
+    addOrderMsg,
+    updateStatus,
+    getDefaultFilter,
+    getEmptyOrder,
     getStayById,
-    createOrder
+    createOrder,
 }
 
-window.cs = orderService
+async function query(filterBy = getDefaultFilter()) {
+    // (filters can be added later)
+    return storageService.query(ORDER_KEY)
+}
 
 function getById(orderId) {
     return storageService.get(ORDER_KEY, orderId)
@@ -30,7 +43,7 @@ async function save(order) {
         guests: order.guests,
         order: order.order,
         msgs: order.msgs || [],
-        status: order.status || 'pending',
+        status: order.status || 'pending'
     }
 
     const savedOrder = await storageService.post(ORDER_KEY, orderToSave)
@@ -40,10 +53,8 @@ async function save(order) {
 }
 
 async function getStayById(stayId) {
-    return await stayService.getById(stayId)
+    return stayService.getById(stayId)
 }
-
-
 
 async function createOrder(stayId, stayData) {
     try {
@@ -64,48 +75,14 @@ async function createOrder(stayId, stayData) {
                 _id: stayId,
                 name: stayData?.name || 'Stay Name',
                 price: stayData?.price || 0,
-                
             },
             msgs: [],
             status: 'pending',
-            createdAt: Date.now
         }
         
         const savedOrder = await save(newOrder)
         return savedOrder
     } catch (err) {
-        console.error('Error creating order:', err)
-        throw err
+        console.error('Failed to seed demo orders:', err)
     }
 }
-// save for later
-// function createOrders() {
-//     let orders = JSON.parse(localStorage.getItem(ORDER_KEY))
-//     if (!orders || !orders.length) {
-//         const orders = [
-//             {
-//                 _id: 'o1225',
-//                 hostId: { _id: 'u102', fullname: "bob", imgUrl: "..." },
-//                 guest: {
-//                     _id: 'u101',
-//                     fullname: 'User 1',
-//                 },
-//                 totalPrice: 160,
-//                 startDate: '2025/10/15',
-//                 endDate: '2025/10/17',
-//                 guests: {
-//                     adults: 1,
-//                     kids: 2,
-//                 },
-//                 order: {
-//                     _id: 'h102',
-//                     name: 'House Of Uncle My',
-//                     price: 80.0,
-//                 },
-//                 msgs: [],
-//                 status: 'pending',
-//             }
-//         ]
-//         localStorage.setItem(ORDER_KEY, JSON.stringify(orders))
-//     }
-// }

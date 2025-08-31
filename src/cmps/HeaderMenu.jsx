@@ -1,9 +1,11 @@
 // src/cmps/HeaderMenu.jsx
 import { useEffect, useRef } from "react"
+import { useNavigate } from 'react-router-dom'
 import homeIcon from '../assets/imgs/home-airbnb.png'
 
 export function HeaderMenu({ open, onClose, anchorRef }) {
     const ref = useRef(null)
+    const navigate = useNavigate()
 
     // Close on outside click / Esc
     useEffect(() => {
@@ -45,7 +47,10 @@ export function HeaderMenu({ open, onClose, anchorRef }) {
 
             <hr />
 
-            <button className="menu-row" role="menuitem" onClick={onClose}>Log in or sign up</button>
+            <div className="menu-auth-rows">
+                <button className="menu-row" role="menuitem" onClick={() => { navigate('/auth/login'); onClose?.() }}>Log in</button>
+                <button className="menu-row" role="menuitem" onClick={() => { navigate('/auth/signup'); onClose?.() }}>Sign up</button>
+            </div>
         </div>
     );
 }
