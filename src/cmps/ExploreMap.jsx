@@ -43,19 +43,24 @@ export function ExploreMap({ stays }) {
         loadGoogleMaps()
             .then(() => {
                 if (!mounted || !ref.current) return
-
+                let center = { lat: 31.771959, lng: 35.217018 }
+                
                 const first = stays[0]
-                console.log(typeof first.loc.lat);
-                const center = first ? { lat: first.loc.lat, lng: first.loc.lng } : { lat: 20, lng: 0 }
+                if (first?.loc?.lat && first?.loc?.lng) {
+                    center = { lat: Number(first.loc.lat), lng: Number(first.loc.lng) }
+                }
+                // console.log(typeof first.loc.lat);
+                // const center = first ? { lat: first.loc.lat, lng: first.loc.lng } : { lat: 20, lng: 0 }
 
                 mapRef.current = new window.google.maps.Map(ref.current, {
                     center,
-                    zoom: first ? 11 : 2,
+                    // zoom: 6,
+                    zoom: first ? 13 : 2,
                     mapTypeId: 'roadmap',
                     streetViewControl: false,
                     mapTypeControl: false,
                     fullscreenControl: true,
-                    styles: AIRBNB_LITE_STYLE, 
+                    styles: AIRBNB_LITE_STYLE,
                 });
 
                 renderMarkers(stays)
