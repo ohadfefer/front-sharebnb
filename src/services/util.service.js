@@ -52,26 +52,24 @@ export function loadFromStorage(key) {
     return (data) ? JSON.parse(data) : undefined
 }
 
-// util.service.js
 
 // Turn the current filter into URLSearchParams
 export function buildSearchParams(filter = {}) {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams()
 
-    const { address, checkIn, checkOut, guests } = filter;
+    const { address, checkIn, checkOut, guests } = filter
 
-    if (address) params.set("address", address);
-    if (checkIn) params.set("checkIn", checkIn);
-    if (checkOut) params.set("checkOut", checkOut);
+    if (address) params.set("address", address)
+    if (checkIn) params.set("checkIn", checkIn)
+    if (checkOut) params.set("checkOut", checkOut)
 
     // ---- flatten guests ----
-    // support either a number (legacy “total”) or an object
     if (typeof guests === "number") {
-        if (guests > 0) params.set("adults", String(guests));
+        if (guests > 0) params.set("adults", String(guests))
     } else if (guests && typeof guests === "object") {
         for (const [k, v] of Object.entries(guests)) {
-            const n = Number(v) || 0;
-            if (n > 0) params.set(k, String(n)); // k: adults|children|infants|pets|...; omit zeros
+            const n = Number(v) || 0
+            if (n > 0) params.set(k, String(n))
         }
     }
 
@@ -87,8 +85,10 @@ export function parseSearchParams(searchParams) {
     const value = (key) => params.get(key) || ""
 
     if (value("address")) filter.address = value("address")
-    if (value("checkIn")) filter.checkIn = value("checkIn")
-    if (value("checkOut")) filter.checkOut = value("checkOut")
+    const checkIn = value("checkIn") || value("checkin")
+    const checkOut = value("checkOut") || value("checkout")
+    if (checkIn) filter.checkIn = checkIn
+    if (checkOut) filter.checkOut = checkOut
 
     const keys = ["adults", "children", "infants", "pets"]
     const guests = {}
@@ -107,6 +107,10 @@ export function parseSearchParams(searchParams) {
     return filter
 }
 
+// Format gurest label
+// "Guests" -> Adults + Children
+// "Infants" -> Infants
+// "Pets" -> Pets
 export function formatGuestsLabel(guests) {
     if (!guests) return "Add guests"
     if (typeof guests === "number") return guests ? `${guests} guests` : "Add guests"
@@ -125,4 +129,66 @@ export function formatGuestsLabel(guests) {
 
     if (extras.length) label += `, ${extras.join(", ")}`
     return label
+}
+
+// Dates & formatting
+
+export function formatDateMMDDYYYY(iso) {
+    if (!iso) return '—'
+    const d = new Date(iso)
+    if (Number.isNaN(+d)) return '—'
+    const mm = String(d.getMonth() + 1).padStart(2, '0')
+    const dd = String(d.getDate()).padStart(2, '0')
+    const yyyy = d.getFullYear()
+    return `${mm}/${dd}/${yyyy}`
+}
+
+// nights-between calculation.
+export function nightsBetween(startIso, endIso) {
+    if (!startIso || !endIso) return 0
+    const a = new Date(startIso)
+    const b = new Date(endIso)
+    if (Number.isNaN(+a) || Number.isNaN(+b)) return 0
+    a.setHours(12, 0, 0, 0)
+    b.setHours(12, 0, 0, 0)
+    const MS = 1000 * 60 * 60 * 24
+    return Math.max(0, Math.round((b - a) / MS))
+}
+
+// label like "Sep 8"
+export function formatDateShort(iso) {
+    if (!iso) return ''
+    const d = new Date(iso)
+    if (Number.isNaN(+d)) return ''
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+// ISO helpers (used in DateRangePanel)
+export function toIsoDate(date) {
+    if (!date || Number.isNaN(+date)) return ''
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
+}
+export function fromIsoDate(iso) {
+    if (!iso) return undefined
+    const d = new Date(iso)
+    return Number.isNaN(+d) ? undefined : d
+}
+
+// Format Money
+export function formatMoney(value, currency = 'USD', min = 0, max = 0) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency,
+        minimumFractionDigits: min,
+        maximumFractionDigits: max
+    }).format(Number(value) || 0)
+}
+
+// URL helpers
+export function buildStayPathWithParams(stayId, searchParams) {
+    const q = searchParams?.toString?.() || ''
+    return q ? `/stay/${stayId}?${q}` : `/stay/${stayId}`
 }

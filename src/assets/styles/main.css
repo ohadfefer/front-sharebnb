@@ -17,6 +17,7 @@
 @import "cmps/WherePanel";
 @import "cmps/AutoCompletePanel";
 @import "cmps/HeaderMenu";
+@import "cmps/OrderConfirmation.css";
 
 @import "cmps/DynamicPanel.css";
 @import "cmps/TripIndex.css";

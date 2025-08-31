@@ -1,6 +1,6 @@
 // StayFilter.jsx
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { setFilter } from "../store/actions/stay.actions"
 import { useFieldControl } from "../customHooks/useFieldControl.js"
@@ -17,7 +17,6 @@ function formatDateForDisplay(isoString) {
 }
 
 export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -179,11 +178,8 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             activeKey={activeFilterCell}
             registry={PANELS_BY_KEY}
             panelProps={{
-              // IMPORTANT: pass the *filterByToEdit* into panels
               value: filterByToEdit,
-              // Panels only update the filterByToEdit (not Redux)
               onChange: (partial) => setfilterByToEdit(prev => ({ ...prev, ...partial })),
-              // Close only; do not commit here
               onAdvance: goToNextCell,
             }}
           />

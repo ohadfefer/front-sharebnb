@@ -101,7 +101,7 @@ async function getStayById(stayId) {
     return stayService.getById(stayId)
 }
 
-async function createOrder(stayId, stayData) {
+async function createOrder(stayId, stayData, overrides = {}) {
     const draft = {
         hostId: stayData?.host?._id
             ? { _id: stayData.host._id, fullname: stayData.host.fullname || 'Host' }
@@ -115,7 +115,19 @@ async function createOrder(stayId, stayData) {
         msgs: [],
         status: 'pending',
     }
-    return save(draft)
+    const merged = {
+        ...draft,
+        ...overrides,
+        stay: { ...draft.stay, ...(overrides.stay || {}) },
+    }
+    // If dates were provided, recompute total if caller didn't set it explicitly
+    if (!('totalPrice' in overrides) && merged.stay?.price && merged.startDate && merged.endDate) {
+        const nights = Math.max(1, Math.round(
+            (new Date(merged.endDate) - new Date(merged.startDate)) / (1000 * 60 * 60 * 24)
+        ))
+        merged.totalPrice = merged.stay.price * nights
+    }
+    return save(merged)
 }
 
 function seedDemoOrders() {

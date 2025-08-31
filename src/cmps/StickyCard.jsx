@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams, useParams } from 'react-router-dom'
 import { DateRangePanel } from './DateRangePanel'
 import { GuestsPanel } from './GuestsPanel'
+import { useSelector } from "react-redux"
+import { buildSearchParams, parseSearchParams, formatGuestsLabel, nightsBetween, formatMoney } from "../services/util.service.js"
+
 
 export function StickyCard({ selectedDates }) {
     const [searchParams] = useSearchParams()
@@ -15,22 +18,33 @@ export function StickyCard({ selectedDates }) {
         guests: ''
     })
 
-    const [activePanel, setActivePanel] = useState(null) // 'dates' | 'guests' | null
+    const [activePanel, setActivePanel] = useState(null)
     const dateAnchorRef = useRef(null)
     const guestsAnchorRef = useRef(null)
 
-    // Local guests state to populate label
     const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
 
-    // Initialize from URL defaults once
+    const stay = useSelector(selector => selector.stayModule.stay)
+    const nightlyPrice = Number(stay?.price) || 0
+
+    const nights = nightsBetween(formData.checkin, formData.checkout)
+    const subtotal = nightlyPrice * nights
+
     useEffect(() => {
-        const checkin = searchParams.get('checkin') || '9/20/2025'
-        const checkout = searchParams.get('checkout') || '9/27/2025'
-        const guestsParam = searchParams.get('guests') || '2'
-        setFormData(prev => ({ ...prev, checkin, checkout, guests: guestsParam }))
+        const parsed = parseSearchParams(searchParams)
+        const checkin = parsed.checkIn || ""
+        const checkout = parsed.checkOut || ""
+
+        setFormData(prev => ({ ...prev, checkin, checkout }))
+
+        if (parsed.guests) {
+            setGuests(parsed.guests)
+            setFormData(prev => ({ ...prev, guests: formatGuestsLabel(parsed.guests) }))
+        }
+
+        if (checkin && checkout) setIsFilled(true)
     }, [searchParams])
 
-    // Update from selectedDates coming from parent (left panel)
     useEffect(() => {
         if (!selectedDates) return
         const { checkIn, checkOut } = selectedDates
@@ -38,21 +52,18 @@ export function StickyCard({ selectedDates }) {
         if (checkIn && checkOut) setIsFilled(true)
     }, [selectedDates])
 
-    // Reflect local guests into a display string
     useEffect(() => {
-        const total = (guests.adults || 0) + (guests.children || 0)
-        const label = total > 0 ? `${total} guest${total > 1 ? 's' : ''}` : 'Add guests'
-        setFormData(prev => ({ ...prev, guests: label }))
+        setFormData(prev => ({ ...prev, guests: formatGuestsLabel(guests) }))
     }, [guests])
 
     const handleCheckAvailability = () => {
         if (!isFilled) {
             setIsFilled(true)
         } else {
-            const params = new URLSearchParams({
-                checkin: formData.checkin,
-                checkout: formData.checkout,
-                guests: String((guests.adults || 0) + (guests.children || 0) || formData.guests)
+            const params = buildSearchParams({
+                checkIn: formData.checkin,
+                checkOut: formData.checkout,
+                guests   // { adults, children, infants, pets }
             })
             navigate(`/stay/${stayId}/order?${params.toString()}`)
         }
@@ -74,11 +85,22 @@ export function StickyCard({ selectedDates }) {
     return (
         <aside className="sticky-card">
             <div className="sticky-card-inner">
-                <div className="sticky-card-header">Add dates for prices</div>
+                <div className="sticky-card-header">
+                    {nightlyPrice ? (
+                        <>
+                            <span style={{ color: "#6b6b6b", fontSize: "16px" }}>{formatMoney(nightlyPrice)} / night</span><br />
+                            {nights > 0 && (
+                                <>{formatMoney(subtotal)} for {nights} night{nights > 1 ? "s" : ""}</>
+                            )}
+                        </>
+                    ) : (
+                        "Add dates for prices"
+                    )}
+                </div>
                 <div className="sticky-card-fields">
                     <div className="field" ref={dateAnchorRef}>
                         <label>Check-in</label>
-                        <div 
+                        <div
                             className="input like-input"
                             onClick={() => setActivePanel('dates')}
                             role="button"
@@ -87,7 +109,7 @@ export function StickyCard({ selectedDates }) {
                     </div>
                     <div className="field">
                         <label>Check-out</label>
-                        <div 
+                        <div
                             className="input like-input"
                             onClick={() => setActivePanel('dates')}
                             role="button"
@@ -96,7 +118,7 @@ export function StickyCard({ selectedDates }) {
                     </div>
                     <div className="field" ref={guestsAnchorRef}>
                         <label>Guests</label>
-                        <div 
+                        <div
                             className="input like-input"
                             onClick={() => setActivePanel('guests')}
                             role="button"
@@ -104,8 +126,8 @@ export function StickyCard({ selectedDates }) {
                         >{getFieldValue('guests')}</div>
                     </div>
                 </div>
-                <button 
-                    className="sticky-card-btn" 
+                <button
+                    className="sticky-card-btn"
                     type="button"
                     onClick={handleCheckAvailability}
                 >
@@ -114,7 +136,7 @@ export function StickyCard({ selectedDates }) {
 
                 {activePanel === 'dates' && (
                     <div className="popover-small right-aligned" onMouseLeave={closePanels}>
-                        <DateRangePanel 
+                        <DateRangePanel
                             value={{ checkIn: formData.checkin, checkOut: formData.checkout }}
                             onChange={(next) => {
                                 setFormData(prev => ({ ...prev, checkin: next.checkIn, checkout: next.checkOut }))
@@ -127,7 +149,7 @@ export function StickyCard({ selectedDates }) {
 
                 {activePanel === 'guests' && (
                     <div className="popover-small right-aligned" onMouseLeave={closePanels}>
-                        <GuestsPanel 
+                        <GuestsPanel
                             value={guests}
                             onChange={(partial) => {
                                 // partial is {guests: next}
