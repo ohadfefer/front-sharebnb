@@ -7,6 +7,7 @@ import star from '../assets/logo/icons/star.svg'
 export function StayDescription({ stay }) {
 
     const avgRate = stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
+    console.log(avgRate)
     return (
         <div className="stay-description">
             <div className="stay-info">

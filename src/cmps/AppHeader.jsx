@@ -2,13 +2,12 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useState, useRef, useEffect } from "react"
 
-import logo from '../assets/logo/icon-airbnb.png'
+import logo from '../assets/logo/icon-airbnb-colored.png'
 import hamburger from '../assets/logo/icons/hamburger.svg'
 import language from '../assets/logo/icons/language.svg'
 
 import { useHeaderControl } from '../customHooks/useHeaderControl.js'
 import { StayFilter } from '../cmps/StayFilter.jsx'
-import { HeaderMenu } from "../cmps/HeaderMenu.jsx"
 import { logout } from "../store/actions/user.actions"
 
 
@@ -44,7 +43,8 @@ export function AppHeader() {
   }
 
   function handlePopoverComplete() {
-    setManualMini(null)
+    setManualMini(true)
+    setTimeout(() => setManualMini(null), 350);
   }
 
   return (
@@ -153,7 +153,7 @@ export function AppHeader() {
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/trips'); setOpenMenu(false) }}>Trips</button>
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/reservations'); setOpenMenu(false) }}>Dashboard</button>
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/listings'); setOpenMenu(false) }}>Listings</button>
-              
+
               <hr />
 
               <button className="menu-row" role="menuitem">Refer a Host</button>

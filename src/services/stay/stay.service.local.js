@@ -11,7 +11,8 @@ export const stayService = {
     getById,
     save,
     remove,
-    addStayMsg
+    addStayMsg,
+    createStays
 }
 
 window.cs = stayService
@@ -37,7 +38,19 @@ async function query(filterBy = { address: '', maxPrice: 0 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    stays = stays.map(({ _id, name, price, host, imgUrls, type, loc }) => ({ _id, name, price, host, imgUrls, type, loc }))
+    stays = stays.map(({ _id, name, price, host, imgUrls, type, loc, capacity, rooms, bedrooms, at }) => ({ 
+        _id, 
+        name, 
+        price, 
+        host, 
+        imgUrls, 
+        type, 
+        loc, 
+        capacity, 
+        rooms, 
+        bedrooms, 
+        at 
+    }))
     return stays
 }
 
