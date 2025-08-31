@@ -78,7 +78,14 @@ export function AddStay() {
         const price = +prompt('New price?', stay.price) || 0
         if (price === 0 || price === stay.price) return
 
-        const stayToSave = { ...stay, price }
+        const stayToSave = {
+            ...stay,
+            price,
+            loc: {
+                lat: Number(stay.loc?.lat),
+                lng: Number(stay.loc?.lng),
+            }
+        }
         try {
             const savedStay = await updateStay(stayToSave)
             showSuccessMsg(`Stay updated, new price: ${savedStay.price}`)

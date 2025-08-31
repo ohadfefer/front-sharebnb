@@ -72,7 +72,7 @@ export function TripIndex() {
             for (const trip of myTrips) {
                 map[trip._id] = byId[trip.stay?._id]?.imgUrls?.[0] || ""
             }
-            if (alive) setThumbMap(map)
+            // if (alive) setThumbMap(map)
         })()
         return () => { alive = false }
     }, [myTrips])

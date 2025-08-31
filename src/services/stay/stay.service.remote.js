@@ -8,7 +8,13 @@ export const stayService = {
     addStayMsg
 }
 
-async function query(filterBy = { txt: '', maxPrice: 0 }) {
+async function query(filterBy) {
+    if (filterBy.guests) {
+        const sum = filterBy.guests.adults +
+            filterBy.guests.children
+        filterBy.guests = sum
+    }
+
     return httpService.get(`stay`, filterBy)
 }
 
@@ -30,6 +36,6 @@ async function save(stay) {
 }
 
 async function addStayMsg(stayId, txt) {
-    const savedMsg = await httpService.post(`stay/${stayId}/msg`, {txt})
+    const savedMsg = await httpService.post(`stay/${stayId}/msg`, { txt })
     return savedMsg
 }

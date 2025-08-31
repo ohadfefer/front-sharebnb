@@ -32,7 +32,7 @@ function loadGoogleMaps() {
     return mapsPromise
 }
 
-export function ExploreMap({ stays = [] }) {
+export function ExploreMap({ stays }) {
     const ref = useRef(null)
     const mapRef = useRef(null)
     const markersRef = useRef([])
@@ -45,6 +45,7 @@ export function ExploreMap({ stays = [] }) {
                 if (!mounted || !ref.current) return
 
                 const first = stays[0]
+                console.log(typeof first.loc.lat);
                 const center = first ? { lat: first.loc.lat, lng: first.loc.lng } : { lat: 20, lng: 0 }
 
                 mapRef.current = new window.google.maps.Map(ref.current, {

@@ -12,13 +12,16 @@ export function StayExplore() {
 
     const filterFromUrl = useMemo(() => parseSearchParams(searchParams), [searchParams])
     const { stays, isLoading } = useSelector(state => state.stayModule)
+console.log("from explore:",stays);
 
     // hydrate store from URL & load
     useEffect(() => {
         setFilter(filterFromUrl)
         loadStays(filterFromUrl)
-    }, [dispatch, filterFromUrl])
-
+    }, [filterFromUrl])
+    if(!stays.length) {
+        return <div>Loading</div>
+    }
     return (
         <section className="explore">
             <div className="results-col">

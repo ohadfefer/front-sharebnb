@@ -16,10 +16,11 @@ export function StayPreview({ stay }) {
         ? `/stay/${stay._id}?${queryString}`
         : `/stay/${stay._id}`
 
+// console.log(stay);
 
 
-    const len = stay.imgUrls.length || 1
-
+    // const len = stay.imgUrls.length || 1
+// if(!stay.length ) return <div>loading</div>
     return (
         <NavLink to={toUrl} className="stay-preview">
                 <Swiper
@@ -43,7 +44,8 @@ export function StayPreview({ stay }) {
 
 <div className='preview-txt'>
 
-            <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
+            <p className='preview-title'>{stay.type} in {stay.city}</p>
+            {/* <p className='preview-title'>{stay.type} in {stay.loc.city}</p> */}
             <p className='preview-date'>8-9 Sept</p>
             <p className='preview-details'><span>${stay.price.toLocaleString()} for 1 night</span></p>
 </div>
