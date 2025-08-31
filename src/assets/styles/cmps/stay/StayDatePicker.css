@@ -1,29 +1,24 @@
-/* Root: overlay nav, don't add horizontal padding that steals width */
 .stay-picker.rdp {
     position: relative;
 }
 
-/* Keep the two months in a row */
 .stay-picker .rdp-months {
     display: flex;
-    /* DayPicker default, make sure it stays */
     gap: var(--rdp-months-gap, 32px);
     flex-wrap: nowrap;
-    /* prevent wrapping to a new line */
     align-items: flex-start;
     z-index: 0;
+    margin: 24px;
 }
 
 .stay-picker .rdp-month {
     flex: 0 0 auto;
 }
 
-/* Center caption label inside each month */
 .stay-picker .rdp-caption {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* centers the label */
 }
 
 .stay-picker .rdp-caption_label {
@@ -34,7 +29,6 @@
     letter-spacing: .2px;
 }
 
-/* Move the nav to the edges without affecting layout */
 .stay-picker .rdp-nav {
     position: absolute;
     top: 0px;
@@ -61,12 +55,10 @@
     background: #ececec;
 }
 
-/* (Optional) if the nav overlaps your captions, nudge months down slightly */
 .stay-picker .rdp-month {
     padding-top: 8px;
 }
 
-/* Keep your other styling (range band, hover, etc.) */
 .stay-picker .rdp-table {
     border-collapse: separate;
     border-spacing: 10px 8px;
@@ -103,4 +95,18 @@
 .rdp-day_button:hover {
     border: solid 2px var(--text-primary);
     border-radius: 999px;
+}
+
+/* highlight the tentative path while hovering */
+.stay-picker .is-range-hover {
+    background: var(--rdp-range_middle-background-color, #f3f4f6);
+    color: var(--rdp-range_middle-color, #111);
+    border-radius: 10px;
+}
+
+/* highlight the tentative path while hovering (custom modifier) */
+.stay-picker .is-range-hover .rdp-day_button {
+    background: var(--rdp-range_middle-background-color, #f3f4f6);
+    color: var(--rdp-range_middle-color, #111);
+    border-radius: 10px;
 }

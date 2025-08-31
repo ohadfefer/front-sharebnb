@@ -1,25 +1,11 @@
 .where-panel {
-    width: 460px;
+    width: 350px;
     max-height: 420px;
     overflow: auto;
-    padding: 8px;
-}
-
-.where-search {
-    padding: 8px;
-}
-
-.where-search input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--divider);
-    border-radius: 10px;
-    outline: none;
 }
 
 .where-list {
     list-style: none;
-    margin: 8px 0 0;
     padding: 0;
 }
 
@@ -30,7 +16,6 @@
     gap: 12px;
     align-items: center;
     text-align: left;
-    padding: 10px 12px;
     border: 0;
     background: transparent;
     border-radius: 12px;

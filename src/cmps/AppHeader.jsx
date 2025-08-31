@@ -43,7 +43,8 @@ export function AppHeader() {
   }
 
   function handlePopoverComplete() {
-    setManualMini(null)
+    setManualMini(true)
+    setTimeout(() => setManualMini(null), 350);
   }
 
   return (
@@ -152,7 +153,7 @@ export function AppHeader() {
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/trips'); setOpenMenu(false) }}>Trips</button>
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/reservations'); setOpenMenu(false) }}>Dashboard</button>
               <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/listings'); setOpenMenu(false) }}>Listings</button>
-              
+
               <hr />
 
               <button className="menu-row" role="menuitem">Refer a Host</button>

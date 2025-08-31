@@ -1,5 +1,5 @@
 // StayFilter.jsx
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { setFilter } from "../store/actions/stay.actions"
@@ -28,7 +28,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     if (!mini) setfilterByToEdit(storeFilter)
   }, [mini])
 
-  // Keep filterByToEdit in sync while collapsed
+  // Keep filterByToEdit in filter pill while collapsed
   useEffect(() => {
     if (mini) setfilterByToEdit(storeFilter)
   }, [storeFilter])
@@ -44,8 +44,20 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
     goToNextCell,
   } = useFieldControl(fieldOrder, { enableOutsideClickClose: true })
 
+  // collapse to mini when clicked outside
+  const wasOpenRef = useRef(false)
 
-  // Render values: in mini show committed (store), in expanded show filterByToEdit
+  useEffect(() => {
+    if (activeFilterCell) {
+      wasOpenRef.current = true
+      return
+    }
+    if (wasOpenRef.current) {
+      onPopoverComplete?.()
+      wasOpenRef.current = false
+    }
+  }, [activeFilterCell, onPopoverComplete])
+
   const view = mini ? storeFilter : filterByToEdit
   const { address, checkIn, checkOut, guests } = view
 

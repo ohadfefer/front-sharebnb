@@ -1,7 +1,7 @@
 import 'react-day-picker/dist/style.css'
 import { DayPicker } from 'react-day-picker'
 import { parseISO, isValid, format } from 'date-fns'
-import { useMemo } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 
 const ISO_FORMAT = 'yyyy-MM-dd'
 const toIso = d => (d ? format(d, ISO_FORMAT) : '')
@@ -12,6 +12,18 @@ export function DateRangePanel({ value, onChange }) {
         () => ({ from: fromIso(value?.checkIn), to: fromIso(value?.checkOut) }),
         [value?.checkIn, value?.checkOut]
     )
+
+    const [hoverDay, setHoverDay] = useState()
+    const hoverRange = useMemo(() => {
+        if (!selectedRange.from || selectedRange.to || !hoverDay) return undefined
+        const a = selectedRange.from
+        const b = hoverDay
+        return a <= b ? { from: a, to: b } : { from: b, to: a }
+    }, [selectedRange, hoverDay])
+
+    useEffect(() => {
+        if (selectedRange.to) setHoverDay(undefined)
+    }, [selectedRange.to])
 
     function handleSelect(range) {
         onChange({
@@ -26,6 +38,19 @@ export function DateRangePanel({ value, onChange }) {
             mode="range"
             selected={selectedRange}
             onSelect={handleSelect}
+            modifiers={hoverRange ? { rangeHover: hoverRange } : undefined}
+            modifiersClassNames={{ rangeHover: 'is-range-hover' }}
+            modifiersStyles={{
+                rangeHover: {
+                    background: 'var(--rdp-range_middle-background-color, #f3f4f6)',
+                    color: 'var(--rdp-range_middle-color, #111)',
+                    borderRadius: '10px',
+                },
+            }}
+            onDayMouseEnter={(d) => {
+                if (selectedRange.from && !selectedRange.to) setHoverDay(d)
+            }}
+            onDayMouseLeave={() => setHoverDay(undefined)}
             numberOfMonths={2}
             showOutsideDays
             defaultMonth={selectedRange.from || selectedRange.to || new Date()}
