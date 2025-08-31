@@ -59,7 +59,7 @@ export function orderReducer(state = initialState, action) {
 
         default:
     }
-    return newState
+    return state
 }
 
 
