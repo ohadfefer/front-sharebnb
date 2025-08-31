@@ -9,13 +9,25 @@ export const stayService = {
 }
 
 async function query(filterBy) {
-    if (filterBy.guests) {
-        const sum = filterBy.guests.adults +
-            filterBy.guests.children
-        filterBy.guests = sum
+    const f = { ...filterBy }
+
+    // Only sum if guests is an object from the UI.
+    if (f.guests && typeof f.guests === 'object') {
+        const { adults = 0, children = 0 } = f.guests
+        f.guests = (parseInt(adults, 10) || 0) + (parseInt(children, 10) || 0)
     }
 
-    return httpService.get(`stay`, filterBy)
+    // If it’s a string from URL (?guests=8), make sure it’s numeric:
+    if (typeof f.guests === 'string') f.guests = parseInt(f.guests, 10) || 0
+
+    return httpService.get('stay', f)
+    // if (filterBy.guests) {
+    //     const sum = filterBy.guests.adults +
+    //         filterBy.guests.children
+    //     filterBy.guests = sum
+    // }
+
+    // return httpService.get(`stay`, filterBy)
 }
 
 function getById(stayId) {

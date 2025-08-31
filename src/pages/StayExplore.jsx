@@ -17,11 +17,11 @@ console.log("from explore:",stays);
     // hydrate store from URL & load
     useEffect(() => {
         setFilter(filterFromUrl)
-        loadStays(filterFromUrl)
+        loadStays()
     }, [filterFromUrl])
-    if(!stays.length) {
-        return <div>Loading</div>
-    }
+    // if(!stays.length) {
+    //     return <div>Loading</div>
+    // }
     return (
         <section className="explore">
             <div className="results-col">

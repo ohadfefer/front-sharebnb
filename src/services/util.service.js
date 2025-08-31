@@ -192,3 +192,33 @@ export function buildStayPathWithParams(stayId, searchParams) {
     const q = searchParams?.toString?.() || ''
     return q ? `/stay/${stayId}?${q}` : `/stay/${stayId}`
 }
+
+// Format a date range like "8–9 Sept" or "28 Sept – 2 Oct"
+export function formatDateRangeShort(startIso, endIso) {
+    if (!startIso || !endIso) return ''
+
+    const startDate = new Date(startIso)
+    const endDate = new Date(endIso)
+    if (Number.isNaN(+startDate) || Number.isNaN(+endDate)) return ''
+
+    const startDay = startDate.getDate()
+    const endDay = endDate.getDate()
+
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
+    const startMonth = months[startDate.getMonth()]
+    const endMonth = months[endDate.getMonth()]
+
+    // Same month & year
+    if (startDate.getFullYear() === endDate.getFullYear() &&
+        startDate.getMonth() === endDate.getMonth()) {
+        return `${startDay}–${endDay} ${startMonth}`
+    }
+
+    // Same year, different months
+    if (startDate.getFullYear() === endDate.getFullYear()) {
+        return `${startDay} ${startMonth} – ${endDay} ${endMonth}`
+    }
+
+    // Different years
+    return `${startDay} ${startMonth} ${startDate.getFullYear()} – ${endDay} ${endMonth} ${endDate.getFullYear()}`
+}

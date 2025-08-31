@@ -73,6 +73,8 @@ export async function addStayMsg(stayId, txt) {
 }
 
 export function setFilter(filterBy) {
+    console.log('from action:', filterBy);
+    
     store.dispatch({ type: SET_FILTER_BY, filterBy })
 }
 
