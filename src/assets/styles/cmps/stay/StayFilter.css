@@ -206,6 +206,10 @@ form.filter-pill>*:not(:first-child):hover::after {
   transform: translateX(0);
 }
 
+.search-bar .filter-pill {
+  transform: scale(var(--filter-scale));
+}
+
 /* DATE PICKER */
 .dates-trigger-wrap {
   display: contents;
@@ -245,32 +249,3 @@ form.filter-pill>*:not(:first-child):hover::after {
   color: #fff;
 
 }
-
-/* MEDIA QUERIES */
-/* @media (max-width: 900px) {
-  .nav-links {
-    display: none;
-  }
-
-  .search-bar.expanded .filter-pill {
-    grid-template-columns: 1fr 1fr auto;
-  }
-
-  .cell.checkout {
-    display: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .search-bar.expanded .filter-pill {
-    grid-template-columns: 1fr auto;
-  }
-
-  .cell.checkin {
-    display: none;
-  }
-
-  .cell.who {
-    display: none;
-  }
-} */

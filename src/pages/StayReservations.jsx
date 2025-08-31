@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { loadOrders, updateOrderStatus, removeOrder } from '../store/actions/order.actions'
+import { NavLink } from 'react-router-dom'
 
 function formatDate(dateStamp) {
     if (!dateStamp) return '—'
@@ -84,6 +85,22 @@ export function StayReservations() {
 
     return (
         <section className="reservations-page">
+
+            <header className="listings-header">
+                <nav className="listings-nav">
+                    <NavLink to="/dashboard/stay/edit" className="nav-link">
+                        Create listing
+                    </NavLink>
+                    <NavLink to="/dashboard/listings" className="nav-link active">
+                        Listings
+                    </NavLink>
+                    <NavLink to="/dashboard/reservations" className="nav-link">
+                        Reservations
+                    </NavLink>
+                </nav>
+            </header>
+
+
             <h2 className="res-title">
                 {isLoading ? 'Loading…' : `${rows.length} reservations`}
             </h2>
@@ -141,9 +158,9 @@ export function StayReservations() {
                                 <td className="col-status">
                                     <span
                                         className={`status-pill ${order.status === 'approved' ? 'ok'
-                                                : order.status === 'rejected' ? 'bad'
-                                                    : order.status === 'completed' ? 'ok'
-                                                        : 'pending'
+                                            : order.status === 'rejected' ? 'bad'
+                                                : order.status === 'completed' ? 'ok'
+                                                    : 'pending'
                                             }`}
                                     >
                                         {order.status === 'pending' ? 'Pending'
