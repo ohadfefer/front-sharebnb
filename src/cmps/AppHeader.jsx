@@ -23,7 +23,7 @@ export function AppHeader() {
   const mini = manualMini ?? miniFromHook
 
   const [openMenu, setOpenMenu] = useState(false)
-  const menuAnchorRef = useRef(null);
+  const menuAnchorRef = useRef(null)
   const toggleMenu = () => setOpenMenu(v => !v)
 
   // close on outside click
