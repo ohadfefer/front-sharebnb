@@ -45,7 +45,7 @@ export function StayPreview({ stay }) {
 
             <div className='preview-txt'>
 
-                {/* <p className='preview-title'>{stay.type} in {stay.city}</p> */}
+              
                 <p className='preview-title'>{stay.type} in {stay.loc.city}</p>
                 {/* ✅ Paste the snippet here to show available dates */}
                 {stay.availableDates?.map((range, idx) => (
