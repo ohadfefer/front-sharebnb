@@ -141,11 +141,6 @@
   align-self: center;
 }
 
-.nav-links a.active .nav-text {
-  text-decoration: underline 3px var(--text-primary);
-  text-underline-offset: 12px;
-}
-
 .nav-links a:hover .nav-text {
   font-family: Roboto-Medium;
 }
@@ -232,4 +227,50 @@
 
   /* optional: tighten header padding a bit */
   /* .app-header { padding: 16px 24px; } */
+}
+
+
+@media (min-width: 769px) {
+
+  /* keep your current padding so there's room for the bar */
+  .nav-links a {
+    position: relative;
+    padding: 0 12px 24px;
+    /* bottom space for the underline */
+  }
+
+  .nav-links a .nav-text {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+    /* subtle breathing room above the bar */
+  }
+
+  /* the actual bar lives on the label, centered to its width */
+  .nav-links a .nav-text::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    /* lines up with the 24px bottom padding */
+    height: 3px;
+    background: var(--text-primary);
+    border-radius: 3px;
+    opacity: 0;
+    transform: scaleX(0.3);
+    transform-origin: center;
+    transition: opacity .2s ease,
+      transform .25s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .nav-links a.active .nav-text::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  /* disable the mobile wide underline on desktop */
+  .nav-links a.active::after {
+    content: none;
+  }
 }
