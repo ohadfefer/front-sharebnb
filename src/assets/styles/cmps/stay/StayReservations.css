@@ -1,11 +1,15 @@
+:root {
+    --res-col-count: 7;
+}
+
 .reservations-page {
-    padding: 0px;
+    padding: 0;
 }
 
 .res-title {
     font-size: 24px;
     font-weight: 700;
-    padding: 24px 0px;
+    padding: 24px 0;
 }
 
 .res-card {
@@ -18,30 +22,42 @@
 
 .res-table {
     width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-.reservation-row:hover {
-    background-color: var(--icons-bg);
+.res-table thead,
+.res-table tbody {
+    display: block;
 }
 
+.res-table tr {
+    display: grid;
+    grid-template-columns: repeat(var(--res-col-count), minmax(max-content, 1fr));
+    align-items: center;
+}
+
+/* cells */
 .res-table th,
 .res-table td {
     padding: 14px 18px;
+    text-align: center;
     vertical-align: middle;
-    width: max-content;
-    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
 }
 
-.res-table thead th {
-    font-size: 13px;
-    color: #6b6b6b;
-    font-weight: 600;
-    background: #fafafa;
+/* header */
+.res-table thead {
     position: sticky;
     top: 0;
     z-index: 1;
+}
+
+.res-table thead th {
+    font: 600 13px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    color: #6b6b6b;
+    background: #fafafa;
     user-select: none;
     cursor: pointer;
 }
@@ -50,17 +66,17 @@
     cursor: default;
 }
 
-.res-table tbody tr+tr td {
-    border-top: 1px solid rgba(0, 0, 0, .06);
-}
-
-/* Sort arrow */
+/* sort arrow */
 th .sort {
     margin-left: 6px;
     border: 4px solid transparent;
     border-top-color: #bbb;
     display: inline-block;
-    transform: translateY(2px) rotate(0deg);
+    transform: translateY(2px);
+}
+
+th .sort.asc {
+    border-top-color: #111;
 }
 
 th .sort.desc {
@@ -68,16 +84,22 @@ th .sort.desc {
     border-top-color: #111;
 }
 
-th .sort.asc {
-    border-top-color: #111;
+/* rows */
+.res-table tbody tr+tr td {
+    border-top: 1px solid rgba(0, 0, 0, .06);
 }
 
-/* Guest cell */
+.reservation-row:hover {
+    background: var(--icons-bg);
+}
+
+/* ---- guest cell ---- */
 .guest-cell {
-    display: flex;
+    display: inline-grid;
+    grid-auto-flow: column;
     align-items: center;
     gap: 10px;
-    min-width: 180px;
+    justify-content: center;
 }
 
 .avatar {
@@ -88,27 +110,24 @@ th .sort.asc {
 }
 
 .avatar-fallback {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
     background: #efefef;
     color: #555;
     font-weight: 700;
-    display: grid;
-    place-items: center;
 }
 
-.guest-name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Listing column */
+.guest-name,
 .listing-name {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Status pill */
+/* ---- status pill ---- */
 .status-pill {
     font-size: 12px;
     font-weight: 600;
@@ -132,11 +151,11 @@ th .sort.asc {
     color: #b42318;
 }
 
-/* To do buttons */
+/* ---- actions ---- */
 .todo-actions {
     display: flex;
     gap: 10px;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .btn-approve,
@@ -155,63 +174,28 @@ th .sort.asc {
     border-color: #cbeeda;
 }
 
-.btn-approve:disabled {
-    opacity: .5;
-    cursor: default;
-}
-
 .btn-reject {
     color: #b42318;
     background: #fde8e8;
     border-color: #f7c2c0;
 }
 
+.btn-approve:disabled,
 .btn-reject:disabled {
     opacity: .5;
     cursor: default;
 }
 
-/* Column widths (tweak to taste) */
-.col-guest {
-    width: 280px;
-}
-
-.col-startDate {
-    width: 120px;
-}
-
-.col-endDate {
-    width: 120px;
-}
-
-.col-bookedAt {
-    width: 120px;
-}
-
-.col-listing {
-    width: 220px;
-}
-
-.col-payout {
-    width: 140px;
-    text-align: right;
-}
-
-.col-status {
-    width: 130px;
-}
-
-.col-todo {
-    width: 180px;
-}
-
-.col-payout {
-    text-align: right;
-}
-
-/* Empty state */
+/* ---- empty state ---- */
 .empty {
     text-align: center;
     color: #6b6b6b;
     padding: 40px 0 !important;
+}
+
+/* optional: center sort label+arrow as a unit */
+.res-table thead th>span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }

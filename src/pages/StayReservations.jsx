@@ -1,202 +1,143 @@
 // src/cmps/StayReservations.jsx
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { loadOrders, updateOrderStatus, removeOrder } from '../store/actions/order.actions'
 import { NavLink } from 'react-router-dom'
+import { loadOrders, updateOrderStatus } from '../store/actions/order.actions'
+import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service'
 
-function formatDate(dateStamp) {
-    if (!dateStamp) return '—'
-    const date = new Date(dateStamp)
-    if (isNaN(date)) return '—'
-    const mm = String(date.getMonth() + 1).padStart(2, '0')
-    const dd = String(date.getDate()).padStart(2, '0')
-    const yy = date.getFullYear()
-    return `${mm}/${dd}/${yy}`
-}
-
-function formatMoney(num, currency = 'USD') {
-    try {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(Number(num) || 0)
-    } catch {
-        return `$${Number(num || 0).toFixed(2)}`
-    }
-}
-
-function nameInitials(name = '') {
-    return name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join('')
-}
-
-const HEADERS = [
-    { key: 'guest', label: 'Guest' },
-    { key: 'startDate', label: 'Check-in' },
-    { key: 'endDate', label: 'Checkout' },
-    { key: 'listing', label: 'Listing' },
-    { key: 'payout', label: 'Total Payout' },
-    { key: 'status', label: 'Status' },
-    { key: 'todo', label: 'To do' },
+const COLS = [
+    { key: 'guest', label: 'Guest', get: r => (r.guest?.fullname || '').toLowerCase() },
+    { key: 'startDate', label: 'Check-in', get: r => new Date(r.startDate || 0).getTime() },
+    { key: 'endDate', label: 'Checkout', get: r => new Date(r.endDate || 0).getTime() },
+    { key: 'listing', label: 'Listing', get: r => (r.stay?.name || '').toLowerCase() },
+    { key: 'payout', label: 'Total Payout', get: r => Number(r.totalPrice) || 0 },
+    { key: 'status', label: 'Status', get: r => r.status || '' },
+    { key: 'todo', label: 'To do', get: null },
 ]
 
+const STATUS = {
+    pending: { cls: 'pending', label: 'Pending' },
+    approved: { cls: 'ok', label: 'Completed' },
+    completed: { cls: 'ok', label: 'Completed' },
+    rejected: { cls: 'bad', label: 'Rejected' },
+}
+
+const initials = (name = '') =>
+    name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join('')
+
 export function StayReservations() {
-    const { orders, isLoading } = useSelector(order => order.orderModule)
+    const { orders = [], isLoading } = useSelector(s => s.orderModule)
     const [sort, setSort] = useState({ by: 'startDate', dir: 'asc' })
 
-    useEffect(() => {
-        loadOrders()
-    }, [])
+    useEffect(() => { loadOrders() }, [])
 
-    const rows = useMemo(
-        () =>
-            (orders || []).map(order => ({
-                ...order,
-                listing: order.stay?.name || '—',
-                payout: order.totalPrice ?? 0,
-            })),
-        [orders]
-    )
-
-    function toggleSort(by) {
-        setSort(curr => (curr.by === by ? { by, dir: curr.dir === 'asc' ? 'desc' : 'asc' } : { by, dir: 'asc' }))
+    function toggleSort(key) {
+        if (key === 'todo') return
+        setSort(s => s.by === key ? { by: key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { by: key, dir: 'asc' })
     }
 
     const sorted = useMemo(() => {
-        const { by, dir } = sort
-        const mul = dir === 'asc' ? 1 : -1
-        const getVal = (order) => {
-            switch (by) {
-                case 'guest': return order.guest?.fullname || ''
-                case 'startDate': return new Date(order.startDate || 0).getTime()
-                case 'endDate': return new Date(order.endDate || 0).getTime()
-                case 'listing': return order.listing || ''
-                case 'payout': return Number(order.payout) || 0
-                case 'status': return order.status || ''
-                default: return ''
-            }
+        const col = COLS.find(c => c.key === sort.by)
+        const get = col?.get
+        const mul = sort.dir === 'asc' ? 1 : -1
+        const list = [...orders]
+        if (get) {
+            list.sort((a, b) => {
+                const va = get(a), vb = get(b)
+                if (va < vb) return -1 * mul
+                if (va > vb) return 1 * mul
+                return 0
+            })
         }
-        return [...rows].sort((a, b) => {
-            const valueA = getVal(a)
-            const valueB = getVal(b)
-            if (valueA < valueB) return -1 * mul
-            if (valueA > valueB) return 1 * mul
-            return 0
-        })
-    }, [rows, sort])
+        return list
+    }, [orders, sort])
 
     return (
         <section className="reservations-page">
-
             <header className="listings-header">
                 <nav className="listings-nav">
-                    <NavLink to="/dashboard/stay/edit" className="nav-link">
-                        Create listing
-                    </NavLink>
-                    <NavLink to="/dashboard/listings" className="nav-link active">
-                        Listings
-                    </NavLink>
-                    <NavLink to="/dashboard/reservations" className="nav-link">
-                        Reservations
-                    </NavLink>
+                    <NavLink to="/hosting/listings" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Create listing</NavLink>
+                    <NavLink to="/dashboard/listings" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Listings</NavLink>
+                    <NavLink to="/dashboard/reservations" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Reservations</NavLink>
                 </nav>
             </header>
 
-
-            <h2 className="res-title">
-                {isLoading ? 'Loading…' : `${rows.length} reservations`}
-            </h2>
+            <h2 className="res-title">{isLoading ? 'Loading…' : `${sorted.length} reservations`}</h2>
 
             <div className="res-card">
                 <table className="res-table">
                     <thead>
                         <tr>
-                            {HEADERS.map(head => (
+                            {COLS.map(c => (
                                 <th
-                                    key={head.key}
-                                    className={`col-${head.key} ${head.key === 'todo' ? 'no-sort' : ''}`}
-                                    onClick={() => head.key !== 'todo' && toggleSort(head.key)}
+                                    key={c.key}
+                                    className={`col-${c.key} ${!c.get ? 'no-sort' : ''}`}
+                                    onClick={() => toggleSort(c.key)}
                                 >
-                                    <span>{head.label}</span>
-                                    {head.key !== 'todo' && (
-                                        <i className={`sort ${sort.by === head.key ? sort.dir : ''}`} />
-                                    )}
+                                    <span>{c.label}</span>
+                                    {c.get && <i className={`sort ${sort.by === c.key ? sort.dir : ''}`} />}
                                 </th>
                             ))}
                         </tr>
                     </thead>
 
                     <tbody>
-                        {!isLoading && sorted.map(order => (
-                            <tr key={order._id} className='reservation-row'>
-                                {/* Guest */}
-                                <td className="col-guest">
-                                    <div className="guest-cell">
-                                        {order.guest?.imgUrl ? (
-                                            <img className="avatar" src={order.guest.imgUrl} alt={order.guest.fullname} />
-                                        ) : (
-                                            <div className="avatar avatar-fallback">{nameInitials(order.guest?.fullname)}</div>
-                                        )}
-                                        <span className="guest-name" title={order.guest?.fullname}>
-                                            {order.guest?.fullname || '—'}
-                                        </span>
-                                    </div>
-                                </td>
+                        {!isLoading && sorted.map(o => {
+                            const s = STATUS[o.status] || STATUS.pending
+                            return (
+                                <tr key={o._id} className="reservation-row">
+                                    {/* Guest */}
+                                    <td className="col-guest">
+                                        <div className="guest-cell">
+                                            {o.guest?.imgUrl
+                                                ? <img className="avatar" src={o.guest.imgUrl} alt={o.guest.fullname} />
+                                                : <div className="avatar avatar-fallback">{initials(o.guest?.fullname)}</div>}
+                                            <span className="guest-name" title={o.guest?.fullname}>{o.guest?.fullname || '—'}</span>
+                                        </div>
+                                    </td>
 
-                                {/* Dates */}
-                                <td className="col-startDate">{formatDate(order.startDate)}</td>
-                                <td className="col-endDate">{formatDate(order.endDate)}</td>
+                                    {/* Dates */}
+                                    <td className="col-startDate">{fmtDate(o.startDate)}</td>
+                                    <td className="col-endDate">{fmtDate(o.endDate)}</td>
 
-                                {/* Listing */}
-                                <td className="col-listing">
-                                    <span className="listing-name" title={order.listing}>{order.listing}</span>
-                                </td>
+                                    {/* Listing */}
+                                    <td className="col-listing">
+                                        <span className="listing-name" title={o.stay?.name || '—'}>{o.stay?.name || '—'}</span>
+                                    </td>
 
-                                {/* Total Payout */}
-                                <td className="col-payout">{formatMoney(order.payout)}</td>
+                                    {/* Total Payout */}
+                                    <td className="col-payout">{formatMoney(o.totalPrice, 'USD')}</td>
 
-                                {/* Status */}
-                                <td className="col-status">
-                                    <span
-                                        className={`status-pill ${order.status === 'approved' ? 'ok'
-                                            : order.status === 'rejected' ? 'bad'
-                                                : order.status === 'completed' ? 'ok'
-                                                    : 'pending'
-                                            }`}
-                                    >
-                                        {order.status === 'pending' ? 'Pending'
-                                            : order.status === 'approved' ? 'Completed'
-                                                : order.status === 'completed' ? 'Completed'
-                                                    : 'Rejected'}
-                                    </span>
-                                </td>
+                                    {/* Status */}
+                                    <td className="col-status">
+                                        <span className={`status-pill ${s.cls}`}>{s.label}</span>
+                                    </td>
 
-                                {/* To do */}
-                                <td className="col-todo">
-                                    <div className="todo-actions">
-                                        <button
-                                            className="btn-approve"
-                                            onClick={() => updateOrderStatus(order._id, 'approved')}
-                                            disabled={order.status === 'approved' || order.status === 'completed'}
-                                        >
-                                            Approve
-                                        </button>
-                                        <button
-                                            className="btn-reject"
-                                            onClick={() => updateOrderStatus(order._id, 'rejected')}
-                                            disabled={order.status === 'rejected'}
-                                        >
-                                            Reject
-                                        </button>
-                                        {/* <button
-                                            className="btn-delete"
-                                            onClick={() => removeOrder(order._id)}
-                                        >
-                                            Delete
-                                        </button> */}
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
+                                    {/* To do */}
+                                    <td className="col-todo">
+                                        <div className="todo-actions">
+                                            <button
+                                                className="btn-approve"
+                                                onClick={() => updateOrderStatus(o._id, 'approved')}
+                                                disabled={o.status === 'approved' || o.status === 'completed'}
+                                            >
+                                                Approve
+                                            </button>
+                                            <button
+                                                className="btn-reject"
+                                                onClick={() => updateOrderStatus(o._id, 'rejected')}
+                                                disabled={o.status === 'rejected'}
+                                            >
+                                                Reject
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            )
+                        })}
 
                         {(!isLoading && sorted.length === 0) && (
-                            <tr><td colSpan={HEADERS.length} className="empty">No reservations yet.</td></tr>
+                            <tr><td colSpan={COLS.length} className="empty">No reservations yet.</td></tr>
                         )}
                     </tbody>
                 </table>

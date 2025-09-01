@@ -22,7 +22,7 @@
   backdrop-filter: blur(var(--header-backdrop-blur));
   border-bottom: solid 0.75px var(--divider);
   padding: 24px 0px;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 .app-header.is-unset .nav-bar {
@@ -90,7 +90,7 @@
   display: flex;
   align-self: flex-start;
   justify-self: start;
-  gap: 8px;
+  gap: 4px;
   text-decoration: none;
   padding-top: 0.5em;
   margin-top: 8px;
@@ -100,7 +100,7 @@
 .logo .brand {
   font-size: 24px;
   color: var(--primary-01);
-  font-family: Roboto-Medium, sans-serif;
+  font-family: Roboto-Medium;
 }
 
 .nav-links {
@@ -139,11 +139,6 @@
 .nav-links a .nav-text {
   font-size: 14px;
   align-self: center;
-}
-
-.nav-links a.active .nav-text {
-  text-decoration: underline 3px var(--text-primary);
-  text-underline-offset: 12px;
 }
 
 .nav-links a:hover .nav-text {
@@ -232,4 +227,52 @@
 
   /* optional: tighten header padding a bit */
   /* .app-header { padding: 16px 24px; } */
+}
+
+
+@media (min-width: 769px) {
+
+  /* keep your current padding so there's room for the bar */
+  .nav-links a {
+    position: relative;
+    padding: 0 12px 24px;
+    /* bottom space for the underline */
+  }
+
+  .nav-links a .nav-text {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+  }
+
+  .nav-links a .nav-text::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    height: 3px;
+    background: var(--text-primary);
+    border-radius: 3px;
+    opacity: 0;
+    transform: scaleX(0.3);
+    transform-origin: center;
+    transition: opacity .2s ease,
+      transform .25s cubic-bezier(.2, .8, .2, 1);
+  }
+
+  .nav-links a.active .nav-text::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  .nav-links a.active::after {
+    content: none;
+  }
+}
+
+@media (max-width: 1440px) {
+  .app-header.is-mini {
+    height: 80px;
+  }
 }

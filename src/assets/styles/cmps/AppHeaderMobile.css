@@ -1,0 +1,189 @@
+/* src/assets/css/mobile-header.css */
+
+/* container */
+.m-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid var(--divider, #eee);
+    padding: 10px 12px;
+}
+
+/* bar */
+.m-header__bar {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    align-items: center;
+    gap: 10px;
+}
+
+/* logo & menu */
+.m-header__logo {
+    display: block;
+}
+
+.m-header__menu {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 0;
+    background: transparent;
+}
+
+.m-header__avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    object-fit: cover;
+}
+
+/* search pill */
+.m-search-pill {
+    height: 44px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border-radius: 999px;
+    border: 1px solid #eee;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
+    padding: 0 14px;
+    cursor: pointer;
+}
+
+.m-search-pill .pill-primary {
+    font-weight: 700;
+    color: var(--text-primary, #222);
+}
+
+.m-search-pill .pill-secondary {
+    color: var(--text-secondary, #6b6b6b);
+}
+
+.m-search-pill .pill-dot {
+    opacity: .5;
+}
+
+/* bottom sheet (stub for now) */
+.m-sheet {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .25);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    /* only the bottom panel is visible */
+}
+
+.m-sheet__panel {
+    align-self: end;
+    background: #fff;
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, .15);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    max-height: 92vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.m-sheet__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 2px 10px;
+}
+
+.m-sheet__close {
+    border: 0;
+    background: transparent;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.m-sheet__body {
+    overflow: auto;
+    padding-bottom: 8px;
+}
+
+/* ---------- Mobile nav-tabs behavior ---------- */
+@media (max-width: 768px) {
+    .header-main {
+        display: grid;
+        row-gap: 10px;
+    }
+
+    /* Make the tabs a sticky, scrollable row under the search pill */
+    .nav-links {
+        position: sticky;
+        top: calc(env(safe-area-inset-top, 0px) + 0px);
+        z-index: 2;
+
+        display: flex;
+        gap: 28px;
+        padding: 8px 14px 2px;
+        margin: 0 -14px;
+        /* full-bleed */
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+
+        background: linear-gradient(#fff, #fff);
+        /* keep it opaque under content */
+        scrollbar-width: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-links a {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+
+        color: var(--text-secondary);
+        text-decoration: none;
+        padding: 6px 4px 16px;
+        border-radius: 0;
+        position: relative;
+    }
+
+    .nav-links .nav-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .nav-links .nav-text {
+        font-size: 14px;
+    }
+
+    .nav-links a.active {
+        color: var(--text-primary);
+    }
+
+    .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        bottom: 6px;
+        height: 3px;
+        background: var(--text-primary);
+        border-radius: 3px;
+    }
+    .nav-links {
+        mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    }
+    .nav-links a .nav-icon {
+        transform: none;
+    }
+    .nav-links a:hover .nav-text {
+        font-family: inherit;
+    }
+}

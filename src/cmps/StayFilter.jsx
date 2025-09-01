@@ -79,10 +79,10 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
   function handleSubmit(ev) {
     ev.preventDefault()
     setFilter(filterByToEdit)
-    const params = buildSearchParams(filterByToEdit);
-    navigate({ pathname: '/explore', search: params.toString() });
-    clearActiveFilterCell();
-    onPopoverComplete?.();
+    const params = buildSearchParams(filterByToEdit)
+    navigate({ pathname: '/explore', search: params.toString() })
+    clearActiveFilterCell()
+    onPopoverComplete?.()
   }
 
   return (
@@ -92,15 +92,22 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
           <button
             type="button"
             className="chip"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("where") }}
+            onClick={() => {
+              onRequestExpand?.()
+              setActiveFilterCell("where")
+            }}
           >
-            <span className="icon">🏠</span> {storeFilter.address ? storeFilter.address : "Anywhere"}
+            <span className="icon">🏠</span>{" "}
+            {storeFilter.address ? storeFilter.address : "Anywhere"}
           </button>
 
           <button
             type="button"
             className="chip"
-            onClick={() => { onRequestExpand?.(); setActiveFilterCell("checkin") }}
+            onClick={() => {
+              onRequestExpand?.()
+              setActiveFilterCell("checkin")
+            }}
           >
             {formatDateForDisplay(storeFilter.checkIn) || "Anytime"}
           </button>
@@ -109,7 +116,10 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             <button
               type="button"
               className="chip"
-              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who") }}
+              onClick={() => {
+                onRequestExpand?.()
+                setActiveFilterCell("who")
+              }}
             >
               {formatGuestsLabel(storeFilter.guests)}
             </button>
@@ -117,7 +127,10 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
             <button
               type="button"
               className="search-btn"
-              onClick={() => { onRequestExpand?.(); setActiveFilterCell("who") }}
+              onClick={() => {
+                onRequestExpand?.()
+                setActiveFilterCell("who")
+              }}
               aria-label="Search"
             >
               <img src={searchIcon} alt="search icon" className="loupe" width={14} />
@@ -125,76 +138,88 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
           </div>
         </div>
       ) : (
-        <form ref={pillElementRef} className="filter-pill" onSubmit={handleSubmit}>
-          {/* WHERE */}
-          <label {...getCellProps("where")}>
-            <span className="title">Where</span>
-            <input
-              className="place-holder"
-              type="text"
-              placeholder="Search destinations"
-              name="address"
-              value={address || ""}
-              onChange={handleInputChange}
-              onFocus={() => getCellProps("where").onMouseDown(new MouseEvent("mousedown"))}
-              autoComplete="off"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault()
-                  setfilterByToEdit(prev => ({ ...prev, address: e.currentTarget.value }));
-                  goToNextCell();
+        <div className="filter-wrap">
+          <form ref={pillElementRef} className="filter-pill" onSubmit={handleSubmit}>
+            {/* WHERE */}
+            <label {...getCellProps("where")}>
+              <span className="title">Where</span>
+              <input
+                className="place-holder"
+                type="text"
+                placeholder="Search destinations"
+                name="address"
+                value={address || ""}
+                onChange={handleInputChange}
+                onFocus={() =>
+                  getCellProps("where").onMouseDown(new MouseEvent("mousedown"))
                 }
-              }}
+                autoComplete="off"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault()
+                    setfilterByToEdit((prev) => ({
+                      ...prev,
+                      address: e.currentTarget.value,
+                    }));
+                    goToNextCell()
+                  }
+                }}
+              />
+            </label>
 
-            />
-          </label>
-
-          {/* CHECK-IN */}
-          <div {...getCellProps("checkin")}>
-            <span className="title">Check in</span>
-            <span className="place-holder">
-              {formatDateForDisplay(checkIn) || "Add date"}
-            </span>
-          </div>
-
-          {/* CHECK-OUT */}
-          <div {...getCellProps("checkout")}>
-            <span className="title">Check out</span>
-            <span className="place-holder">
-              {formatDateForDisplay(checkOut) || "Add date"}
-            </span>
-          </div>
-
-          {/* WHO + Search */}
-          <div {...getCellProps("who")}>
-            <div className="who-search">
-              <div className="cell who">
-                <span className="title">Who</span>
-                <span className="place-holder">{formatGuestsLabel(guests)}</span>
-              </div>
-              <button className="search-btn" type="submit" aria-label="Search">
-                <img src={searchIcon} alt="search icon" className="loupe" width={14} />
-                <span className="label">Search</span>
-              </button>
+            {/* CHECK-IN */}
+            <div {...getCellProps("checkin")}>
+              <span className="title">Check in</span>
+              <span className="place-holder">
+                {formatDateForDisplay(checkIn) || "Add date"}
+              </span>
             </div>
-          </div>
-        </form>
-      )}
 
-      {!mini && activeFilterCell && (
-        <div
-          ref={popoverElementRef}
-          className={`filter-popover ${activeFilterCell === 'who' ? 'align-right' : activeFilterCell === 'where' ? 'align-left' : 'align-center'}`}
-        >
-          <DynamicPanel
-            activeKey={activeFilterCell}
-            registry={PANELS_BY_KEY}
-            panelProps={{
-              value: filterByToEdit,
-              onChange: (partial) => setfilterByToEdit(prev => ({ ...prev, ...partial })),
-              onAdvance: goToNextCell,
-            }}
-          />
+            {/* CHECK-OUT */}
+            <div {...getCellProps("checkout")}>
+              <span className="title">Check out</span>
+              <span className="place-holder">
+                {formatDateForDisplay(checkOut) || "Add date"}
+              </span>
+            </div>
+
+            {/* WHO + Search */}
+            <div {...getCellProps("who")}>
+              <div className="who-search">
+                <div className="cell who">
+                  <span className="title">Who</span>
+                  <span className="place-holder">{formatGuestsLabel(guests)}</span>
+                </div>
+                <button className="search-btn" type="submit" aria-label="Search">
+                  <img src={searchIcon} alt="search icon" className="loupe" width={14} />
+                  <span className="label">Search</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          {activeFilterCell && (
+            <div
+              ref={popoverElementRef}
+              className={`filter-popover ${activeFilterCell === "who"
+                  ? "align-right"
+                  : activeFilterCell === "where"
+                    ? "align-left"
+                    : "align-center"
+                }`}
+            >
+              <DynamicPanel
+                activeKey={activeFilterCell}
+                registry={PANELS_BY_KEY}
+                panelProps={{
+                  value: filterByToEdit,
+                  onChange: (partial) =>
+                    setfilterByToEdit((prev) => ({ ...prev, ...partial })),
+                  onAdvance: goToNextCell,
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

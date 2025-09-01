@@ -35,6 +35,7 @@
   max-width: 850px;
   overflow: clip;
   position: relative;
+  z-index: 50;
 }
 
 .filter-pill:focus-within {
@@ -58,7 +59,9 @@ form.filter-pill>*:not(:first-child)::after {
 
 
 form.filter-pill>*:hover+*::after,
-form.filter-pill>*:not(:first-child):hover::after {
+form.filter-pill>*:not(:first-child):hover::after,
+form.filter-pill>*.active+*::after,
+form.filter-pill>*:not(:first-child).active::after {
   opacity: 0;
 }
 

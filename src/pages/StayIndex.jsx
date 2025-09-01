@@ -1,63 +1,49 @@
-import { useState, useEffect } from 'react'
+// StayIndex.jsx
+import { useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
+
 import { useSelector } from 'react-redux'
-
-import { loadStays, addStay, updateStay, removeStay, setFilter } from '../store/actions/stay.actions'
-
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
-import { stayService } from '../services/stay/'
-import { userService } from '../services/user'
+import { loadStays } from '../store/actions/stay.actions'
 
 import { StayList } from '../cmps/StayList'
-import { StayFilter } from '../cmps/StayFilter'
+import { Pagination } from '../cmps/Pagination'
 
-export function StayIndex() {
+const PER_PAGE = 18
 
-    const { stays, filterBy, isLoading, address } = useSelector(storeState => storeState.stayModule)
+export function StayIndex({ autoLoad = true }) {
+    const { stays, filterBy } = useSelector(s => s.stayModule)
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
+    const total = stays.length
+    const totalPages = Math.max(1, Math.ceil(total / PER_PAGE))
+    const start = (page - 1) * PER_PAGE
+    const pageStays = stays.slice(start, start + PER_PAGE)
+    const shownEnd = Math.min(total, start + pageStays.length)
+
+    const setPage = (next) => {
+        const params = new URLSearchParams(searchParams)
+        if (next === 1) params.delete('page')
+        else params.set('page', String(next))
+        setSearchParams(params)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
 
     useEffect(() => {
+        if (!autoLoad) return
         loadStays(filterBy)
-        
-    }, [filterBy])
-
-    async function onRemoveStay(stayId) {
-        try {
-            await removeStay(stayId)
-            showSuccessMsg('Stay removed')
-        } catch (err) {
-            showErrorMsg('Cannot remove stay')
-        }
-    }
-
-    async function onAddStay() {
-        const stay = stayService.getEmptyStay()
-        stay.name = prompt('Name?', 'Some Name')
-        try {
-            const savedStay = await addStay(stay)
-            showSuccessMsg(`Stay added (id: ${savedStay._id})`)
-        } catch (err) {
-            showErrorMsg('Cannot add stay')
-        }
-    }
-
-    async function onUpdateStay(stay) {
-        const price = +prompt('New price?', stay.price) || 0
-        if (price === 0 || price === stay.price) return
-
-        const stayToSave = { ...stay, price }
-        try {
-            const savedStay = await updateStay(stayToSave)
-            showSuccessMsg(`Stay updated, new price: ${savedStay.price}`)
-        } catch (err) {
-            showErrorMsg('Cannot update stay')
-        }
-    }
+    }, [autoLoad, filterBy])
 
     return (
         <section className="stay-index">
-            <StayList
-                stays={stays}
-                onRemoveStay={onRemoveStay}
-                onUpdateStay={onUpdateStay}
+            <div className="stay-idx-title"><span>Explore over {total} homes</span></div>
+            <div className="stay-idx-subtitle"><span>Showing {total ? `${start + 1} - ${shownEnd}` : '0'}</span></div>
+            <StayList stays={pageStays} />
+            <Pagination
+                page={Math.min(page, totalPages)}
+                perPage={PER_PAGE}
+                total={total}
+                onChange={setPage}
             />
         </section>
     )
