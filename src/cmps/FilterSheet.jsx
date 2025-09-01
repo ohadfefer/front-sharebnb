@@ -128,7 +128,7 @@ export function FilterSheet({ id = "filter-sheet", initial = {}, onClose }) {
                         <section className="sheet-section">
                             <label className="field">
                                 <input
-                                    className="input"
+                                    className="fielter-input"
                                     placeholder="Search destinations"
                                     value={draft.address}
                                     onChange={e => setDraft(d => ({ ...d, address: e.target.value }))}
