@@ -12,8 +12,8 @@
 
 .map-col {
     position: sticky;
-    top: 114.5px;
-    height: calc(100vh - 96px);
+    top: 134.5px;
+    height: calc(100vh - 165px);
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 8px 28px rgba(0, 0, 0, .12);

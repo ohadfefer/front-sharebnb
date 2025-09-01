@@ -38,18 +38,18 @@ async function query(filterBy = { address: '', maxPrice: 0 }) {
             (stay1[sortField] - stay2[sortField]) * +sortDir)
     }
 
-    stays = stays.map(({ _id, name, price, host, imgUrls, type, loc, capacity, rooms, bedrooms, at }) => ({ 
-        _id, 
-        name, 
-        price, 
-        host, 
-        imgUrls, 
-        type, 
-        loc, 
-        capacity, 
-        rooms, 
-        bedrooms, 
-        at 
+    stays = stays.map(({ _id, name, price, host, imgUrls, type, loc, capacity, rooms, bedrooms, at }) => ({
+        _id,
+        name,
+        price,
+        host,
+        imgUrls,
+        type,
+        loc,
+        capacity,
+        rooms,
+        bedrooms,
+        at
     }))
     return stays
 }
@@ -63,39 +63,49 @@ async function remove(stayId) {
 }
 
 async function save(stay) {
-    var savedStay
+    let savedStay
     if (stay._id) {
         const stayToSave = {
             _id: stay._id,
             name: stay.name,
             type: stay.type,
-            price: stay.price,
-            imgUrls: stay.imgUrls,
+            price: Number(stay.price) || 0,
+            imgUrls: stay.imgUrls || [],
             loc: stay.loc,
-            host: stay.host
+            host: stay.host,
+            capacity: Number(stay.capacity) || 0,
+            rooms: Number(stay.rooms) || 0,
+            bedrooms: Number(stay.bedrooms) || 0,
+            bathrooms: Number(stay.bathrooms) || 0,
+            labels: stay.labels || [],
+            amenities: stay.amenities || [],
+            summary: stay.summary || '',
+            description: stay.description || ''
         }
         savedStay = await storageService.put(STORAGE_KEY, stayToSave)
-
     } else {
+        const defaultLoc = {
+            country: 'Norway', countryCode: 'NO', city: 'Bergen',
+            address: '12 Fjord Lane', lat: 60.39299, lng: 5.32415
+        }
         const stayToSave = {
             name: stay.name,
             type: stay.type,
             price: Number(stay.price) || 0,
-            imgUrls: stay.imgUrls.length ? stay.imgUrls : [],
-            loc: stay.city || {
-                country: 'Norway',
-                countryCode: 'NO',
-                city: 'Bergen',
-                address: '12 Fjord Lane',
-                lat: 60.39299,
-                lng: 5.32415
-            },
+            imgUrls: Array.isArray(stay.imgUrls) ? stay.imgUrls : [],
+            loc: (stay.loc && (stay.loc.city || stay.loc.country || stay.loc.address)) ? stay.loc : defaultLoc, // <—
+            capacity: Number(stay.capacity) || 0,
+            rooms: Number(stay.rooms) || 0,
+            bedrooms: Number(stay.bedrooms) || 0,
+            bathrooms: Number(stay.bathrooms) || 0,
+            labels: stay.labels || [],
+            amenities: stay.amenities?.length ? stay.amenities : ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking', 'Heating', 'Elevator'],
+            summary: stay.summary || '',
+            description: stay.description || '',
             reviews: [],
-            amenities: ['Pool', 'Wifi', 'Air conditioning', 'Kitchen', 'Parking', 'Heating', 'Elevator'],
             host: stay.host || {
-                _id: 'u103',
-                fullname: 'Maria Gomez',
-                imgUrl: 'https://a0.muscache.com/im/pictures/maria.jpg',
+                _id: 'u103', fullname: 'Maria Gomez',
+                imgUrl: 'https://a0.muscache.com/im/pictures/maria.jpg'
             }
         }
         savedStay = await storageService.post(STORAGE_KEY, stayToSave)
