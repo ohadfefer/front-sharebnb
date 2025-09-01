@@ -4,8 +4,10 @@ export const orderService = {
     query,
     getById,
     save,
+    remove,
     getStayById,
-    createOrder
+    createOrder,
+    updateStatus
 }
 
 function query(params) {
@@ -26,35 +28,52 @@ async function save(order) {
     return savedOrder
 }
 
+async function remove(orderId) {
+    return await httpService.delete(`order/${orderId}`)
+}
+
+async function updateStatus(orderId, status) {
+    try {
+        const order = await getById(orderId)
+        const updatedOrder = { ...order, status }
+        return await save(updatedOrder)
+    } catch (err) {
+        console.error('Error updating order status:', err)
+        throw err
+    }
+}
+
 async function getStayById(stayId) {
     // Import stay service dynamically to avoid circular dependency
     const { stayService } = await import('../stay')
     return await stayService.getById(stayId)
 }
 
-async function createOrder(stayId, stayData) {
+async function createOrder(stayId, stayData, overrides = {}) {
     try {
+        // Get current user
+        const { userService } = await import('../user')
+        const loggedInUser = userService.getLoggedinUser()
+        
+        if (!loggedInUser) {
+            throw new Error('User not logged in')
+        }
+
         const newOrder = {
-            hostId: stayData?.host?._id || 'u102',
-            guest: {
-                _id: 'u101',
-                fullname: 'User 1',
-            },
-            totalPrice: stayData?.price || 205.33,
-            startDate: '2025/10/15',
-            endDate: '2025/10/17',
-            guests: {
+            userId: loggedInUser._id,
+            stayId: stayId,
+            hostId: stayData?.host?._id || stayData?.hostId || 'u102',
+            totalPrice: overrides.totalPrice || stayData?.price || 205.33,
+            startDate: overrides.startDate || new Date().toISOString(),
+            endDate: overrides.endDate || new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+            guests: overrides.guests || {
                 adults: 1,
-                kids: 0,
+                children: 0,
+                infants: 0,
+                pets: 0
             },
-            order: {
-                _id: stayId,
-                name: stayData?.name || 'Stay Name',
-                price: stayData?.price || 0,
-            },
-            msgs: [],
-            status: 'pending',
-            createdAt: Date.now()
+            status: overrides.status || 'pending',
+            createdAt: new Date().toISOString()
         }
         
         const savedOrder = await save(newOrder)
