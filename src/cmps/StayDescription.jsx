@@ -30,6 +30,7 @@ export function StayDescription({ stay }) {
                 </div>
                 <div className="column-2">
                     <p>Hosted by {stay.host.fullname}</p>
+                    <p>Superhost · 3 years of hosting</p>
                 </div>
             </div>
             <hr className="divider" />

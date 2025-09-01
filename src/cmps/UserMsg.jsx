@@ -35,8 +35,20 @@ export function UserMsg() {
     }
 	return (
 		<section className={`user-msg ${msg?.type} ${msgClass()}`}>
-			{/* <button onClick={closeMsg}>x</button> */}
-			{msg?.txt}
+			{msg?.stay && (
+				<img 
+					src={msg.stay.imgUrls?.[0]} 
+					alt={msg.stay.name}
+					className="stay-image"
+					onError={(e) => {
+						e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+					}}
+				/>
+			)}
+			<div className="msg-content">
+				<span className="msg-text">{msg?.txt}</span>
+				<button className="close-btn" onClick={closeMsg}>x</button>
+			</div>
 		</section>
 	)
 }

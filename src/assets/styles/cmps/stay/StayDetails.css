@@ -172,7 +172,7 @@
 .stay-details-grid {
     display: grid;
     grid-template-columns: 1fr 360px;
-    gap: 40px;
+    /* gap: 40px; */
     margin-top: 32px;
 }
 
