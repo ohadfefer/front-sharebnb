@@ -19,7 +19,8 @@ const initialState = {
 }
 
 export function stayReducer(state = initialState, action) {
-    var newState = state
+    let newState = state
+    let stays
     switch (action.type) {
         case SET_STAYS:
             newState = { ...state, stays: action.stays }
@@ -42,18 +43,12 @@ export function stayReducer(state = initialState, action) {
         case ADD_STAY_MSG:
             if (action.msg && state.stay) {
                 newState = { ...state, stay: { ...state.stay, msgs: [...state.stay.msgs || [], action.msg] } }
-                break
             }
+            break
         case SET_FILTER_BY:
-            return {
-                ...state,
-                filterBy: { ...state.filterBy, ...action.filterBy },
-            }
+            return { ...state, filterBy: { ...state.filterBy, ...action.filterBy } }
         case SET_IS_LOADING:
-            return {
-                ...state,
-                isLoading: action.isLoading,
-            }
+            return { ...state, isLoading: action.isLoading }
         default:
     }
     return newState
