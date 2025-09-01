@@ -80,10 +80,32 @@ async function createOrder(stayId, stayData, overrides = {}) {
             throw new Error('Stay data is required')
         }
 
+        // Extract hostId from various possible locations in stayData
+        let hostId = null
+        if (stayData.host?._id) {
+            hostId = stayData.host._id
+        } else if (stayData.host?.id) {
+            hostId = stayData.host.id
+        } else if (stayData.hostId) {
+            hostId = stayData.hostId
+        } else if (stayData.owner?._id) {
+            hostId = stayData.owner._id
+        } else if (stayData.ownerId) {
+            hostId = stayData.ownerId
+        } else if (loggedInUser?._id) {
+            // If no host found, assume the current user is the host (for user-created listings)
+            hostId = loggedInUser._id
+        } else {
+            // Last resort fallback
+            hostId = 'u102'
+        }
+
+        console.log('Extracted hostId:', hostId, 'from stayData:', stayData)
+
         const newOrder = {
             userId: userId,
             stayId: stayId,
-            hostId: stayData?.host?._id || stayData?.host?.id ,
+            hostId: hostId,
             totalPrice: overrides.totalPrice || stayData?.price || 205.33,
             startDate: overrides.startDate || new Date().toISOString(),
             endDate: overrides.endDate || new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),

@@ -39,6 +39,10 @@ export function StayOrder() {
             setIsLoading(true)
             setError(null)
             const stayData = await orderService.getStayById(stayId)
+            console.log('loadStay - stayData loaded:', stayData)
+            console.log('loadStay - stayData.host:', stayData?.host)
+            console.log('loadStay - stayData.hostId:', stayData?.hostId)
+            
             if (!stayData) {
                 setError('Stay not found')
                 return
@@ -71,6 +75,10 @@ export function StayOrder() {
 
     async function createOrderFromService() {
         try {
+            console.log('createOrderFromService - stay data:', stay)
+            console.log('createOrderFromService - stay.host:', stay?.host)
+            console.log('createOrderFromService - stay.hostId:', stay?.hostId)
+            
             const overrides = {
                 startDate: checkIn,
                 endDate: checkOut,
