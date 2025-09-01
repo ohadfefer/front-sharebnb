@@ -29,13 +29,18 @@ function capFirst(txt = "") {
 export function TripIndex() {
   const navigate = useNavigate()
 
-  const loggedInUser = useSelector(s => s.userModule.loggedInUser)
+  const loggedInUser = useSelector(s => s.userModule.user)
   const { orders, isLoading } = useSelector(s => s.orderModule)
+
+  console.log('TripIndex - loggedInUser:', loggedInUser)
+  console.log('TripIndex - orders:', orders)
 
   // Set the backend filter to the logged-in user's id (guest) and load orders.
   useEffect(() => {
-    if (!loggedInUser?._id) return
-    setFilter({ userId: loggedInUser._id }) // backend aliases userId -> guestId
+    // Handle guest mode - if no user is logged in, use a default guest user ID
+    const userId = loggedInUser?._id || 'guest-user-id'
+    console.log('TripIndex - setting filter with userId:', userId)
+    setFilter({ userId: userId }) // backend aliases userId -> guestId
     loadOrders()
   }, [loggedInUser?._id])
 

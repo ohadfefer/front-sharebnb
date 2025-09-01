@@ -19,12 +19,16 @@ function getById(orderId) {
 }
 
 async function save(order) {
+    console.log('Saving order in remote service:', order)
     var savedOrder
     if (order._id) {
+        console.log('Updating existing order:', order._id)
         savedOrder = await httpService.put(`order/${order._id}`, order)
     } else {
+        console.log('Creating new order')
         savedOrder = await httpService.post('order', order)
     }
+    console.log('Order saved successfully:', savedOrder)
     return savedOrder
 }
 
@@ -44,9 +48,17 @@ async function updateStatus(orderId, status) {
 }
 
 async function getStayById(stayId) {
-    // Import stay service dynamically to avoid circular dependency
-    const { stayService } = await import('../stay')
-    return await stayService.getById(stayId)
+    try {
+        console.log('Getting stay by ID:', stayId)
+        // Import stay service dynamically to avoid circular dependency
+        const { stayService } = await import('../stay')
+        const stay = await stayService.getById(stayId)
+        console.log('Stay retrieved:', stay)
+        return stay
+    } catch (err) {
+        console.error('Error getting stay by ID:', err)
+        throw err
+    }
 }
 
 async function createOrder(stayId, stayData, overrides = {}) {
@@ -55,14 +67,23 @@ async function createOrder(stayId, stayData, overrides = {}) {
         const { userService } = await import('../user')
         const loggedInUser = userService.getLoggedinUser()
         
-        if (!loggedInUser) {
-            throw new Error('User not logged in')
+        console.log('Creating order with:', { stayId, stayData, overrides, loggedInUser })
+        
+        // Handle guest mode - if no user is logged in, use a default guest user ID
+        const userId = loggedInUser?._id || 'guest-user-id'
+        
+        if (!stayId) {
+            throw new Error('Stay ID is required')
+        }
+
+        if (!stayData) {
+            throw new Error('Stay data is required')
         }
 
         const newOrder = {
-            userId: loggedInUser._id,
+            userId: userId,
             stayId: stayId,
-            hostId: stayData?.host?._id || stayData?.hostId || 'u102',
+            hostId: stayData?.host?._id || stayData?.host?.id ,
             totalPrice: overrides.totalPrice || stayData?.price || 205.33,
             startDate: overrides.startDate || new Date().toISOString(),
             endDate: overrides.endDate || new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
@@ -76,7 +97,9 @@ async function createOrder(stayId, stayData, overrides = {}) {
             createdAt: new Date().toISOString()
         }
         
+        console.log('Saving order:', newOrder)
         const savedOrder = await save(newOrder)
+        console.log('Order saved successfully:', savedOrder)
         return savedOrder
     } catch (err) {
         console.error('Error creating order:', err)

@@ -8,17 +8,23 @@ export const SET_WATCHED_USER = 'SET_WATCHED_USER'
 export const REMOVE_USER = 'REMOVE_USER'
 export const SET_USERS = 'SET_USERS'
 export const SET_SCORE = 'SET_SCORE'
+export const INIT_USER = 'INIT_USER'
 
 const initialState = {
     count: 10,
-    user: userService.getLoggedinUser(),
+    user: null, // Don't initialize from service here, use INIT_USER action instead
     users: [],
     watchedUser : null
 }
 
 export function userReducer(state = initialState, action) {
+    console.log('userReducer called with action:', action.type, action)
     var newState = state
     switch (action.type) {
+        case INIT_USER:
+            console.log('userReducer - INIT_USER case, setting user:', action.user)
+            newState = { ...state, user: action.user }
+            break
         case INCREMENT:
             newState = { ...state, count: state.count + 1 }
             break
@@ -29,6 +35,7 @@ export function userReducer(state = initialState, action) {
             newState = { ...state, count: state.count + action.diff }
             break
         case SET_USER:
+            console.log('userReducer - SET_USER case, setting user:', action.user)
             newState = { ...state, user: action.user }
             break
         case SET_WATCHED_USER:
@@ -51,6 +58,7 @@ export function userReducer(state = initialState, action) {
         default:
     }
     
+    console.log('userReducer - new state:', newState)
     return newState
 
 }

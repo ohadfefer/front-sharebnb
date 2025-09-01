@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router'
+import { useEffect } from 'react'
 
 import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs.jsx'
 import { StayIndex } from './pages/StayIndex.jsx'
@@ -21,9 +22,14 @@ import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { StayOrder } from './pages/StayOrder.jsx'
 import { StayReservations } from './pages/StayReservations.jsx'
 import { StayListings } from './pages/StayListings.jsx'
-
+import { initUser } from './store/actions/user.actions.js'
 
 export function RootCmp() {
+    useEffect(() => {
+        // Initialize user state from sessionStorage when app loads
+        initUser()
+    }, [])
+
     return (
         <div className="main-container">
             <AppHeader />

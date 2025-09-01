@@ -9,9 +9,8 @@ export default defineConfig({
 	// 	outDir: '../backend/public',
 	// 	emptyOutDir: true,
 	// },
-	// If we want to build a local version (that uses local services)
-	// define: {
-	// 	'process.env.VITE_LOCAL': 'true'
-	// }
-
+	// Ensure we use remote services (backend API) instead of local services
+	define: {
+		'import.meta.env.VITE_LOCAL': 'false'
+	}
 })

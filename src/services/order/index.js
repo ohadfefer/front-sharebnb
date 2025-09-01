@@ -5,6 +5,8 @@ import { getRandomIntInclusive, makeLorem } from '../util.service'
 import { orderService as local } from './order.service.local'
 import { orderService as remote } from './order.service.remote'
 
+console.log('Order service - VITE_LOCAL:', VITE_LOCAL, 'Type:', typeof VITE_LOCAL)
+
 function getEmptyOrder() {
 	return {
         _id: '',
@@ -24,7 +26,10 @@ function getDefaultFilter() {
     }
 }
 
-const service = (VITE_LOCAL === 'true') ? local : remote 
+// Force remote service for now to debug the issue
+const service = remote // (VITE_LOCAL === 'true') ? local : remote
+console.log('Using order service:', service === local ? 'LOCAL' : 'REMOTE')
+
 export const orderService = { getEmptyOrder, getDefaultFilter, ...service }
 
 
