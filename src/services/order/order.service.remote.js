@@ -1,10 +1,15 @@
 import { httpService } from '../http.service'
 
 export const orderService = {
+    query,
     getById,
     save,
     getStayById,
     createOrder
+}
+
+function query(params) {
+  return httpService.get('order', params)
 }
 
 function getById(orderId) {
