@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { useLocation, NavLink } from "react-router-dom"
 
 import { formatGuestsLabel } from "../services/util.service"
-import logo from '../assets/logo/icon-airbnb-colored.png'
+import logo from '../assets/logo/sharebnb-logo.svg'
 import hamburger from '../assets/logo/icons/hamburger.svg'
 import { FilterSheet } from "./FilterSheet.jsx"
 

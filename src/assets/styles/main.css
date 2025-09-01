@@ -22,6 +22,7 @@
 @import "cmps/AppHeaderMobile.css";
 @import "cmps/DynamicPanel.css";
 @import "cmps/MobileFilter.css";
+@import "cmps/Pagination.css";
 @import "cmps/TripIndex.css";
 @import "cmps/AppHeader";
 @import "cmps/AppFooter";

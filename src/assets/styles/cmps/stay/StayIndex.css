@@ -16,3 +16,15 @@
         margin-inline-end: 0;
     }
 }
+
+.stay-idx-title {
+    font-family: Roboto-Medium;
+    font-size: 20px;
+}
+
+.stay-idx-subtitle {
+    font-family: Roboto;
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+}

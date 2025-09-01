@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useState, useRef, useEffect } from "react"
 
-import logo from '../assets/logo/icon-airbnb-colored.png'
+import logo from '../assets/logo/sharebnb-logo.svg'
 import hamburger from '../assets/logo/icons/hamburger.svg'
 import language from '../assets/logo/icons/language.svg'
 
@@ -57,7 +57,7 @@ export function AppHeaderDesktop() {
                     {/* LOGO */}
                     <NavLink to="/stay" className="logo">
                         <img src={logo} alt="" width={30} height={30} />
-                        <span className="brand">Sharebnb</span>
+                        <span className="brand">sharebnb</span>
                     </NavLink>
 
                     {/* CENTER: NAV + FILTER */}
