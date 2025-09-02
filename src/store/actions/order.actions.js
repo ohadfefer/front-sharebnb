@@ -18,7 +18,6 @@ export async function loadOrders() {
         store.dispatch({ type: SET_IS_LOADING, isLoading: true })
         const orders = await orderService.query(filterBy)
 
-
         store.dispatch({ type: SET_ORDERS, orders })
         return orders
     } catch (err) {

@@ -52,6 +52,9 @@ export function StayReservations() {
         return list
     }, [orders, sort])
 
+    console.log(orders);
+    
+
     return (
         <section className="reservations-page">
             <header className="listings-header">

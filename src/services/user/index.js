@@ -16,7 +16,7 @@ function getEmptyUser() {
 }
 
 // Force remote service for now to debug the issue
-const service = local // (VITE_LOCAL === 'true')? local : remote
+const service = remote // (VITE_LOCAL === 'true')? local : remote
 console.log('Using user service:', service === local ? 'LOCAL' : 'REMOTE')
 
 export const userService = { ...service, getEmptyUser }
