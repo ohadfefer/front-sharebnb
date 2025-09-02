@@ -32,7 +32,7 @@ export function StayDescription({ stay }) {
                 </div>
 
                 <p className="capacity">
-                    {capacity ?? '—'} guests · {bedrooms ?? '—'} bedrooms · {beds ?? '—'} beds · {baths ?? '—'} baths
+                    {capacity ?? '2'} guests · {bedrooms ?? '2'} bedrooms · {beds ?? '2'} beds · {baths ?? '2'} baths
                 </p>
 
                 <div className="reviews-modal">

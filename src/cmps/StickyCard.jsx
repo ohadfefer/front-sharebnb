@@ -21,6 +21,9 @@ export function StickyCard({ selectedDates }) {
     const [activePanel, setActivePanel] = useState(null)
     const dateAnchorRef = useRef(null)
     const guestsAnchorRef = useRef(null)
+    const stickyCardRef = useRef(null)
+    const datePanelRef = useRef(null)
+    const guestsPanelRef = useRef(null)
 
     const [guests, setGuests] = useState({ adults: 0, children: 0, infants: 0, pets: 0 })
 
@@ -56,17 +59,57 @@ export function StickyCard({ selectedDates }) {
         setFormData(prev => ({ ...prev, guests: formatGuestsLabel(guests) }))
     }, [guests])
 
-    const handleCheckAvailability = () => {
-        if (!isFilled) {
-            setIsFilled(true)
-        } else {
-            const params = buildSearchParams({
-                checkIn: formData.checkin,
-                checkOut: formData.checkout,
-                guests   // { adults, children, infants, pets }
-            })
-            navigate(`/stay/${stayId}/order?${params.toString()}`)
+    // Auto-open DateRangePanel when navigating to sticky-card
+    useEffect(() => {
+        const handleHashChange = () => {
+            if (window.location.hash === '#sticky-card') {
+                setActivePanel('dates')
+            }
         }
+
+        // Check on mount
+        if (window.location.hash === '#sticky-card') {
+            setActivePanel('dates')
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashChange)
+        return () => window.removeEventListener('hashchange', handleHashChange)
+    }, [])
+
+    // Close active panel on outside click (but not on hover/mouseleave)
+    useEffect(() => {
+        if (!activePanel) return
+
+        const handleDocumentMouseDown = (event) => {
+            const target = event.target
+            const isInsideDates = datePanelRef.current && datePanelRef.current.contains(target)
+            const isInsideGuests = guestsPanelRef.current && guestsPanelRef.current.contains(target)
+            const isInsideAnchors = (
+                (dateAnchorRef.current && dateAnchorRef.current.contains(target)) ||
+                (guestsAnchorRef.current && guestsAnchorRef.current.contains(target))
+            )
+
+            if (isInsideDates || isInsideGuests || isInsideAnchors) return
+            setActivePanel(null)
+        }
+
+        document.addEventListener('mousedown', handleDocumentMouseDown)
+        return () => document.removeEventListener('mousedown', handleDocumentMouseDown)
+    }, [activePanel])
+
+    const handleCheckAvailability = () => {
+        const hasBothDates = Boolean(formData.checkin && formData.checkout)
+        if (!hasBothDates) {
+            setActivePanel('dates')
+            return
+        }
+        const params = buildSearchParams({
+            checkIn: formData.checkin,
+            checkOut: formData.checkout,
+            guests   // { adults, children, infants, pets }
+        })
+        navigate(`/stay/${stayId}/order?${params.toString()}`)
     }
 
     const getButtonText = () => {
@@ -83,18 +126,21 @@ export function StickyCard({ selectedDates }) {
     const closePanels = () => setActivePanel(null)
 
     return (
-        <aside className="sticky-card">
+        <aside className="sticky-card" ref={stickyCardRef}>
             <div className="sticky-card-inner">
                 <div className="sticky-card-header">
-                    {nightlyPrice ? (
+                    {isFilled && formData.checkin && formData.checkout ? (
                         <>
-                            <span style={{ color: "#6b6b6b", fontSize: "16px" }}>{formatMoney(nightlyPrice)} / night</span><br />
+                            {/* <span style={{ color: "#6b6b6b", fontSize: "16px" }}>{formatMoney(nightlyPrice)} / night</span><br /> */}
                             {nights > 0 && (
-                                <>{formatMoney(subtotal)} for {nights} night{nights > 1 ? "s" : ""}</>
+                                <>
+                                    <span className="total-price">{formatMoney(subtotal)}</span>
+                                    <span className="nights-amount">for {nights} night{nights > 1 ? "s" : ""}</span>
+                                </>
                             )}
                         </>
                     ) : (
-                        "Add dates for prices"
+                        <span className="add-dates">Add dates for prices</span>
                     )}
                 </div>
                 <div className="sticky-card-fields">
@@ -135,12 +181,16 @@ export function StickyCard({ selectedDates }) {
                 </button>
 
                 {activePanel === 'dates' && (
-                    <div className="popover-small right-aligned" onMouseLeave={closePanels}>
+                    <div className="popover-small bottom-aligned" ref={datePanelRef}>
                         <DateRangePanel
                             value={{ checkIn: formData.checkin, checkOut: formData.checkout }}
                             onChange={(next) => {
                                 setFormData(prev => ({ ...prev, checkin: next.checkIn, checkout: next.checkOut }))
-                                if (next.checkIn && next.checkOut) setIsFilled(true)
+                                if (next.checkIn && next.checkOut) setIsFilled(true) // DateRangePanel should fill only one field at a time 
+                                // if (next.checkIn && next.checkOut) {
+                                //     setIsFilled(true)
+                                //     setActivePanel(null)
+                                // }
                             }}
                             onComplete={closePanels}
                         />
@@ -148,7 +198,7 @@ export function StickyCard({ selectedDates }) {
                 )}
 
                 {activePanel === 'guests' && (
-                    <div className="popover-small right-aligned" onMouseLeave={closePanels}>
+                    <div className="popover-small-guests bottom-aligned" ref={guestsPanelRef}>
                         <GuestsPanel
                             value={guests}
                             onChange={(partial) => {

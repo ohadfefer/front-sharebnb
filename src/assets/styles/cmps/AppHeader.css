@@ -60,8 +60,7 @@
   --filter-scale: .92;
   --nav-opacity: 0;
   --nav-translate: -6px;
-
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+  /* box-shadow: 0 6px 20px rgba(0, 0, 0, .08); */
   padding: 0px;
 
   .logo,
