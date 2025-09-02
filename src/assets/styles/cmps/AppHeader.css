@@ -40,10 +40,6 @@
   width: 100%;
   row-gap: 8px;
   align-items: start;
-
-  span {
-    width: max-content;
-  }
 }
 
 .filter {

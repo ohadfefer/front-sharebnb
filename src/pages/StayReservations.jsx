@@ -17,8 +17,8 @@ const COLS = [
 
 const STATUS = {
     pending: { cls: 'pending', label: 'Pending' },
-    approved: { cls: 'ok', label: 'Completed' },
-    completed: { cls: 'ok', label: 'Completed' },
+    approved: { cls: 'ok', label: 'Approved' },
+    completed: { cls: 'ok', label: 'Approved' },
     rejected: { cls: 'bad', label: 'Rejected' },
 }
 
