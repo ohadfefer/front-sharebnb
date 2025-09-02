@@ -47,7 +47,17 @@
 }
 
 .stay-info-grid.host-grid .column-2 {
+    display: flex;
+    gap: 3px;
+}
+
+.stay-info-grid.host-grid .column-2 p:first-child {
     font-family: 'Roboto-Medium';
+}
+
+.stay-info-grid.host-grid .column-2 p:last-child {
+    font-size: 15px;
+    color: var(--gray3);
 }
 
 .stay-info-grid.features-grid {

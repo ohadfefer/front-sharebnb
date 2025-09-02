@@ -1,5 +1,5 @@
 .stay-listings-page {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -26,7 +26,7 @@
 
 .nav-link:hover {
     color: var(--black);
-    
+
 }
 
 .nav-link.active {
@@ -59,7 +59,7 @@
 .stays-table th {
     background: var(--neutrals-o1);
     padding: 16px 12px;
-    text-align: left;
+    text-align: center;
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     color: var(--gray3);
@@ -73,6 +73,7 @@
 .stays-table td {
     padding: 16px 12px;
     border-bottom: 1px solid var(--neutrals-o2);
+    text-align: center;
     vertical-align: middle;
 }
 
@@ -142,6 +143,7 @@
     width: 80px;
     text-align: center;
     font-family: 'Roboto-Medium', sans-serif;
+    font-size: 15px;
     color: var(--gray3);
 }
 
@@ -149,29 +151,33 @@
     width: 100px;
     font-family: 'Roboto-Medium', sans-serif;
     color: var(--gray3);
+    font-size: 15px;
 }
 
 .location-cell {
     width: 150px;
     color: var(--gray3);
-    font-size: 14px;
+    font-size: 15px;
+    font-family: 'Roboto-Medium', sans-serif;
+
 }
 
 .date-cell {
+    font-family: 'Roboto-Medium';
     width: 120px;
     color: var(--gray3);
-    font-size: 14px;
+    font-size: 15px;
 }
 
 @media (max-width: 1200px) {
     .stay-listings-page {
         padding: 16px;
     }
-    
+
     .listings-nav {
         gap: 24px;
     }
-    
+
     .nav-link {
         font-size: 14px;
         padding: 6px 12px;
@@ -184,21 +190,21 @@
         gap: 16px;
         align-items: center;
     }
-    
+
     .stays-table {
         font-size: 12px;
     }
-    
+
     .stays-table th,
     .stays-table td {
         padding: 12px 8px;
     }
-    
+
     .stay-image {
         width: 40px;
         height: 40px;
     }
-    
+
     .stay-name {
         font-size: 12px;
     }

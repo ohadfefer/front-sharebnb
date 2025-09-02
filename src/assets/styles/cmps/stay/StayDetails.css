@@ -1,10 +1,11 @@
 .stay-details {
     max-width: 1200px;
     margin: 0 auto;
-    padding-top: 40px;
+    /* padding-top: 20px; */
+    padding: 0 32px 32px 32px;
 }
 
-/* Sticky in-page navigation header */
+/* sticky in-page navigation header */
 .details-nav {
     position: sticky;
     top: 0;
@@ -172,7 +173,7 @@
 .stay-details-grid {
     display: grid;
     grid-template-columns: 1fr 360px;
-    gap: 40px;
+    /* gap: 40px; */
     margin-top: 32px;
 }
 

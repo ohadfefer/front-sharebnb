@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const API_KEY = 'AIzaSyCFx-CfK6OdCOx4UoFeWOs3hvQERMAl_uI'
+const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY_DETAILS;
 
 export function StayMap({ stay }) {
     const mapRef = useRef(null)
@@ -12,7 +12,7 @@ export function StayMap({ stay }) {
 
         if (!window.google || !window.google.maps) {
             const script = document.createElement('script')
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=places`
             script.async = true
             script.defer = true
             script.onload = initMap

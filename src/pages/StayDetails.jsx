@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service'
+import { showSuccessMsg, showRemoveMsg, showErrorMsg } from '../services/event-bus.service'
 import { addStayMsg, getCmdSetStay } from '../store/actions/stay.actions'
 import { stayService } from '../services/stay/index'
 import { StayGallery } from '../cmps/StayGallery'
@@ -81,7 +81,11 @@ export function StayDetails() {
 
   function handleSave() {
     setIsSaved(!isSaved)
-    showSuccessMsg(isSaved ? 'Removed from saved' : 'Saved to favorites')
+    if (isSaved) {
+      showRemoveMsg('Removed from saved', stay)
+    } else {
+      showSuccessMsg('Saved to favorites', stay)
+    }
   }
 
   if (isLoading) return <div>Loading...</div>

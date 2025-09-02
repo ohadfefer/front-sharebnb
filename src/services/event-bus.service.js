@@ -22,9 +22,14 @@ export function showUserMsg(msg) {
     eventBus.emit(SHOW_MSG, msg)
 }
 
-export function showSuccessMsg(txt) {
-    showUserMsg({txt, type: 'success'})
+export function showSuccessMsg(txt, stay = null) {
+    showUserMsg({txt, type: 'success', stay})
 }
+
+export function showRemoveMsg(txt, stay = null) {
+    showUserMsg({txt, type: 'remove', stay})
+}
+
 export function showErrorMsg(txt) {
     showUserMsg({txt, type: 'error'})
 }

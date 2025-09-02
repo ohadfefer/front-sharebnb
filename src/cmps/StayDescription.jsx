@@ -32,7 +32,7 @@ export function StayDescription({ stay }) {
                 </div>
 
                 <p className="capacity">
-                    {capacity ?? '—'} guests · {bedrooms ?? '—'} bedrooms · {beds ?? '—'} beds · {baths ?? '—'} baths
+                    {capacity ?? '2'} guests · {bedrooms ?? '2'} bedrooms · {beds ?? '2'} beds · {baths ?? '2'} baths
                 </p>
 
                 <div className="reviews-modal">
@@ -49,16 +49,18 @@ export function StayDescription({ stay }) {
 
             <div className="stay-info-grid host-grid">
                 <div className="column-1">
-                    {stay?.host?.imgUrl && (
-                        <img
-                            src={stay.host.imgUrl}
-                            alt={stay?.host?.fullname || 'Host'}
-                            className="host-image"
-                        />
-                    )}
+                    <img 
+                        src={stay.host.imgUrl} 
+                        alt={stay.host.fullname} 
+                        className="host-image"
+                        onError={(e) => {
+                            e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+                        }}
+                    />
                 </div>
                 <div className="column-2">
-                    <p>Hosted by {stay?.host?.fullname || '—'}</p>
+                    <p>Hosted by {stay.host.fullname}</p>
+                    <p>Superhost · 3 years of hosting</p>
                 </div>
             </div>
 
