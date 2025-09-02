@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import confetti from 'canvas-confetti'
-import { orderService } from '../services/order/order.service.local.js'
+import { orderService } from '../services/order/index.js'
 import { getCmdUpdateOrder } from '../store/actions/order.actions.js'
 import { formatGuestsLabel, formatDateMMDDYYYY, buildStayPathWithParams } from '../services/util.service.js'
 

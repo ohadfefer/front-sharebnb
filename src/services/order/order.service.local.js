@@ -1,22 +1,23 @@
 // src/services/order/order.service.local.js
 import { storageService } from '../async-storage.service'
-import { stayService } from '../stay/stay.service.local'
+import { stayService } from '../stay/stay.service.local.js'
+
 import { makeId } from '../util.service'
 
 const ORDER_KEY = 'order'
 
 // seed once
-seedDemoOrders()
+// seedDemoOrders()
 
 export const orderService = {
     query,
     getById,
     save,
-    remove,
-    addOrderMsg,
-    updateStatus,
-    getDefaultFilter,
-    getEmptyOrder,
+    // remove,
+    // addOrderMsg,
+    // updateStatus,
+    // getDefaultFilter,
+    // getEmptyOrder,
     getStayById,
     createOrder,
 }
@@ -31,70 +32,24 @@ function getById(orderId) {
 }
 
 async function save(order) {
-    const normalized = normalizeOrder(order)
-    if (normalized._id) {
-        return storageService.put(ORDER_KEY, normalized)
-    } else {
-        normalized._id = makeId()
-        return storageService.post(ORDER_KEY, normalized)
+    
+    const orderToSave = {
+        _id: order._id || makeId(),
+        hostId: order.hostId,
+        guest: order.guest,
+        totalPrice: order.totalPrice,
+        startDate: order.startDate,
+        endDate: order.endDate,
+        guests: order.guests,
+        order: order.order,
+        msgs: order.msgs || [],
+        status: order.status || 'pending'
     }
-}
 
-async function remove(orderId) {
-    return storageService.remove(ORDER_KEY, orderId)
-}
-
-async function addOrderMsg(orderId, text) {
-    const curr = await getById(orderId)
-    if (!curr) return null
-    const msg = { id: makeId(), txt: text, at: Date.now() }
-    curr.msgs = Array.isArray(curr.msgs) ? [...curr.msgs, msg] : [msg]
-    await storageService.put(ORDER_KEY, curr)
-    return msg
-}
-
-async function updateStatus(orderId, nextStatus) {
-    const curr = await getById(orderId)
-    if (!curr) return null
-    const updated = { ...curr, status: nextStatus }
-    await storageService.put(ORDER_KEY, updated)
-    return updated
-}
-
-function getDefaultFilter() {
-    return {}
-}
-
-function getEmptyOrder() {
-    return {
-        _id: '',
-        hostId: { _id: '', fullname: '', imgUrl: '' },
-        guest: { _id: '', fullname: '' },
-        totalPrice: 0,
-        startDate: '',
-        endDate: '',
-        guests: { adults: 1, kids: 0, infants: 0, pets: 0 },
-        stay: { _id: '', name: '', price: 0 },
-        msgs: [],
-        status: 'pending',
-        bookedAt: new Date().toISOString().slice(0, 10),
-    }
-}
-
-function normalizeOrder(order) {
-    const base = getEmptyOrder()
-    const listing = order.stay || order.order || base.stay
-    return {
-        ...base,
-        ...order,
-        stay: {
-            _id: listing?._id ?? base.stay._id,
-            name: listing?.name ?? base.stay.name,
-            price: +listing?.price || 0,
-        },
-        msgs: Array.isArray(order.msgs) ? order.msgs : [],
-        status: order.status || 'pending',
-    }
+    const savedOrder = await storageService.post(ORDER_KEY, orderToSave)
+    console.log('from service',order);
+    
+    return savedOrder
 }
 
 async function getStayById(stayId) {

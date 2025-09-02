@@ -25,6 +25,7 @@
 
 
 .arrow-btn {
+    margin-top: 10px;
     place-items: center;
     width: 2.75rem;
     height: 2.75rem;

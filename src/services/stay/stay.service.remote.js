@@ -8,8 +8,26 @@ export const stayService = {
     addStayMsg
 }
 
-async function query(filterBy = { txt: '', maxPrice: 0 }) {
-    return httpService.get(`stay`, filterBy)
+async function query(filterBy) {
+    const f = { ...filterBy }
+
+    // Only sum if guests is an object from the UI.
+    if (f.guests && typeof f.guests === 'object') {
+        const { adults = 0, children = 0 } = f.guests
+        f.guests = (parseInt(adults, 10) || 0) + (parseInt(children, 10) || 0)
+    }
+
+    // If it’s a string from URL (?guests=8), make sure it’s numeric:
+    if (typeof f.guests === 'string') f.guests = parseInt(f.guests, 10) || 0
+
+    return httpService.get('stay', f)
+    // if (filterBy.guests) {
+    //     const sum = filterBy.guests.adults +
+    //         filterBy.guests.children
+    //     filterBy.guests = sum
+    // }
+
+    // return httpService.get(`stay`, filterBy)
 }
 
 function getById(stayId) {
@@ -30,6 +48,6 @@ async function save(stay) {
 }
 
 async function addStayMsg(stayId, txt) {
-    const savedMsg = await httpService.post(`stay/${stayId}/msg`, {txt})
+    const savedMsg = await httpService.post(`stay/${stayId}/msg`, { txt })
     return savedMsg
 }

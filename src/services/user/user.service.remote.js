@@ -55,17 +55,21 @@ async function logout() {
 }
 
 function getLoggedinUser() {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    const user = JSON.parse(sessionStorage.getItem(STORAGE_KEY_LOGGEDIN_USER))
+    console.log('getLoggedinUser called, result:', user)
+    return user
 }
 
 function saveLoggedinUser(user) {
-	user = { 
+    console.log('saveLoggedinUser called with:', user)
+    user = { 
         _id: user._id, 
         fullname: user.fullname, 
         imgUrl: user.imgUrl, 
         score: user.score, 
         isAdmin: user.isAdmin 
     }
-	sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-	return user
+    sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
+    console.log('User saved to sessionStorage:', user)
+    return user
 }

@@ -83,3 +83,14 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+.round {
+    color: var(--text-secondary);
+    font-family: Roboto;
+    font-family: 100;
+}
+
+.round:hover {
+    color: var(--text-primary);
+    border: solid 0.8px var(--text-primary);
+}

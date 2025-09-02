@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router'
+import { useEffect } from 'react'
 
-import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs'
+import { AboutUs, AboutTeam, AboutVision } from './pages/AboutUs.jsx'
 import { StayIndex } from './pages/StayIndex.jsx'
 import { ReviewIndex } from './pages/ReviewIndex.jsx'
 import { ChatApp } from './pages/Chat.jsx'
@@ -10,19 +11,25 @@ import { StayEditor } from './pages/StayEditor.jsx'
 import { TripIndex } from './pages/TripIndex.jsx'
 import { OrderConfirmation } from './pages/OrderConfirmation.jsx'
 
-import { StayDetails } from './pages/StayDetails'
-import { UserDetails } from './pages/UserDetails'
+import { StayDetails } from './pages/StayDetails.jsx'
 
-import { AppHeader } from './cmps/AppHeader'
-import { AppFooter } from './cmps/AppFooter'
+import { UserDetails } from './pages/UserDetails.jsx'
+
+import { AppHeader } from './cmps/AppHeader.jsx'
+import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { StayOrder } from './pages/StayOrder.jsx'
 import { StayReservations } from './pages/StayReservations.jsx'
 import { StayListings } from './pages/StayListings.jsx'
-
+import { initUser } from './store/actions/user.actions.js'
 
 export function RootCmp() {
+    useEffect(() => {
+        // Initialize user state from sessionStorage when app loads
+        initUser()
+    }, [])
+
     return (
         <div className="main-container">
             <AppHeader />

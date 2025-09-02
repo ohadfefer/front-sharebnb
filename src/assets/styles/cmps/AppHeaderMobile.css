@@ -1,189 +1,148 @@
-/* src/assets/css/mobile-header.css */
-
-/* container */
+/* Base */
 .m-header {
     position: sticky;
     top: 0;
     z-index: 100;
     background: #fff;
     border-bottom: 1px solid var(--divider, #eee);
-    padding: 10px 12px;
+    padding: 10px 20px 0;
+    display: grid;
+    gap: 8px;
+    /* default top for tabs when pill is visible */
+    --tabs-top: 72px;
 }
 
-/* bar */
+/* When search is open: pill gone, pull tabs up */
+.m-header.is-open {
+    --tabs-top: 10px;
+}
+
+/* Search pill */
 .m-header__bar {
-    display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    align-items: center;
-    gap: 10px;
-}
-
-/* logo & menu */
-.m-header__logo {
-    display: block;
-}
-
-.m-header__menu {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    border: 0;
-    background: transparent;
-}
-
-.m-header__avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    object-fit: cover;
-}
-
-/* search pill */
-.m-search-pill {
-    height: 44px;
     width: 100%;
+}
+
+.m-search-pill {
+    width: 100%;
+    height: 56px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, .10);
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08), 0 1px 3px rgba(0, 0, 0, .06);
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
-    border-radius: 999px;
-    border: 1px solid #eee;
-    background: #fff;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
-    padding: 0 14px;
+    padding: 0 16px;
+    font-size: 14px;
     cursor: pointer;
 }
 
-.m-search-pill .pill-primary {
-    font-weight: 700;
-    color: var(--text-primary, #222);
-}
-
-.m-search-pill .pill-secondary {
-    color: var(--text-secondary, #6b6b6b);
-}
-
-.m-search-pill .pill-dot {
-    opacity: .5;
-}
-
-/* bottom sheet (stub for now) */
-.m-sheet {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, .25);
-    display: grid;
-    grid-template-rows: 1fr auto;
-    /* only the bottom panel is visible */
-}
-
-.m-sheet__panel {
-    align-self: end;
-    background: #fff;
-    border-radius: 24px 24px 0 0;
-    box-shadow: 0 -8px 30px rgba(0, 0, 0, .15);
-    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    max-height: 92vh;
-    display: grid;
-    grid-template-rows: auto 1fr;
-}
-
-.m-sheet__header {
+.search-pill-placeholder {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 6px 2px 10px;
+    gap: 8px;
 }
 
-.m-sheet__close {
-    border: 0;
-    background: transparent;
-    font-size: 20px;
+.pill-primary {
+    font-family: Roboto-Medium, sans-serif;
+    color: #111;
+}
+
+.pill-secondary {
+    color: #6b6b6b;
+}
+
+.pill-dot {
+    color: #c6c6c6;
+}
+
+/* Tabs row container (provides right slot for close button) */
+.m-tabs-row {
+    position: sticky;
+    top: var(--tabs-top);
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    /* tabs | close */
+    align-items: center;
+    padding-right: 6px;
+    /* breathing room for close */
+}
+
+/* Tabs (scrollable, centered content) */
+.nav-links-mobile {
+    position: relative;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    gap: 48px;
+    padding: 16px 24px 2px;
+    margin: 0 -14px;
+    scrollbar-width: none;
+    justify-content: center;
+    /* <— center when content is narrower than viewport */
+    mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
+}
+
+.nav-links-mobile::-webkit-scrollbar {
+    display: none;
+}
+
+.nav-links-mobile a {
+    flex: 0 0 auto;
+    display: inline-grid;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    gap: 4px;
+    padding: 6px 4px 8px;
+    position: relative;
+    color: var(--text-secondary, #6b6b6b);
+    text-decoration: none;
+}
+
+.nav-links-mobile .nav-icon {
+    width: 44px;
+    height: 44px;
+}
+
+.nav-links-mobile .nav-text {
+    font-size: 12px;
+}
+
+.nav-links-mobile a.active {
+    color: var(--text-primary, #111);
+}
+
+.nav-links-mobile a.active::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    right: 6px;
+    bottom: 0px;
+    height: 3px;
+    background: var(--text-primary, #111);
+    border-radius: 3px;
+}
+
+/* Round close button on the right */
+.tabs-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, .1);
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    display: grid;
+    place-items: center;
+    font-size: 22px;
     line-height: 1;
+    color: #222;
+    margin-left: 8px;
 }
 
-.m-sheet__body {
-    overflow: auto;
-    padding-bottom: 8px;
-}
-
-/* ---------- Mobile nav-tabs behavior ---------- */
-@media (max-width: 768px) {
-    .header-main {
-        display: grid;
-        row-gap: 10px;
-    }
-
-    /* Make the tabs a sticky, scrollable row under the search pill */
-    .nav-links {
-        position: sticky;
-        top: calc(env(safe-area-inset-top, 0px) + 0px);
-        z-index: 2;
-
-        display: flex;
-        gap: 28px;
-        padding: 8px 14px 2px;
-        margin: 0 -14px;
-        /* full-bleed */
-        overflow-x: auto;
-        overscroll-behavior-x: contain;
-        -webkit-overflow-scrolling: touch;
-
-        background: linear-gradient(#fff, #fff);
-        /* keep it opaque under content */
-        scrollbar-width: none;
-    }
-
-    .nav-links::-webkit-scrollbar {
-        display: none;
-    }
-
-    .nav-links a {
-        flex: 0 0 auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-
-        color: var(--text-secondary);
-        text-decoration: none;
-        padding: 6px 4px 16px;
-        border-radius: 0;
-        position: relative;
-    }
-
-    .nav-links .nav-icon {
-        width: 28px;
-        height: 28px;
-    }
-
-    .nav-links .nav-text {
-        font-size: 14px;
-    }
-
-    .nav-links a.active {
-        color: var(--text-primary);
-    }
-
-    .nav-links a.active::after {
-        content: "";
-        position: absolute;
-        left: 6px;
-        right: 6px;
-        bottom: 6px;
-        height: 3px;
-        background: var(--text-primary);
-        border-radius: 3px;
-    }
-    .nav-links {
-        mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
-        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
-    }
-    .nav-links a .nav-icon {
-        transform: none;
-    }
-    .nav-links a:hover .nav-text {
-        font-family: inherit;
-    }
+.tabs-close:active {
+    transform: scale(.98);
 }

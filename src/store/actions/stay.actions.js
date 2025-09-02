@@ -1,4 +1,4 @@
-import { stayService } from '../../services/stay/stay.service.local.js'
+import { stayService } from '../../services/stay'
 import { store } from '../store'
 import {
     ADD_STAY,
@@ -73,6 +73,8 @@ export async function addStayMsg(stayId, txt) {
 }
 
 export function setFilter(filterBy) {
+    console.log('from action:', filterBy);
+    
     store.dispatch({ type: SET_FILTER_BY, filterBy })
 }
 

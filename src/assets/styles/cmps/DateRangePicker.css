@@ -1,70 +1,68 @@
-.date-range-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-right: 1px solid var(--divider);
-}
-
-.date-input {
+/* container */
+.date-range-panel {
     width: 100%;
-    text-align: left;
-    background: transparent;
-    border: none;
-    padding: 6px 14px;
-    border-right: 1px solid var(--divider);
-    cursor: pointer;
 }
 
-.date-input:last-child {
-    border-right: none;
+/* DayPicker polish to resemble Airbnb */
+.stay-picker {
+    --ring: 2px solid #111;
 }
 
-.date-input .title {
-    display: block;
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 2px;
+/* Month header */
+.stay-picker .rdp-caption_label {
+    font-weight: 600;
+    font-size: 16px;
 }
 
-.date-input .value {
-    font-size: 14px;
-    color: #111827;
+/* nav buttons round */
+.stay-picker .rdp-nav_button {
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    width: var(--rdp-nav_button-width);
+    height: var(--rdp-nav_button-height);
 }
 
-.date-input .value.placeholder {
-    color: #6b7280;
+/* weekdays row */
+.stay-picker .rdp-weekdays {
+    opacity: var(--rdp-weekday-opacity);
 }
 
-.date-input.active {
-    background: rgba(0, 0, 0, 0.035);
-    border-radius: 10px;
+/* middle of range — light track */
+.stay-picker .rdp-range_middle {
+    background: var(--rdp-range_middle-background-color);
+    color: var(--rdp-range_middle-color);
 }
 
-.rdp-popover {
-    position: absolute;
-    z-index: 60;
-    top: calc(100% + 10px);
-    left: 0;
-    background: #fff;
-    border: 1px solid var(--divider);
-    border-radius: 16px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-    padding: 10px;
-}
-
-/* תחושת ריינג’ כמו Airbnb */
-.rdp-range-middle .rdp-day_button {
-    background: rgba(17, 24, 39, 0.06);
-}
-
-.rdp-range-start .rdp-day_button,
-.rdp-range-end .rdp-day_button {
+/* start/end — dark filled circles */
+.stay-picker .rdp-range_start .rdp-day_button,
+.stay-picker .rdp-range_end .rdp-day_button {
     background: #111827;
     color: #fff;
 }
 
+/* focus ring */
+.stay-picker .rdp-day_button:focus-visible {
+    outline: var(--ring);
+    outline-offset: 2px;
+}
+
+/* hover preview (desktop) */
+.stay-picker .is-range-hover .rdp-day_button {
+    background: rgba(17, 24, 39, 0.06);
+    color: #111;
+    border-radius: 10px;
+}
+
+/* disabled + outside days consistency */
+.stay-picker .rdp-day_disabled,
+.stay-picker .rdp-day_outside {
+    opacity: var(--rdp-disabled-opacity);
+}
+
+/* Flexibility chips (footer row) */
 .tolerances {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     padding: 10px 6px 4px;
 }
@@ -81,4 +79,14 @@
     background: #111827;
     color: #fff;
     border-color: #111827;
+}
+
+/* Mobile tweaks */
+@media (max-width: 768px) {
+    .stay-picker {
+        --rdp-day_button-width: 42px;
+        --rdp-day_button-height: 42px;
+        --rdp-day-width: 44px;
+        --rdp-day-height: 44px;
+    }
 }

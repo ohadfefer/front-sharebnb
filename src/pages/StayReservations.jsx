@@ -12,13 +12,13 @@ const COLS = [
     { key: 'listing', label: 'Listing', get: r => (r.stay?.name || '').toLowerCase() },
     { key: 'payout', label: 'Total Payout', get: r => Number(r.totalPrice) || 0 },
     { key: 'status', label: 'Status', get: r => r.status || '' },
-    { key: 'todo', label: 'To do', get: null }, // not sortable
+    { key: 'todo', label: 'To do', get: null },
 ]
 
 const STATUS = {
     pending: { cls: 'pending', label: 'Pending' },
-    approved: { cls: 'ok', label: 'Completed' },
-    completed: { cls: 'ok', label: 'Completed' },
+    approved: { cls: 'ok', label: 'Approved' },
+    completed: { cls: 'ok', label: 'Approved' },
     rejected: { cls: 'bad', label: 'Rejected' },
 }
 

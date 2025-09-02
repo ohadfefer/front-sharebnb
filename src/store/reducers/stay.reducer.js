@@ -20,7 +20,6 @@ const initialState = {
 
 export function stayReducer(state = initialState, action) {
     let newState = state
-    let stays
     switch (action.type) {
         case SET_STAYS:
             newState = { ...state, stays: action.stays }
@@ -30,7 +29,7 @@ export function stayReducer(state = initialState, action) {
             break
         case REMOVE_STAY:
             const lastRemovedStay = state.stays.find(stay => stay._id === action.stayId)
-            stays = state.stays.filter(stay => stay._id !== action.stayId)
+            var stays = state.stays.filter(stay => stay._id !== action.stayId)
             newState = { ...state, stays, lastRemovedStay }
             break
         case ADD_STAY:

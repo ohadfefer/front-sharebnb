@@ -1,4 +1,4 @@
-import { orderService } from '../../services/order/order.service.local.js'
+import { orderService } from '../../services/order'
 import { store } from '../store'
 import {
     ADD_ORDER,
@@ -52,7 +52,9 @@ export async function addOrder(order) {
 
 export async function updateOrder(order) {
     try {
+        console.log('Updating order in actions:', order)
         const savedOrder = await orderService.save(order)
+        console.log('Order updated successfully:', savedOrder)
         store.dispatch(getCmdUpdateOrder(savedOrder))
         return savedOrder
     } catch (err) {

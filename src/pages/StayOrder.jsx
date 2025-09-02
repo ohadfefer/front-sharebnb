@@ -2,7 +2,7 @@ import { useParams, useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { showSuccessMsg } from '../services/event-bus.service.js'
-import { orderService } from '../services/order/order.service.local.js'
+import { orderService } from '../services/order/index.js'
 import { getCmdAddOrder, getCmdUpdateOrder, updateOrder as updateOrderAction } from '../store/actions/order.actions.js'
 import { formatDateMMDDYYYY, nightsBetween, parseSearchParams, buildStayPathWithParams, formatGuestsLabel } from '../services/util.service.js'
 
@@ -39,6 +39,10 @@ export function StayOrder() {
             setIsLoading(true)
             setError(null)
             const stayData = await orderService.getStayById(stayId)
+            console.log('loadStay - stayData loaded:', stayData)
+            console.log('loadStay - stayData.host:', stayData?.host)
+            console.log('loadStay - stayData.hostId:', stayData?.hostId)
+            
             if (!stayData) {
                 setError('Stay not found')
                 return
@@ -71,10 +75,14 @@ export function StayOrder() {
 
     async function createOrderFromService() {
         try {
+            console.log('createOrderFromService - stay data:', stay)
+            console.log('createOrderFromService - stay.host:', stay?.host)
+            console.log('createOrderFromService - stay.hostId:', stay?.hostId)
+            
             const overrides = {
                 startDate: checkIn,
                 endDate: checkOut,
-                guests,
+                guests: guests || { adults: 1, children: 0, infants: 0, pets: 0 },
                 totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
             }
             const created = await orderService.createOrder(stayId, stay, overrides)
@@ -88,33 +96,50 @@ export function StayOrder() {
 
     async function handleConfirmAndPay() {
         try {
+            // Ensure guests object exists and has valid values
+            const defaultGuests = { adults: 1, children: 0, infants: 0, pets: 0 }
+            const validGuests = guests && typeof guests === 'object' ? guests : defaultGuests
+            
+            // Check if guests object has at least one valid guest count
+            const hasValidGuests = Object.values(validGuests).some(count => count > 0)
+            
+            if (!hasValidGuests) {
+                setError('Please select at least one guest')
+                return
+            }
+
             const base = order || await orderService.createOrder(stayId, stay, {
                 startDate: checkIn,
                 endDate: checkOut,
-                guests,
+                guests: validGuests,
                 totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
             })
+            
             if (!order) {
                 setOrder(base)
-                getCmdAddOrder(base)
+                dispatch(getCmdAddOrder(base))
             }
 
-            const computedTotal =
-                (stay?.price && nights ? stay.price * nights : base.totalPrice) || 0
+            const computedTotal = (stay?.price && nights ? stay.price * nights : base.totalPrice) || 0
 
             const updated = await updateOrderAction({
                 ...base,
                 startDate: checkIn || base.startDate,
                 endDate: checkOut || base.endDate,
-                guests: Object.values(guests).some(n => n > 0) ? guests : base.guests,
+                guests: validGuests,
                 totalPrice: computedTotal,
-                status: 'pending',
+                status: 'confirmed',
             })
+            
             setOrder(updated)
+            setIsSaved(true)
+            showSuccessMsg('Order confirmed successfully!')
 
+            // Navigate to order confirmation page
             navigate(`/order/${updated._id}/confirmation`)
         } catch (err) {
             console.error('Cannot confirm and pay:', err)
+            setError('Failed to confirm order. Please try again.')
         }
     }
 
@@ -168,12 +193,14 @@ export function StayOrder() {
                     <hr />
 
                     <div className="confirm">
+                        {error && <p className="error-message" style={{color: 'red', marginBottom: '10px'}}>{error}</p>}
                         <button
                             onClick={handleConfirmAndPay}
                             onMouseMove={handleMouseMove}
                             className="action-btn"
+                            disabled={isLoading || isSaved}
                         >
-                            <p>Confirm and pay</p>
+                            <p>{isSaved ? 'Order Confirmed!' : 'Confirm and pay'}</p>
                         </button>
                     </div>
                 </div>
@@ -214,7 +241,7 @@ export function StayOrder() {
                                                 ? `${formatDateMMDDYYYY(checkIn)} - ${formatDateMMDDYYYY(checkOut)}`
                                                 : 'Add dates'}
                                         </span>
-                                        <span>{formatGuestsLabel(guests)}</span>
+                                        <span>{formatGuestsLabel(guests || { adults: 1, children: 0, infants: 0, pets: 0 })}</span>
                                     </div>
                                 </div>
 
