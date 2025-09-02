@@ -18,6 +18,8 @@ import { UserDetails } from './pages/UserDetails.jsx'
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
+import { MobileTabBar } from './cmps/MobileTabBar.jsx'
+
 import { LoginSignup, Login, Signup } from './pages/LoginSignup.jsx'
 import { StayOrder } from './pages/StayOrder.jsx'
 import { StayReservations } from './pages/StayReservations.jsx'
@@ -41,9 +43,9 @@ export function RootCmp() {
                         <Route path="team" element={<AboutTeam />} />
                         <Route path="vision" element={<AboutVision />} />
                     </Route>
-                    <Route path="dashboard/reservations" element={<StayReservations />}/>
-                    <Route path="dashboard/listings" element={<StayListings />}/>
-                    <Route path="trips" element={<TripIndex />}/>
+                    <Route path="dashboard/reservations" element={<StayReservations />} />
+                    <Route path="dashboard/listings" element={<StayListings />} />
+                    <Route path="trips" element={<TripIndex />} />
                     <Route path="stay" element={<StayIndex />} />
                     <Route path="explore" element={<StayExplore />} />
                     <Route path="stay/:stayId" element={<StayDetails />} />
@@ -61,6 +63,7 @@ export function RootCmp() {
                 </Routes>
             </main>
             <AppFooter />
+            <MobileTabBar />
         </div>
     )
 }

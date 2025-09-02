@@ -113,12 +113,6 @@
     font-size: 12px;
 }
 
-.where-icon img {
-    width: 18px;
-    height: 18px;
-    border-radius: 10px;
-}
-
 /* Disclosure rows (compact bars) */
 .disclosure-row {
     display: flex;

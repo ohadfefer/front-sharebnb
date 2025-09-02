@@ -7,7 +7,7 @@ import { loadStays } from '../store/actions/stay.actions'
 import { StayList } from '../cmps/StayList'
 import { Pagination } from '../cmps/Pagination'
 
-const PER_PAGE = 18
+const PER_PAGE = 20
 
 export function StayIndex({ autoLoad = true }) {
     const { stays, filterBy } = useSelector(s => s.stayModule)

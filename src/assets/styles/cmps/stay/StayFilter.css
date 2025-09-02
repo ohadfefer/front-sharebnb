@@ -19,6 +19,7 @@
 
   .chip {
     font-size: 1rem;
+    height: 46.8px;
   }
 }
 
@@ -79,6 +80,22 @@ form.filter-pill>*:not(:first-child).active::after {
 
   .who-serach {
     display: flex;
+    align-items: center;
+  }
+
+  >* {
+    position: relative;
+    min-width: 0;
+    
+    &:not(:first-child)::after {
+      content: "";
+      position: absolute;
+      display: block;
+      left: 0;
+      top: 25%;
+      border-inline-end: 1px solid var(--divider);
+      height: 50%;
+    }
   }
 }
 
@@ -140,7 +157,6 @@ form.filter-pill>*:not(:first-child).active::after {
   background: transparent;
   font-size: 1rem;
   padding: 0px 16px;
-  border-right: 1px solid var(--divider);
   display: flex;
   gap: 8px;
   align-items: center;

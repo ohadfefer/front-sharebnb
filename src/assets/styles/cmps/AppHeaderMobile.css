@@ -10,6 +10,7 @@
     gap: 8px;
     /* default top for tabs when pill is visible */
     --tabs-top: 72px;
+    margin-bottom: 28px;
 }
 
 /* When search is open: pill gone, pull tabs up */
