@@ -123,3 +123,9 @@
 .upload-preview input[type="file"] {
 	display: none;
 }
+
+.demo-signup-links {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}

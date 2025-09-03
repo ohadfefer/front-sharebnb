@@ -181,6 +181,17 @@
     padding-right: 50px;
 }
 
+/* Clamp review text in grid to 4 lines */
+.reviews-grid .review-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+}
+
 
 /* Show All Reviews Button */
 .show-all-reviews {

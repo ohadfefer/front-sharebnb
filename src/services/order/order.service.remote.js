@@ -1,5 +1,6 @@
 // services/order/order.service.remote.js
 import { httpService } from '../http.service'
+import { userService } from '../user'
 
 export const orderService = {
     query,

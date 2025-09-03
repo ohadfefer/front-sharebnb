@@ -31,6 +31,16 @@
     font-family: 'Roboto-Medium';
 }
 
+.reviews-count-btn {
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: 'Roboto-Medium';
+    font-size: 15px;
+}
+
 .divider {
     border: none;
     border-top: 1px solid var(--divider);

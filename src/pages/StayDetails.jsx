@@ -110,7 +110,8 @@ export function StayDetails() {
               <div className="title">Add dates for prices</div>
               <div className="sub">
                 <img src={star} alt="" width={10} />
-                <span className='reviews-avg'>{avgRate.toFixed(2)} · </span> 
+                {/* <span className='reviews-avg'>{avgRate.toFixed(2)} · </span>  */}
+                <span className='reviews-avg'>{stay.rating} · </span> 
                 <span>{reviewsCount} reviews</span>
               </div>
             </div>

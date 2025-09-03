@@ -1,4 +1,5 @@
 export const SHOW_MSG = 'show-msg'
+export const OPEN_REVIEWS_MODAL = 'open-reviews-modal'
 
 function createEventEmitter() {
     const listenersMap = {}
