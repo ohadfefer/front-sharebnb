@@ -31,6 +31,29 @@ export function Login() {
         navigate('/')
     }
 
+    async function onDemoLogin(ev) {
+        if (ev) ev.preventDefault()
+        const demoCreds = {
+            username: 'Baravizemer',
+            password: 'Baravizemer',
+        }
+        setCredentials(demoCreds)
+        try {
+            await login(demoCreds)
+        } catch (err) {
+            try {
+                await signup({
+                    username: 'Baravizemer',
+                    password: 'Baravizemer',
+                    fullname: 'Bar Avizemer',
+                    imgUrl: 'https://ca.slack-edge.com/T08T1AM7L02-U08TAACAJ67-7f0e6070c266-512'
+                })
+            } catch (e) {
+            }
+        }
+        navigate('/stay')
+    }
+
     function handleChange(ev) {
         const field = ev.target.name
         const value = ev.target.value
@@ -62,11 +85,18 @@ export function Login() {
             <div className="or-divider">
                 <hr /> <span>or</span> <hr />
             </div>
-            <NavLink to="/auth/signup">
-                <div className="form-nav-container">
-                    Sign up
-                </div>
-            </NavLink>
+            <div className="demo-signup-links">
+                <NavLink to="/stay" onClick={onDemoLogin}>
+                    <div className="form-nav-container">
+                        Demo login
+                    </div>
+                </NavLink>
+                <NavLink to="/auth/signup">
+                    <div className="form-nav-container">
+                        Sign up
+                    </div>
+                </NavLink>
+            </div>
         </form>
     )
 }
