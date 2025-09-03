@@ -8,12 +8,10 @@
     padding: 10px 20px 0;
     display: grid;
     gap: 8px;
-    /* default top for tabs when pill is visible */
     --tabs-top: 72px;
     margin-bottom: 28px;
 }
 
-/* When search is open: pill gone, pull tabs up */
 .m-header.is-open {
     --tabs-top: 10px;
 }
@@ -58,17 +56,15 @@
     color: #c6c6c6;
 }
 
-/* Tabs row container (provides right slot for close button) */
+/* Tabs row container (right slot for close button) */
 .m-tabs-row {
     position: sticky;
     top: var(--tabs-top);
     z-index: 2;
     display: grid;
     grid-template-columns: 1fr auto;
-    /* tabs | close */
     align-items: center;
     padding-right: 6px;
-    /* breathing room for close */
 }
 
 /* Tabs (scrollable, centered content) */
@@ -83,7 +79,6 @@
     margin: 0 -14px;
     scrollbar-width: none;
     justify-content: center;
-    /* <— center when content is narrower than viewport */
     mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
 }
@@ -111,6 +106,11 @@
 
 .nav-links-mobile .nav-text {
     font-size: 12px;
+}
+
+.search-icon-mobile {
+    width: 16px;
+    height: 16px;
 }
 
 .nav-links-mobile a.active {

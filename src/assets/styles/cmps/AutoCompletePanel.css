@@ -51,8 +51,8 @@
     place-items: center;
 }
 
-.where-icon img {
-    width: 56px;
+.where-icon .location-icon {
+    width: 16px;
     height: 56px;
     object-fit: contain;
     display: block;

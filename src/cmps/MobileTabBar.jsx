@@ -8,19 +8,14 @@ import Trips from '../assets/logo/icons/trips.svg'
 import Messages from '../assets/logo/icons/messages.svg'
 import Profile from '../assets/logo/icons/login.svg'
 
-/**
- * Bottom mobile navigation that manages its own layout spacing with a spacer.
- * No global side-effects.
- */
 export function MobileTabBar({ forceHide }) {
     const { pathname } = useLocation()
     const user = useSelector(s => s.userModule?.user)
-    const unread = useSelector(s => s.inboxModule?.unreadCount || 0) // optional slice; safe default 0
+    const unread = useSelector(s => s.inboxModule?.unreadCount || 0) 
 
     const hidden = forceHide ?? shouldHideTabbar(pathname)
     if (hidden) return null
 
-    // Build items based on auth state
     const items = user
         ? [
             { to: "/stay", label: "Explore", icon: Explore },
@@ -47,7 +42,6 @@ export function MobileTabBar({ forceHide }) {
                 ))}
             </nav>
 
-            {/* Reserve space so main content isn't covered by the fixed bar */}
             <div className="m-tabbar-spacer" aria-hidden />
         </>
     )
