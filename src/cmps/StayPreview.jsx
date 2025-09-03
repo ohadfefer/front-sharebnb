@@ -16,10 +16,7 @@ export function StayPreview({ stay }) {
     const toUrl = queryString
         ? `/stay/${stay._id}?${queryString}`
         : `/stay/${stay._id}`
-
-    console.log(stay);
-
-
+        
     // const len = stay.imgUrls.length || 1
     // if(!stay.length ) return <div>loading</div>
     return (

@@ -1,7 +1,8 @@
+// TripIndex.jsx
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { loadOrders, setFilter } from "../store/actions/order.actions.js"
+import { loadOrders, setFilter } from "../store/actions/order.actions.js" // EDIT
 
 function formatDate(iso) {
   if (!iso) return "—"
@@ -28,21 +29,15 @@ function capFirst(txt = "") {
 
 export function TripIndex() {
   const navigate = useNavigate()
-
   const loggedInUser = useSelector(s => s.userModule.user)
   const { orders, isLoading } = useSelector(s => s.orderModule)
 
-  console.log('TripIndex - loggedInUser:', loggedInUser)
-  console.log('TripIndex - orders:', orders)
-
-  // Set the backend filter to the logged-in user's id (guest) and load orders.
-  useEffect(() => {
-    // Handle guest mode - if no user is logged in, use a default guest user ID
-    const userId = loggedInUser?._id || 'guest-user-id'
-    console.log('TripIndex - setting filter with userId:', userId)
-    setFilter({ userId: userId }) // backend aliases userId -> guestId
+  // Only query when a user is actually logged in
+  useEffect(() => {                            // EDIT
+    if (!loggedInUser?._id) return             // NEW: no "guest-user-id" requests
+    setFilter({ userId: loggedInUser._id })    // EDIT
     loadOrders()
-  }, [loggedInUser?._id])
+  }, [loggedInUser?._id])                      // EDIT
 
   function handleRowClick(stayId) {
     if (stayId) navigate(`/stay/${stayId}`)
@@ -52,9 +47,7 @@ export function TripIndex() {
     return (
       <section className="trips-page">
         <h2 className="trips-title">My Trips</h2>
-        <div className="trips-card">
-          <p>Please sign in to see your trips.</p>
-        </div>
+        <div className="trips-card"><p>Please sign in to see your trips.</p></div>
       </section>
     )
   }
@@ -62,7 +55,6 @@ export function TripIndex() {
   return (
     <section className="trips-page">
       <div className="trips-container">
-
         <h2 className="trips-title">
           {isLoading ? "Loading…" : `My Trips (${orders?.length || 0})`}
         </h2>
@@ -79,7 +71,6 @@ export function TripIndex() {
                 <th className="col-status">Status</th>
               </tr>
             </thead>
-
             <tbody>
               {!isLoading && Array.isArray(orders) && orders.length > 0 && orders.map((o, idx) => {
                 const stayName = o?.stay?.name || o?.stay?.title || o?.name || "—"
@@ -91,43 +82,24 @@ export function TripIndex() {
                 const status = capFirst(o?.status || "pending")
 
                 return (
-                  <tr
-                    key={o._id}
-                    className={idx % 2 ? "zebra" : ""}
-                    onClick={() => handleRowClick(o?.stay?._id)}
-                    role="button"
-                  >
+                  <tr key={o._id} className={idx % 2 ? "zebra" : ""} onClick={() => handleRowClick(o?.stay?._id)} role="button">
                     <td className="col-destination">
                       <div className="dest-cell">
-                        <img
-                          src={stayThumb}
-                          alt=""
-                          className="dest-thumb"
-                          width={72}
-                          height={72}
-                          loading="lazy"
-                        />
+                        <img src={stayThumb} alt="" className="dest-thumb" width={72} height={72} loading="lazy" />
                         <span className="dest-name">{stayName}</span>
                       </div>
                     </td>
-
                     <td className="col-in">{checkIn}</td>
                     <td className="col-out">{checkOut}</td>
                     <td className="col-booked">{bookedAt}</td>
                     <td className="col-total">{total}</td>
-                    <td className="col-status">
-                      <span className={`status-pill ${status.toLowerCase()}`}>
-                        {status}
-                      </span>
-                    </td>
+                    <td className="col-status"><span className={`status-pill ${status.toLowerCase()}`}>{status}</span></td>
                   </tr>
                 )
               })}
 
               {!isLoading && (!orders || orders.length === 0) && (
-                <tr>
-                  <td colSpan={6} className="empty">No trips yet.</td>
-                </tr>
+                <tr><td colSpan={6} className="empty">No trips yet.</td></tr>
               )}
             </tbody>
           </table>

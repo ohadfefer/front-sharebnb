@@ -1,7 +1,8 @@
+// StayReservations.jsx
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { loadOrders } from '../store/actions/order.actions'
+import { loadOrders, setFilter } from '../store/actions/order.actions' // EDIT
 import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service.js'
 
 import { KpiCards } from '../cmps/KpiCards.jsx'
@@ -9,17 +10,19 @@ import { ReservationsToolbar } from '../cmps/ReservationsToolbar.jsx'
 import { ReservationsTable } from '../cmps/ReservationsTable.jsx'
 import { InsightsRow } from '../cmps/InsightsRow.jsx'
 
-
 export function StayReservations() {
     const { orders = [], isLoading } = useSelector(s => s.orderModule)
+    const loggedInUser = useSelector(s => s.userModule.user) // NEW
 
-    // local ui controls
     const [q, setQ] = useState('')
-    const [status, setStatus] = useState('all') // all | pending | approved | rejected | completed
+    const [status, setStatus] = useState('all')
 
-    useEffect(() => { loadOrders() }, [])
+    useEffect(() => {
+        if (!loggedInUser?._id) return // NEW: wait until we have a user
+        setFilter({ hostId: loggedInUser._id }) // NEW: scope to host
+        loadOrders() // NEW: then load
+    }, [loggedInUser?._id]) // NEW
 
-    // filter client-side for now
     const rows = useMemo(() => {
         const needle = q.trim().toLowerCase()
         return (orders || []).filter(o => {
@@ -37,7 +40,6 @@ export function StayReservations() {
         })
     }, [orders, q, status])
 
-    // KPIs
     const now = new Date()
     const month = now.getMonth(), year = now.getFullYear()
     const revenueThisMonth = rows
@@ -84,7 +86,6 @@ export function StayReservations() {
 
     return (
         <section className="reservations-page">
-            {/* Top nav (unchanged) */}
             <header className="listings-header">
                 <nav className="listings-nav">
                     <NavLink to="/dashboard/stay/edit" className="nav-link">Create listing</NavLink>
@@ -93,7 +94,6 @@ export function StayReservations() {
                 </nav>
             </header>
 
-            {/* KPI Cards */}
             <KpiCards
                 revenueLabel={formatMoney(revenueThisMonth, 'USD')}
                 approved={totalApproved}
@@ -104,7 +104,6 @@ export function StayReservations() {
 
             <InsightsRow orders={orders} />
 
-            {/* Toolbar */}
             <ReservationsToolbar
                 q={q}
                 onQuery={setQ}
@@ -113,7 +112,6 @@ export function StayReservations() {
                 onExport={handleExportCsv}
             />
 
-            {/* Data Table */}
             <div className="res-card data-table">
                 <ReservationsTable rows={rows} isLoading={isLoading} />
             </div>

@@ -18,7 +18,6 @@ const initialState = {
 }
 
 export function userReducer(state = initialState, action) {
-    console.log('userReducer called with action:', action.type, action)
     var newState = state
     switch (action.type) {
         case INIT_USER:
@@ -58,7 +57,6 @@ export function userReducer(state = initialState, action) {
         default:
     }
     
-    console.log('userReducer - new state:', newState)
     return newState
 
 }

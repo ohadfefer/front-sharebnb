@@ -7,10 +7,10 @@ console.log('User service - VITE_LOCAL:', VITE_LOCAL, 'Type:', typeof VITE_LOCAL
 
 function getEmptyUser() {
     return {
-        username: '', 
-        password: '', 
+        username: '',
+        password: '',
         fullname: '',
-        email: '',
+        email: '',   // NEW
         isAdmin: false,
         score: 100,
     }
@@ -22,6 +22,4 @@ console.log('Using user service:', service === local ? 'LOCAL' : 'REMOTE')
 
 export const userService = { ...service, getEmptyUser }
 
-
-
-if(DEV) window.userService = userService
+if (DEV) window.userService = userService
