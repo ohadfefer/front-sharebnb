@@ -2,6 +2,7 @@ import door from '../assets/logo/icons/door.svg'
 import pin from '../assets/logo/icons/pin.svg'
 import parking from '../assets/logo/icons/parking.svg'
 import star from '../assets/logo/icons/star.svg'
+import { eventBus, OPEN_REVIEWS_MODAL } from '../services/event-bus.service'
 
 export function StayDescription({ stay }) {
     // guard input
@@ -38,9 +39,13 @@ export function StayDescription({ stay }) {
                 <div className="reviews-modal">
                     <img src={star} alt="" width={8} />
                     <span>
-                        {Number.isFinite(avgRate)
+                        {/* {Number.isFinite(avgRate)
                             ? `${ratingText} · ${reviewsCount} review${reviewsCount === 1 ? '' : 's'}`
-                            : 'No ratings yet'}
+                            : 'No ratings yet'} */}
+                        {stay.rating} · 
+                        <button className="reviews-count-btn" onClick={() => eventBus.emit(OPEN_REVIEWS_MODAL)}>
+                            <span className='open-reviews-modal'>{reviewsCount} review{reviewsCount === 1 ? '' : 's'}</span>
+                        </button>
                     </span>
                 </div>
             </div>
@@ -50,7 +55,7 @@ export function StayDescription({ stay }) {
             <div className="stay-info-grid host-grid">
                 <div className="column-1">
                     <img 
-                        src={stay.host.imgUrl} 
+                        src={stay.host.pictureUrl} 
                         alt={stay.host.fullname} 
                         className="host-image"
                         onError={(e) => {

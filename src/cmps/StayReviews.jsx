@@ -7,7 +7,8 @@ import value from '../assets/logo/icons/value.svg'
 import star from '../assets/logo/icons/star.svg'
 
 import { FaStar } from 'react-icons/fa'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { eventBus, OPEN_REVIEWS_MODAL } from '../services/event-bus.service'
 
 export function StayReviews({ stay }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -30,12 +31,18 @@ export function StayReviews({ stay }) {
         ))
     }
 
-    const avgRate = stay.reviews.length
-        ? stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
-        : 0
+    // const avgRate = stay.reviews.length
+    //     ? stay.reviews.reduce((acc, r) => acc + r.rate, 0) / stay.reviews.length
+    //     : 0
+    const avgRate = stay.rating
 
     const openModal = () => setIsModalOpen(true)
     const closeModal = () => setIsModalOpen(false)
+
+    useEffect(() => {
+        const off = eventBus.on(OPEN_REVIEWS_MODAL, () => setIsModalOpen(true))
+        return () => off && off()
+    }, [])
 
     return (
         <>
@@ -43,7 +50,8 @@ export function StayReviews({ stay }) {
                 <div className="rates-header">
                     <img src={star} alt="average rating" width={20} />
                     <span>
-                        {avgRate.toFixed(2)} · {stay.reviews.length} reviews
+                        {/* {avgRate.toFixed(2)} · {stay.reviews.length} reviews */} 
+                        {avgRate} · {stay.reviews.length} reviews
                     </span>
                 </div>
                 <div className="rates-details">
@@ -97,7 +105,7 @@ export function StayReviews({ stay }) {
             <hr className='divider-long' />
             <div className="stay-reviews">
                 <div className="reviews-grid">
-                    {stay.reviews.map((review) => (
+                    {stay.reviews.slice(0, 6).map((review) => (
                         <div key={review.id} className="review-card">
                             <div className="review-header">
                                 <div className="user-info">
@@ -119,7 +127,8 @@ export function StayReviews({ stay }) {
                                     </div>
                                     <div className="additional-info-container">
                                         <div className="rating">
-                                            {renderStars(review.rate)}
+                                            {/* {renderStars(review.rate)} */}
+                                            {renderStars(stay.rating)}
                                         </div>
                                         ·<span className='date-published'> June 2025 </span> ·
                                         <span className='additional-user-info'>Stayed with kids</span>
@@ -132,9 +141,11 @@ export function StayReviews({ stay }) {
                         </div>
                     ))}
                 </div>
-                <div className="show-all-reviews">
-                    <button onClick={openModal}>Show all {stay.reviews.length} reviews</button>
-                </div>
+                {stay.reviews.length > 8 && (
+                    <div className="show-all-reviews">
+                        <button onClick={openModal}>Show all {stay.reviews.length} reviews</button>
+                    </div>
+                )}
             </div>
 
             {/* reviews modal */}
@@ -144,7 +155,8 @@ export function StayReviews({ stay }) {
                         <div className="modal-header">
                             <div className="modal-title">
                                 <img src={star} alt="average rating" width={20} />
-                                <span>{avgRate.toFixed(2)} · {stay.reviews.length} reviews</span>
+                                {/* <span>{avgRate.toFixed(2)} · {stay.reviews.length} reviews</span> */}
+                                <span>{stay.rating} · {stay.reviews.length} reviews</span>
                             </div>
                             <button className="modal-close" onClick={closeModal}>x</button>
                         </div>
@@ -171,7 +183,8 @@ export function StayReviews({ stay }) {
                                             </div>
                                             <div className="additional-info-container">
                                                 <div className="rating">
-                                                    {renderStars(review.rate)}
+                                                    {/* {renderStars(review.rate)} */}
+                                                    {renderStars(stay.rating)}
                                                 </div>
                                                 ·<span className='date-published'> June 2025 </span> ·
                                                 <span className='additional-user-info'>Stayed with kids</span>

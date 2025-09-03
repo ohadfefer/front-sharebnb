@@ -33,6 +33,7 @@ import oven from '../assets/logo/icons/oven.svg'
 
 import stove from '../assets/logo/icons/stove.svg'
 import patioOrBalcony from '../assets/logo/icons/patioOrBalcony.svg'
+import { useState } from 'react'
 
 export function StayAmenities({ stay }) {
     function getAmenityIcon(amenity) {
@@ -110,16 +111,50 @@ export function StayAmenities({ stay }) {
         }
     }
 
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const openModal = () => setIsModalOpen(true)
+    const closeModal = () => setIsModalOpen(false)
+
+    const visibleAmenities = Array.isArray(stay?.amenities) ? stay.amenities.slice(0, 10) : []
+
     return (
-        <div className="stay-amenities">
-            <div className="amenities-grid">
-                {stay.amenities.map((amenity, idx) => (
-                    <div className="amenity-row" key={idx}>
-                        <img src={getAmenityIcon(amenity)} alt="" width={24} />
-                        <div className="amenity-name">{amenity}</div>
-                    </div>
-                ))}
+        <>
+            <div className="stay-amenities">
+                <div className="amenities-grid">
+                    {visibleAmenities.map((amenity, idx) => (
+                        <div className="amenity-row" key={idx}>
+                            <img src={getAmenityIcon(amenity)} alt="" width={24} />
+                            <div className="amenity-name">{amenity}</div>
+                        </div>
+                    ))}
+                </div>
             </div>
-        </div>
+            {Array.isArray(stay?.amenities) && stay.amenities.length > 10 && (
+                <div className="show-all-amenities">
+                    <button onClick={openModal}>Show all {stay.amenities.length} amenities</button>
+                </div>
+            )}
+
+            {isModalOpen && (
+                <div className="amenities-modal-overlay" onClick={closeModal}>
+                    <div className="amenities-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <div className="modal-title">All amenities</div>
+                            <button className="modal-close" onClick={closeModal}>x</button>
+                        </div>
+                        <div className="modal-content">
+                            <div className="amenities-grid">
+                                {stay.amenities.map((amenity, idx) => (
+                                    <div className="amenity-row" key={idx}>
+                                        <img src={getAmenityIcon(amenity)} alt="" width={24} />
+                                        <div className="amenity-name">{amenity}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     )
 }
