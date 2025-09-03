@@ -1,3 +1,4 @@
+// services/order/order.service.remote.js
 import { httpService } from '../http.service'
 
 export const orderService = {
@@ -10,8 +11,17 @@ export const orderService = {
     updateStatus
 }
 
+function cleanFilter(params = {}) { // NEW
+    const p = { ...params }
+    const isHex24 = (s) => typeof s === 'string' && /^[a-fA-F0-9]{24}$/.test(s)
+    if (p.userId && !isHex24(p.userId)) delete p.userId
+    if (p.hostId && !isHex24(p.hostId)) delete p.hostId
+    if (!p.status) delete p.status
+    return p
+}
+
 function query(params) {
-  return httpService.get('order', params)
+    return httpService.get('order', cleanFilter(params)) // EDIT
 }
 
 function getById(orderId) {
@@ -19,17 +29,8 @@ function getById(orderId) {
 }
 
 async function save(order) {
-    console.log('Saving order in remote service:', order)
-    var savedOrder
-    if (order._id) {
-        console.log('Updating existing order:', order._id)
-        savedOrder = await httpService.put(`order/${order._id}`, order)
-    } else {
-        console.log('Creating new order')
-        savedOrder = await httpService.post('order', order)
-    }
-    console.log('Order saved successfully:', savedOrder)
-    return savedOrder
+    if (order._id) return httpService.put(`order/${order._id}`, order)
+    return httpService.post('order', order)
 }
 
 async function remove(orderId) {
@@ -37,95 +38,34 @@ async function remove(orderId) {
 }
 
 async function updateStatus(orderId, status) {
-    try {
-        const order = await getById(orderId)
-        const updatedOrder = { ...order, status }
-        return await save(updatedOrder)
-    } catch (err) {
-        console.error('Error updating order status:', err)
-        throw err
-    }
+    const order = await getById(orderId)
+    return await save({ ...order, status })
 }
 
 async function getStayById(stayId) {
-    try {
-        console.log('Getting stay by ID:', stayId)
-        // Import stay service dynamically to avoid circular dependency
-        const { stayService } = await import('../stay')
-        const stay = await stayService.getById(stayId)
-        console.log('Stay retrieved:', stay)
-        return stay
-    } catch (err) {
-        console.error('Error getting stay by ID:', err)
-        throw err
-    }
+    const { stayService } = await import('../stay')
+    return stayService.getById(stayId)
 }
 
 async function createOrder(stayId, stayData, overrides = {}) {
-    try {
-        // Get current user
-        const { userService } = await import('../user')
-        const loggedInUser = userService.getLoggedinUser()
-        
-        console.log('Creating order with:', { stayId, stayData, overrides, loggedInUser })
-        
-        // Handle guest mode - if no user is logged in, use a default guest user ID
-        const userId = loggedInUser?._id || 'guest-user-id'
-        
-        if (!stayId) {
-            throw new Error('Stay ID is required')
-        }
+    const { userService } = await import('../user')
+    const loggedInUser = userService.getLoggedinUser()
 
-        if (!stayData) {
-            throw new Error('Stay data is required')
-        }
+    const userId = loggedInUser?._id || 'guest-user-id'
+    let hostId = stayData?.host?._id || stayData?.hostId || stayData?.owner?._id || stayData?.ownerId || loggedInUser?._id || 'u102'
 
-        // Extract hostId from various possible locations in stayData
-        let hostId = null
-        if (stayData.host?._id) {
-            hostId = stayData.host._id
-        } else if (stayData.host?.id) {
-            hostId = stayData.host.id
-        } else if (stayData.hostId) {
-            hostId = stayData.hostId
-        } else if (stayData.owner?._id) {
-            hostId = stayData.owner._id
-        } else if (stayData.ownerId) {
-            hostId = stayData.ownerId
-        } else if (loggedInUser?._id) {
-            // If no host found, assume the current user is the host (for user-created listings)
-            hostId = loggedInUser._id
-        } else {
-            // Last resort fallback
-            hostId = 'u102'
-        }
-
-        console.log('Extracted hostId:', hostId, 'from stayData:', stayData)
-
-        const newOrder = {
-            userId: userId,
-            stayId: stayId,
-            hostId: hostId,
-            totalPrice: overrides.totalPrice || stayData?.price || 205.33,
-            startDate: overrides.startDate || new Date().toISOString(),
-            endDate: overrides.endDate || new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
-            guests: overrides.guests || {
-                adults: 1,
-                children: 0,
-                infants: 0,
-                pets: 0
-            },
-            status: overrides.status || 'pending',
-            createdAt: new Date().toISOString()
-        }
-        
-        console.log('Saving order:', newOrder)
-        const savedOrder = await save(newOrder)
-        console.log('Order saved successfully:', savedOrder)
-        return savedOrder
-    } catch (err) {
-        console.error('Error creating order:', err)
-        throw err
+    const newOrder = {
+        userId,
+        stayId,
+        hostId,
+        totalPrice: overrides.totalPrice || stayData?.price || 0,
+        startDate: overrides.startDate || new Date().toISOString(),
+        endDate: overrides.endDate || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+        guests: overrides.guests || { adults: 1, children: 0, infants: 0, pets: 0 },
+        status: overrides.status || 'pending',
+        createdAt: new Date().toISOString(),
+        contactEmail: overrides.contactEmail || loggedInUser?.email || null, // EDIT
     }
-}
 
+    return save(newOrder)
+}

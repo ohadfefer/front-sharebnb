@@ -1,7 +1,7 @@
+// LoginSignup.jsx
 import { Outlet, useNavigate } from 'react-router'
 import { NavLink } from 'react-router-dom'
-
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 import { userService } from '../services/user'
 import { login, signup } from '../store/actions/user.actions'
@@ -10,10 +10,6 @@ import { ImgUploader } from '../cmps/ImgUploader'
 export function LoginSignup() {
     return (
         <div className="login-page">
-            {/* <nav>
-                <NavLink to="login">Login</NavLink>
-                <NavLink to="signup">Signup</NavLink>
-            </nav> */}
             <Outlet />
         </div>
     )
@@ -25,7 +21,6 @@ export function Login() {
 
     async function onLogin(ev = null) {
         if (ev) ev.preventDefault()
-
         if (!credentials.username) return
         await login(credentials)
         navigate('/')
@@ -63,9 +58,7 @@ export function Login() {
                 <hr /> <span>or</span> <hr />
             </div>
             <NavLink to="/auth/signup">
-                <div className="form-nav-container">
-                    Sign up
-                </div>
+                <div className="form-nav-container">Sign up</div>
             </NavLink>
         </form>
     )
@@ -80,8 +73,6 @@ export function Signup() {
     }
 
     function handleChange(ev) {
-        const type = ev.target.type
-
         const field = ev.target.name
         const value = ev.target.value
         setCredentials({ ...credentials, [field]: value })
@@ -89,8 +80,8 @@ export function Signup() {
 
     async function onSignup(ev = null) {
         if (ev) ev.preventDefault()
-
-        if (!credentials.username || !credentials.password || !credentials.fullname) return
+        // EDIT: also require email (we rely on it downstream)
+        if (!credentials.username || !credentials.password || !credentials.fullname || !credentials.email) return // EDIT
         await signup(credentials)
         clearState()
         navigate('/')
@@ -121,7 +112,6 @@ export function Signup() {
                 onChange={handleChange}
                 required
             />
-
             <input
                 type="email"
                 name="email"
@@ -130,7 +120,6 @@ export function Signup() {
                 onChange={handleChange}
                 required
             />
-
             <input
                 type="password"
                 name="password"
@@ -147,9 +136,7 @@ export function Signup() {
             </div>
 
             <NavLink to="/auth/login">
-                <div className="form-nav-container">
-                    Log in
-                </div>
+                <div className="form-nav-container">Log in</div>
             </NavLink>
         </form>
     )
