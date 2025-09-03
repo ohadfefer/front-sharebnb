@@ -74,7 +74,7 @@ export function AutoCompletePanel({ value = {}, onChange, onComplete, onAdvance 
                             onMouseDown={(e) => e.preventDefault()}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); select(item) }}
                         >
-                            <span className="where-icon"><img src={location} alt="" /></span>
+                            <span className="where-icon-mobile"><img src={location} alt="" className="location-icon"/></span>
                             <span className="where-texts">
                                 <span className="where-title">{item.label}</span>
                                 {item.sub && <span className="where-sub">{item.sub}</span>}

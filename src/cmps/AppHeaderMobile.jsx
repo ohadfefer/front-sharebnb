@@ -34,7 +34,6 @@ export function AppHeaderMobile() {
 
     return (
         <header className={`m-header full ${open ? "is-open" : ""}`}>
-            {/* Search pill — hidden in open state */}
             {!open && (
                 <nav className="m-header__bar">
                     <button
@@ -46,7 +45,7 @@ export function AppHeaderMobile() {
                     >
                         {isDefault ? (
                             <span className="search-pill-placeholder">
-                                <img src={searchIcon} alt="" width={16} height={16} />
+                                <img src={searchIcon} alt="" width={16} height={16} className="search-icon-mobile"/>
                                 <span>Start your search</span>
                             </span>
                         ) : (
@@ -93,7 +92,6 @@ export function AppHeaderMobile() {
                     </NavLink>
                 </div>
 
-                {/* ✕ appears only when open */}
                 {open && (
                     <button
                         type="button"

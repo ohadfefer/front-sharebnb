@@ -202,3 +202,249 @@ th .sort.desc {
     align-items: center;
     gap: 6px;
 }
+
+
+/* KPI cards (you already have these; keep or tweak) */
+.dash-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(180px, 1fr));
+    gap: 14px;
+    margin: 8px 0 8px;
+}
+
+@media (max-width: 1000px) {
+    .dash-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .dash-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+.dash-card {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+}
+
+.dash-card__title {
+    font-size: 12px;
+    color: #6b6b6b;
+}
+
+.dash-card__value {
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.dash-card__sub {
+    font-size: 12px;
+    color: #6b6b6b;
+    margin-top: 2px;
+}
+
+.dash-card__chart {
+    height: 48px;
+}
+
+/* Toolbar (keep your previous styles if you like) */
+.res-toolbar {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 0 14px;
+}
+
+.res-toolbar .res-search {
+    width: min(420px, 60%);
+    max-width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+    outline: none;
+}
+
+.res-toolbar .res-status-filter {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.res-toolbar .spacer {
+    flex: 1;
+}
+
+.res-toolbar .res-csv {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* Table alignment helpers (same as before) */
+.res-table th.is-center,
+.res-table td.is-center {
+    text-align: center;
+}
+
+.res-table th.is-right,
+.res-table td.is-right {
+    text-align: right;
+}
+
+.res-table .mono {
+    font-variant-numeric: tabular-nums;
+}
+
+/* ---- Pretty pagination ---- */
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-top: 1px solid rgba(0, 0, 0, .06);
+    background: #fafafa;
+}
+
+.pager__left,
+.pager__right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pager__center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pager__btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease, border-color .15s ease, transform .05s ease;
+}
+
+.pager__btn:active {
+    transform: translateY(1px);
+}
+
+.pager__btn:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.pager__input {
+    width: 56px;
+    height: 36px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.pager__label {
+    color: #6b6b6b;
+    font-size: 13px;
+}
+
+.pager__select {
+    height: 36px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    padding: 0 10px;
+}
+
+/* ========== Insights Row ========== */
+.insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 8px 0 18px;
+}
+
+@media (max-width: 1000px) {
+    .insights-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .insights-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.insight-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
+    padding: 14px 16px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 180px;
+}
+
+.insight-head h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.insight-head p {
+    font-size: 12px;
+    color: #6b6b6b;
+    margin-top: 2px;
+}
+
+.insight-empty {
+    display: grid;
+    place-items: center;
+    color: #6b6b6b;
+    font-size: 14px;
+}
+
+/* Occupancy strip */
+.occ-strip {
+    display: grid;
+    grid-template-columns: repeat(30, 1fr);
+    gap: 4px;
+    align-items: center;
+}
+
+.occ-strip .box {
+    height: 10px;
+    border-radius: 3px;
+    background: #eee;
+}
+
+.occ-strip .box.on {
+    background: #10b981;
+    /* green */
+}
+
+/* Chart wrap ensures consistent spacing */
+.chart-wrap {
+    height: 100%;
+    display: grid;
+    align-items: center;
+}

@@ -1,164 +1,121 @@
-// src/cmps/StayReservations.jsx
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { loadOrders, updateOrderStatus } from '../store/actions/order.actions'
-import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service'
+import { loadOrders } from '../store/actions/order.actions'
+import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service.js'
 
-const COLS = [
-    { key: 'guest', label: 'Guest', get: r => (r.guest?.fullname || '').toLowerCase() },
-    { key: 'startDate', label: 'Check-in', get: r => new Date(r.startDate || 0).getTime() },
-    { key: 'endDate', label: 'Checkout', get: r => new Date(r.endDate || 0).getTime() },
-    { key: 'listing', label: 'Listing', get: r => (r.stay?.name || '').toLowerCase() },
-    { key: 'payout', label: 'Total Payout', get: r => Number(r.totalPrice) || 0 },
-    { key: 'status', label: 'Status', get: r => r.status || '' },
-    { key: 'todo', label: 'To do', get: null },
-]
+import { KpiCards } from '../cmps/KpiCards.jsx'
+import { ReservationsToolbar } from '../cmps/ReservationsToolbar.jsx'
+import { ReservationsTable } from '../cmps/ReservationsTable.jsx'
+import { InsightsRow } from '../cmps/InsightsRow.jsx'
 
-const STATUS = {
-    pending: { cls: 'pending', label: 'Pending' },
-    approved: { cls: 'ok', label: 'Approved' },
-    completed: { cls: 'ok', label: 'Approved' },
-    rejected: { cls: 'bad', label: 'Rejected' },
-}
-
-const initials = (name = '') =>
-    name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join('')
 
 export function StayReservations() {
     const { orders = [], isLoading } = useSelector(s => s.orderModule)
-    const [sort, setSort] = useState({ by: 'startDate', dir: 'asc' })
+
+    // local ui controls
+    const [q, setQ] = useState('')
+    const [status, setStatus] = useState('all') // all | pending | approved | rejected | completed
 
     useEffect(() => { loadOrders() }, [])
 
-    function toggleSort(key) {
-        if (key === 'todo') return
-        setSort(s => s.by === key ? { by: key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { by: key, dir: 'asc' })
+    // filter client-side for now
+    const rows = useMemo(() => {
+        const needle = q.trim().toLowerCase()
+        return (orders || []).filter(o => {
+            if (status !== 'all' && o.status !== status) return false
+            if (!needle) return true
+            const hay = [
+                o.guest?.fullname,
+                o.stay?.name,
+                o.status,
+                fmtDate(o.startDate),
+                fmtDate(o.endDate),
+                String(o.totalPrice),
+            ].join(' ').toLowerCase()
+            return hay.includes(needle)
+        })
+    }, [orders, q, status])
+
+    // KPIs
+    const now = new Date()
+    const month = now.getMonth(), year = now.getFullYear()
+    const revenueThisMonth = rows
+        .filter(o => {
+            const d = new Date(o.startDate || o.endDate || 0)
+            return d.getMonth() === month && d.getFullYear() === year &&
+                (o.status === 'approved' || o.status === 'completed')
+        })
+        .reduce((acc, o) => acc + (Number(o.totalPrice) || 0), 0)
+
+    const last7Days = [...Array(7)].map((_, i) => {
+        const d = new Date(now); d.setDate(now.getDate() - (6 - i))
+        d.setHours(12, 0, 0, 0)
+        const key = `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+        const count = rows.filter(o => {
+            const sd = new Date(o.startDate || 0); sd.setHours(12, 0, 0, 0)
+            return `${sd.getFullYear()}-${sd.getMonth()}-${sd.getDate()}` === key
+        }).length
+        return { d: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), count }
+    })
+
+    const totalApproved = rows.filter(o => o.status === 'approved' || o.status === 'completed').length
+    const totalPending = rows.filter(o => o.status === 'pending').length
+
+    function handleExportCsv() {
+        const header = ['Guest', 'Check-in', 'Checkout', 'Listing', 'Total Payout', 'Status']
+        const lines = rows.map(o => ([
+            csvSafe(o.guest?.fullname || ''),
+            csvSafe(fmtDate(o.startDate)),
+            csvSafe(fmtDate(o.endDate)),
+            csvSafe(o.stay?.name || ''),
+            csvSafe(String(o.totalPrice ?? 0)),
+            csvSafe(o.status || ''),
+        ].join(',')))
+        const blob = new Blob([header.join(',') + '\n' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'reservations.csv'
+        a.click()
+        URL.revokeObjectURL(url)
     }
-
-    const sorted = useMemo(() => {
-        const col = COLS.find(c => c.key === sort.by)
-        const get = col?.get
-        const mul = sort.dir === 'asc' ? 1 : -1
-        const list = [...orders]
-        if (get) {
-            list.sort((a, b) => {
-                const va = get(a), vb = get(b)
-                if (va < vb) return -1 * mul
-                if (va > vb) return 1 * mul
-                return 0
-            })
-        }
-        return list
-    }, [orders, sort])
-
-    console.log(orders);
-    
+    const csvSafe = (s) => /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s
 
     return (
         <section className="reservations-page">
+            {/* Top nav (unchanged) */}
             <header className="listings-header">
                 <nav className="listings-nav">
-                    <NavLink
-                        to="/dashboard/stay/edit"
-                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                    >
-                        Create listing
-                    </NavLink>
-                    <NavLink
-                        to="/dashboard/listings"
-                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                    >
-                        Listings
-                    </NavLink>
-                    <NavLink
-                        to="/dashboard/reservations"
-                        className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                    >
-                        Reservations
-                    </NavLink>
+                    <NavLink to="/dashboard/stay/edit" className="nav-link">Create listing</NavLink>
+                    <NavLink to="/dashboard/listings" className="nav-link">Listings</NavLink>
+                    <NavLink to="/dashboard/reservations" className="nav-link active">Reservations</NavLink>
                 </nav>
             </header>
 
-            <h2 className="res-title">{isLoading ? 'Loading…' : `${sorted.length} reservations`}</h2>
+            {/* KPI Cards */}
+            <KpiCards
+                revenueLabel={formatMoney(revenueThisMonth, 'USD')}
+                approved={totalApproved}
+                pending={totalPending}
+                total={rows.length}
+                spark={last7Days}
+            />
 
-            <div className="res-card">
-                <table className="res-table">
-                    <thead>
-                        <tr>
-                            {COLS.map(c => (
-                                <th
-                                    key={c.key}
-                                    className={`col-${c.key} ${!c.get ? 'no-sort' : ''}`}
-                                    onClick={() => toggleSort(c.key)}
-                                >
-                                    <span>{c.label}</span>
-                                    {c.get && <i className={`sort ${sort.by === c.key ? sort.dir : ''}`} />}
-                                </th>
-                            ))}
-                        </tr>
-                    </thead>
+            <InsightsRow orders={orders} />
 
-                    <tbody>
-                        {!isLoading && sorted.map(o => {
-                            const s = STATUS[o.status] || STATUS.pending
-                            return (
-                                <tr key={o._id} className="reservation-row">
-                                    {/* Guest */}
-                                    <td className="col-guest">
-                                        <div className="guest-cell">
-                                            {o.guest?.imgUrl
-                                                ? <img className="avatar" src={o.guest.imgUrl} alt={o.guest.fullname} />
-                                                : <div className="avatar avatar-fallback">{initials(o.guest?.fullname)}</div>}
-                                            <span className="guest-name" title={o.guest?.fullname}>{o.guest?.fullname || '—'}</span>
-                                        </div>
-                                    </td>
+            {/* Toolbar */}
+            <ReservationsToolbar
+                q={q}
+                onQuery={setQ}
+                status={status}
+                onStatus={setStatus}
+                onExport={handleExportCsv}
+            />
 
-                                    {/* Dates */}
-                                    <td className="col-startDate">{fmtDate(o.startDate)}</td>
-                                    <td className="col-endDate">{fmtDate(o.endDate)}</td>
-
-                                    {/* Listing */}
-                                    <td className="col-listing">
-                                        <span className="listing-name" title={o.stay?.name || '—'}>{o.stay?.name || '—'}</span>
-                                    </td>
-
-                                    {/* Total Payout */}
-                                    <td className="col-payout">{formatMoney(o.totalPrice, 'USD')}</td>
-
-                                    {/* Status */}
-                                    <td className="col-status">
-                                        <span className={`status-pill ${s.cls}`}>{s.label}</span>
-                                    </td>
-
-                                    {/* To do */}
-                                    <td className="col-todo">
-                                        <div className="todo-actions">
-                                            <button
-                                                className="btn-approve"
-                                                onClick={() => updateOrderStatus(o._id, 'approved')}
-                                                disabled={o.status === 'approved' || o.status === 'completed'}
-                                            >
-                                                Approve
-                                            </button>
-                                            <button
-                                                className="btn-reject"
-                                                onClick={() => updateOrderStatus(o._id, 'rejected')}
-                                                disabled={o.status === 'rejected'}
-                                            >
-                                                Reject
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-
-                        {(!isLoading && sorted.length === 0) && (
-                            <tr><td colSpan={COLS.length} className="empty">No reservations yet.</td></tr>
-                        )}
-                    </tbody>
-                </table>
+            {/* Data Table */}
+            <div className="res-card data-table">
+                <ReservationsTable rows={rows} isLoading={isLoading} />
             </div>
         </section>
     )

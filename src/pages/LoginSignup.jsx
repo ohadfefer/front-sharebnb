@@ -106,7 +106,7 @@ export function Signup() {
     const navigate = useNavigate()
 
     function clearState() {
-        setCredentials({ username: '', password: '', fullname: '', imgUrl: '' })
+        setCredentials({ username: '', password: '', fullname: '', email: '', imgUrl: '' })
     }
 
     function handleChange(ev) {
@@ -151,6 +151,16 @@ export function Signup() {
                 onChange={handleChange}
                 required
             />
+
+            <input
+                type="email"
+                name="email"
+                value={credentials.email || ''}
+                placeholder="Email"
+                onChange={handleChange}
+                required
+            />
+
             <input
                 type="password"
                 name="password"
