@@ -1,4 +1,5 @@
 import { httpService } from '../http.service'
+import { userService } from '../user'
 
 export const orderService = {
     query,
@@ -64,7 +65,7 @@ async function getStayById(stayId) {
 async function createOrder(stayId, stayData, overrides = {}) {
     try {
         // Get current user
-        const { userService } = await import('../user')
+        // const { userService } = await import('../user')
         const loggedInUser = userService.getLoggedinUser()
         
         console.log('Creating order with:', { stayId, stayData, overrides, loggedInUser })
