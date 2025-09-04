@@ -22,6 +22,7 @@ const initials = (name = '') =>
     name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join('')
 
 export function ReservationsTable({ rows, isLoading }) {
+    console.log(rows)
     const columns = [
         columnHelper.accessor(r => r.guest?.fullname || '—', {
             id: 'guest',

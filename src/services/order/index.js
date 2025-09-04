@@ -17,12 +17,14 @@ function getEmptyOrder() {
 
 function getDefaultFilter() {
     return {
-        address: '',
-        maxPrice: '',
-        checkIn: '',
-        checkOut: '',
-        guests: {adults: 0, children: 0, infants: 0, pets: 0,},
-        labels: [],
+        // address: '',
+        // maxPrice: '',
+        // checkIn: '',
+        // checkOut: '',
+        // guests: {adults: 0, children: 0, infants: 0, pets: 0,},
+        // labels: [],
+        hostId: null,
+        userId: null
     }
 }
 

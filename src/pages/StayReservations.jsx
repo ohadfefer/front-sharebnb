@@ -7,21 +7,38 @@ import { KpiCards } from '../cmps/KpiCards.jsx'
 import { ReservationsToolbar } from '../cmps/ReservationsToolbar.jsx'
 import { ReservationsTable } from '../cmps/ReservationsTable.jsx'
 import { InsightsRow } from '../cmps/InsightsRow.jsx'
+import { setFilter } from '../store/actions/order.actions.js'
+
 
 export function StayReservations() {
-    const { orders = [], isLoading } = useSelector(s => s.orderModule)
-    const loggedInUser = useSelector(s => s.userModule.user)
+    // const { orders = [], isLoading } = useSelector(s => s.orderModule)
+    const { orders, isLoading } = useSelector(s => s.orderModule)
+    const { user } = useSelector(s => s.userModule)
+    const { filterBy } = useSelector(s => s.orderModule)
+    // const loggedInUser = useSelector(s => s.userModule.user)
+
 
     const [q, setQ] = useState('')
-    const [status, setStatus] = useState('all')
+    const [status, setStatus] = useState('all') // all | pending | approved | rejected | completed
 
     useEffect(() => {
-        const hostId = loggedInUser?._id
-        setOrderFilter({ hostId, status: '' }) // <- don't use store.dispatch here
-        loadOrders()                            // <- this function already dispatches
-    }, [loggedInUser?._id])
+        setFilter({ hostId: user._id })
+        onLoadOrders()
+    }, [])
 
+    // useEffect(() => {
+    //     const hostId = loggedInUser?._id
+    //     setFilter(hostId)
+    //     onLoadOrders()
+    // }, [loggedInUser?._id])
 
+    async function onLoadOrders() {
+        console.log(filterBy)
+        const orders = await loadOrders()
+        console.log(orders)
+    }
+
+    // filter client-side for now
     const rows = useMemo(() => {
         const needle = q.trim().toLowerCase()
         return (orders || []).filter(o => {
@@ -109,3 +126,7 @@ export function StayReservations() {
         </section>
     )
 }
+
+
+
+

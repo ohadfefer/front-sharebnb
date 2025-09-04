@@ -1,10 +1,11 @@
 import { useParams, useSearchParams, useNavigate, Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { showSuccessMsg } from '../services/event-bus.service.js'
 import { orderService } from '../services/order/index.js'
-import { getCmdAddOrder, getCmdUpdateOrder, updateOrder as updateOrderAction } from '../store/actions/order.actions.js'
+import { addOrder, getCmdAddOrder, getCmdUpdateOrder, updateOrder as updateOrderAction } from '../store/actions/order.actions.js'
 import { formatDateMMDDYYYY, nightsBetween, parseSearchParams, buildStayPathWithParams, formatGuestsLabel } from '../services/util.service.js'
+
 
 import viza from '../assets/logo/vize-card.png'
 import arrow from '../assets/logo/arrow.png'
@@ -22,6 +23,7 @@ export function StayOrder() {
     const [stay, setStay] = useState(null)
 
     const backHref = buildStayPathWithParams(stayId, searchParams)
+    const { user } = useSelector(s => s.userModule)
 
     const { checkIn, checkOut, guests } = parseSearchParams(searchParams)
     const nights = nightsBetween(checkIn, checkOut)
@@ -30,41 +32,41 @@ export function StayOrder() {
         if (stayId) loadStay()
     }, [stayId])
 
-    useEffect(() => {
-        if (stay && !order) createOrderFromService()
-    }, [stay, order])
+    // useEffect(() => {
+    //     if (stay && !order) createOrderFromService()
+    // }, [stay, order])
 
     async function loadStay() {
         try {
             setIsLoading(true)
             setError(null)
             const stayData = await orderService.getStayById(stayId)
-            console.log('loadStay - stayData loaded:', stayData)
-            console.log('loadStay - stayData.host:', stayData?.host)
-            console.log('loadStay - stayData.hostId:', stayData?.hostId)
-            
+            // console.log('loadStay - stayData loaded:', stayData)
+            // console.log('loadStay - stayData.host:', stayData?.host)
+            // console.log('loadStay - stayData.hostId:', stayData?.hostId)
+
             if (!stayData) {
                 setError('Stay not found')
                 return
             }
             setStay(stayData)
 
-            if (order) {
-                const updatedOrder = {
-                    ...order,
-                    hostId: stayData.host?._id || order.hostId,
-                    totalPrice: stayData.price || order.totalPrice,
-                    stay: {
-                        ...(order.stay || {}),
-                        _id: stayData._id,
-                        name: stayData.name,
-                        price: stayData.price,
-                    },
-                }
-                const saved = await orderService.save(updatedOrder)
-                setOrder(saved)
-                dispatch(getCmdUpdateOrder(saved))
-            }
+            // if (order) {
+            //     const updatedOrder = {
+            //         ...order,
+            //         hostId: stayData.host?._id || order.hostId,
+            //         totalPrice: order.totalPrice || stayData.price,
+            //         stay: {
+            //             ...(order.stay || {}),
+            //             _id: stayData._id,
+            //             name: stayData.name,
+            //             price: stayData.price,
+            //         },
+            //     }
+                // const saved = await orderService.save(updatedOrder)
+            //     setOrder(updatedOrder)
+            //     // dispatch(getCmdUpdateOrder(saved))
+            // }
         } catch (err) {
             console.error('Error loading stay:', err)
             setError('Failed to load stay details')
@@ -73,70 +75,88 @@ export function StayOrder() {
         }
     }
 
-    async function createOrderFromService() {
-        try {
-            console.log('createOrderFromService - stay data:', stay)
-            console.log('createOrderFromService - stay.host:', stay?.host)
-            console.log('createOrderFromService - stay.hostId:', stay?.hostId)
-            
-            const overrides = {
-                startDate: checkIn,
-                endDate: checkOut,
-                guests: guests || { adults: 1, children: 0, infants: 0, pets: 0 },
-                totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
-            }
-            const created = await orderService.createOrder(stayId, stay, overrides)
-            setOrder(created)
-            dispatch(getCmdAddOrder(created))
-        } catch (err) {
-            console.error('Error creating order:', err)
-            setError('Failed to create order')
-        }
-    }
+    // async function createOrderFromService() {
+    //     try {
+    //         // console.log('createOrderFromService - stay data:', stay)
+    //         // console.log('createOrderFromService - stay.host:', stay?.host)
+    //         // console.log('createOrderFromService - stay.hostId:', stay?.hostId)
+
+    //         const overrides = {
+    //             startDate: checkIn,
+    //             endDate: checkOut,
+    //             guests: guests || { adults: 1, children: 0, infants: 0, pets: 0 },
+    //             totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
+    //         }
+    //         const created = await orderService.createOrder(stayId, stay, overrides)
+    //         setOrder(created)
+    //         // dispatch(getCmdAddOrder(created))
+    //     } catch (err) {
+    //         console.error('Error creating order:', err)
+    //         setError('Failed to create order')
+    //     }
+    // }
+
+
 
     async function handleConfirmAndPay() {
         try {
             // Ensure guests object exists and has valid values
             const defaultGuests = { adults: 1, children: 0, infants: 0, pets: 0 }
             const validGuests = guests && typeof guests === 'object' ? guests : defaultGuests
-            
+
             // Check if guests object has at least one valid guest count
-            const hasValidGuests = Object.values(validGuests).some(count => count > 0)
-            
-            if (!hasValidGuests) {
-                setError('Please select at least one guest')
-                return
-            }
+            // const hasValidGuests = Object.values(validGuests).some(count => count > 0)
 
-            const base = order || await orderService.createOrder(stayId, stay, {
-                startDate: checkIn,
-                endDate: checkOut,
-                guests: validGuests,
-                totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
-            })
-            
-            if (!order) {
-                setOrder(base)
-                dispatch(getCmdAddOrder(base))
-            }
+            // if (!hasValidGuests) {
+            //     setError('Please select at least one guest')
+            //     return
+            // }
 
-            const computedTotal = (stay?.price && nights ? stay.price * nights : base.totalPrice) || 0
+            // const base = order 
+            // || await orderService.createOrder(stayId, stay, {
+            //     startDate: checkIn,
+            //     endDate: checkOut,
+            //     guests: validGuests,
+            //     totalPrice: (stay?.price || 0) * Math.max(1, nights || 1),
+            // })
 
-            const updated = await updateOrderAction({
-                ...base,
+            // if (!order) {
+            //     setOrder(base)
+            //     dispatch(getCmdAddOrder(base))
+            // }
+
+            const computedTotal = (stay?.price && nights ? stay.price * nights : 0)
+
+            // const updated = await updateOrderAction({
+            //     ...base,
+            //     startDate: checkIn || base.startDate,
+            //     endDate: checkOut || base.endDate,
+            //     guests: validGuests,
+            //     totalPrice: computedTotal,
+            //     status: 'confirmed',
+            // })
+
+            if (!stay || !user) return
+
+            const orderToSave = {
+                stayId: stay._id,
+                userId: user._id,
+                hostId: stay.host._id,
                 startDate: checkIn || base.startDate,
                 endDate: checkOut || base.endDate,
                 guests: validGuests,
                 totalPrice: computedTotal,
-                status: 'confirmed',
-            })
-            
-            setOrder(updated)
+                status: 'pending'
+            }
+
+            const savedOrder = await addOrder(orderToSave)
+            setOrder(savedOrder)
             setIsSaved(true)
             showSuccessMsg('Order confirmed successfully!')
+            console.log(savedOrder)
 
             // Navigate to order confirmation page
-            navigate(`/order/${updated._id}/confirmation`)
+            navigate(`/order/${savedOrder.insertedId}/confirmation`)
         } catch (err) {
             console.error('Cannot confirm and pay:', err)
             setError('Failed to confirm order. Please try again.')
@@ -193,7 +213,7 @@ export function StayOrder() {
                     <hr />
 
                     <div className="confirm">
-                        {error && <p className="error-message" style={{color: 'red', marginBottom: '10px'}}>{error}</p>}
+                        {error && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
                         <button
                             onClick={handleConfirmAndPay}
                             onMouseMove={handleMouseMove}

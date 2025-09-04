@@ -7,11 +7,11 @@ import { LOADING_DONE, LOADING_START } from '../reducers/system.reducer'
 import { REMOVE_USER, SET_USER, SET_USERS, SET_WATCHED_USER, INIT_USER } from '../reducers/user.reducer'
 
 export function initUser() {
-    console.log('initUser called')
+    // console.log('initUser called')
     const user = userService.getLoggedinUser()
-    console.log('initUser - user from service:', user)
+    // console.log('initUser - user from service:', user)
     if (user) {
-        console.log('initUser - dispatching INIT_USER action')
+        // console.log('initUser - dispatching INIT_USER action')
         store.dispatch({
             type: INIT_USER,
             user

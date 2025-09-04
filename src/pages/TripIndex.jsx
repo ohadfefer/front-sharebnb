@@ -29,21 +29,32 @@ function capFirst(txt = "") {
 
 export function TripIndex() {
   const navigate = useNavigate()
-  const loggedInUser = useSelector(s => s.userModule.user)
+
+  const user = useSelector(s => s.userModule.user)
   const { orders, isLoading } = useSelector(s => s.orderModule)
 
-  // Only query when a user is actually logged in
-  useEffect(() => {                            // EDIT
-    if (!loggedInUser?._id) return             // NEW: no "guest-user-id" requests
-    setFilter({ userId: loggedInUser._id })    // EDIT
-    loadOrders()
-  }, [loggedInUser?._id])                      // EDIT
+  // console.log('TripIndex - user:', user)
+  // console.log('TripIndex - orders:', orders)
+
+  // Set the backend filter to the logged-in user's id (guest) and load orders.
+  useEffect(() => {
+    // Handle guest mode - if no user is logged in, use a default guest user ID
+    const userId = user?._id || ''
+    // console.log('TripIndex - setting filter with userId:', userId)
+    setFilter(userId) // backend aliases userId -> guestId
+    onLoadOrders()
+  }, [user?._id])
+
+  async function onLoadOrders() {
+    await loadOrders()
+    console.log(orders)
+  }
 
   function handleRowClick(stayId) {
     if (stayId) navigate(`/stay/${stayId}`)
   }
 
-  if (!loggedInUser?._id) {
+  if (!user?._id) {
     return (
       <section className="trips-page">
         <h2 className="trips-title">My Trips</h2>
