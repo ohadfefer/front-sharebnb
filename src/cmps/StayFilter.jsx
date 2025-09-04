@@ -91,7 +91,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
         <div className="filter-pill">
           <button
             type="button"
-            className="chip"
+            className="filter-chip"
             onClick={() => {
               onRequestExpand?.()
               setActiveFilterCell("where")
@@ -103,7 +103,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
 
           <button
             type="button"
-            className="chip"
+            className="filter-chip"
             onClick={() => {
               onRequestExpand?.()
               setActiveFilterCell("checkin")
@@ -115,7 +115,7 @@ export function StayFilter({ mini, onRequestExpand, onPopoverComplete }) {
           <div className="who-serach">
             <button
               type="button"
-              className="chip"
+              className="filter-chip"
               onClick={() => {
                 onRequestExpand?.()
                 setActiveFilterCell("who")

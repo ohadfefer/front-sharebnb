@@ -10,9 +10,8 @@ import { store } from './store/store'
 import { RootCmp } from './RootCmp'
 
 import './store/actions/stay.actions'
-
 import 'react-day-picker/dist/style.css'
-
+import 'react-loading-skeleton/dist/skeleton.css'
 import './assets/styles/main.css'
 
 

@@ -11,11 +11,9 @@ import { setFilter } from '../store/actions/order.actions.js'
 
 
 export function StayReservations() {
-    // const { orders = [], isLoading } = useSelector(s => s.orderModule)
     const { orders, isLoading } = useSelector(s => s.orderModule)
     const { user } = useSelector(s => s.userModule)
     const { filterBy } = useSelector(s => s.orderModule)
-    // const loggedInUser = useSelector(s => s.userModule.user)
 
 
     const [q, setQ] = useState('')
@@ -25,12 +23,6 @@ export function StayReservations() {
         setFilter({ hostId: user._id })
         onLoadOrders()
     }, [])
-
-    // useEffect(() => {
-    //     const hostId = loggedInUser?._id
-    //     setFilter(hostId)
-    //     onLoadOrders()
-    // }, [loggedInUser?._id])
 
     async function onLoadOrders() {
         console.log(filterBy)

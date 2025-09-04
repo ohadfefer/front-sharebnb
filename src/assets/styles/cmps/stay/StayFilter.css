@@ -17,7 +17,7 @@
     height: 15px;
   }
 
-  .chip {
+  .filter-chip {
     font-size: 1rem;
     height: 46.8px;
   }
@@ -152,7 +152,7 @@ form.filter-pill>*:not(:first-child).active::after {
   justify-content: space-between;
 }
 
-.chip {
+.filter-chip {
   border: none;
   background: transparent;
   font-size: 1rem;
@@ -165,7 +165,7 @@ form.filter-pill>*:not(:first-child).active::after {
   justify-content: center;
 }
 
-.chip span {
+.filter-chip span {
   font-size: 1.5rem
 }
 

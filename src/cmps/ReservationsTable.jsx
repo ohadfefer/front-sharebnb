@@ -1,3 +1,5 @@
+// ReservationsTable.jsx
+import React from 'react'
 import clsx from 'clsx'
 import {
     createColumnHelper,
@@ -13,16 +15,79 @@ import { updateOrderStatus } from '../store/actions/order.actions'
 const STATUS = {
     pending: { cls: 'pending', label: 'Pending' },
     approved: { cls: 'ok', label: 'Approved' },
-    completed: { cls: 'ok', label: 'Completed' },
+    completed: { cls: 'ok', label: 'Approved' },
     rejected: { cls: 'bad', label: 'Rejected' },
 }
 const columnHelper = createColumnHelper()
-
 const initials = (name = '') =>
     name.split(/\s+/).filter(Boolean).slice(0, 2).map(s => s[0]?.toUpperCase()).join('')
 
-export function ReservationsTable({ rows, isLoading }) {
-    console.log(rows)
+// tiny hook (no deps)
+function useMediaQuery(q) {
+    const [m, setM] = React.useState(() => window.matchMedia(q).matches)
+    React.useEffect(() => {
+        const mq = window.matchMedia(q)
+        const onChange = e => setM(e.matches)
+        mq.addEventListener('change', onChange)
+        return () => mq.removeEventListener('change', onChange)
+    }, [q])
+    return m
+}
+
+/** ---------- MOBILE CARDS RENDERER ---------- */
+function ReservationsCards({ rows, isLoading }) {
+    if (isLoading) {
+        return <ul className="res-cards"><li className="res-card empty">Loading…</li></ul>
+    }
+    if (!rows?.length) {
+        return <ul className="res-cards"><li className="res-card empty">No reservations yet.</li></ul>
+    }
+
+    return (
+        <ul className="res-cards" role="list">
+            {rows.map((o) => {
+                const stat = STATUS[o.status] || STATUS.pending
+                return (
+                    <li key={o._id} className="res-card">
+                        <div className="res-card__top">
+                            {o.guest?.imgUrl
+                                ? <img className="res-card__avatar" src={o.guest.imgUrl} alt={o.guest?.fullname || 'Guest'} />
+                                : <div className="res-card__avatar res-card__avatar--fallback">{initials(o.guest?.fullname)}</div>}
+                            <div className="res-card__title">
+                                <div className="res-card__guest" title={o.guest?.fullname}>{o.guest?.fullname || 'Guest'}</div>
+                                <div className="res-card__meta">
+                                    <span className="chip" title="Check-in">{fmtDate(o.startDate)}</span>
+                                    <span className="chip" title="Checkout">{fmtDate(o.endDate)}</span>
+                                    <span className="chip" title="Listing">{o.stay?.name || '—'}</span>
+                                </div>
+                            </div>
+                            <div className="res-card__amount">{formatMoney(Number(o.totalPrice) || 0, 'USD')}</div>
+                        </div>
+
+                        <div className="res-card__bottom">
+                            <span className={clsx('status-pill', stat.cls)}>{stat.label}</span>
+                            <div className="res-card__actions">
+                                <button
+                                    className="btn-approve"
+                                    onClick={() => updateOrderStatus(o._id, 'approved')}
+                                    disabled={o.status === 'approved' || o.status === 'completed'}
+                                >Approve</button>
+                                <button
+                                    className="btn-reject"
+                                    onClick={() => updateOrderStatus(o._id, 'rejected')}
+                                    disabled={o.status === 'rejected'}
+                                >Reject</button>
+                            </div>
+                        </div>
+                    </li>
+                )
+            })}
+        </ul>
+    )
+}
+
+/** ---------- DESKTOP TABLE (your current renderer) ---------- */
+function ReservationsTableDesktop({ rows, isLoading }) {
     const columns = [
         columnHelper.accessor(r => r.guest?.fullname || '—', {
             id: 'guest',
@@ -173,7 +238,7 @@ export function ReservationsTable({ rows, isLoading }) {
     )
 }
 
-/** Pretty pagination bar */
+/** Pretty pagination bar (hidden on mobile by CSS) */
 function Pager({ table }) {
     const state = table.getState().pagination
     const canPrev = table.getCanPreviousPage()
@@ -213,4 +278,12 @@ function Pager({ table }) {
             </div>
         </div>
     )
+}
+
+/** ---------- RESPONSIVE SWITCH ---------- */
+export function ReservationsTable({ rows, isLoading }) {
+    const isMobile = useMediaQuery('(max-width: 1060px)')
+    return isMobile
+        ? <ReservationsCards rows={rows} isLoading={isLoading} />
+        : <ReservationsTableDesktop rows={rows} isLoading={isLoading} />
 }
