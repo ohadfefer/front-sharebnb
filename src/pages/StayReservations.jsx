@@ -16,15 +16,23 @@ export function StayReservations() {
     const { orders, isLoading } = useSelector(s => s.orderModule)
     const { user } = useSelector(s => s.userModule)
     const { filterBy } = useSelector(s => s.orderModule)
+    // const loggedInUser = useSelector(s => s.userModule.user)
+
 
     // local ui controls
     const [q, setQ] = useState('')
     const [status, setStatus] = useState('all') // all | pending | approved | rejected | completed
 
-    useEffect(() => { 
+    useEffect(() => {
         setFilter({ hostId: user._id })
-        onLoadOrders() 
+        onLoadOrders()
     }, [])
+
+    // useEffect(() => {
+    //     const hostId = loggedInUser?._id
+    //     setFilter(hostId)
+    //     onLoadOrders()
+    // }, [loggedInUser?._id])
 
     async function onLoadOrders() {
         console.log(filterBy)
@@ -133,3 +141,7 @@ export function StayReservations() {
         </section>
     )
 }
+
+
+
+
