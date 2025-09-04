@@ -1,10 +1,8 @@
-// StayReservations.jsx
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { loadOrders, setFilter } from '../store/actions/order.actions' // EDIT
+import { loadOrders, setFilter as setOrderFilter } from '../store/actions/order.actions' // EDIT
 import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service.js'
-
 import { KpiCards } from '../cmps/KpiCards.jsx'
 import { ReservationsToolbar } from '../cmps/ReservationsToolbar.jsx'
 import { ReservationsTable } from '../cmps/ReservationsTable.jsx'
@@ -12,16 +10,17 @@ import { InsightsRow } from '../cmps/InsightsRow.jsx'
 
 export function StayReservations() {
     const { orders = [], isLoading } = useSelector(s => s.orderModule)
-    const loggedInUser = useSelector(s => s.userModule.user) // NEW
+    const loggedInUser = useSelector(s => s.userModule.user)
 
     const [q, setQ] = useState('')
     const [status, setStatus] = useState('all')
 
     useEffect(() => {
-        if (!loggedInUser?._id) return // NEW: wait until we have a user
-        setFilter({ hostId: loggedInUser._id }) // NEW: scope to host
-        loadOrders() // NEW: then load
-    }, [loggedInUser?._id]) // NEW
+        const hostId = loggedInUser?._id
+        setOrderFilter({ hostId, status: '' }) // <- don't use store.dispatch here
+        loadOrders()                            // <- this function already dispatches
+    }, [loggedInUser?._id])
+
 
     const rows = useMemo(() => {
         const needle = q.trim().toLowerCase()
@@ -66,6 +65,7 @@ export function StayReservations() {
 
     function handleExportCsv() {
         const header = ['Guest', 'Check-in', 'Checkout', 'Listing', 'Total Payout', 'Status']
+        const csvSafe = (s) => /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s
         const lines = rows.map(o => ([
             csvSafe(o.guest?.fullname || ''),
             csvSafe(fmtDate(o.startDate)),
@@ -82,7 +82,6 @@ export function StayReservations() {
         a.click()
         URL.revokeObjectURL(url)
     }
-    const csvSafe = (s) => /[",\n]/.test(s) ? `"${s.replaceAll('"', '""')}"` : s
 
     return (
         <section className="reservations-page">
@@ -103,15 +102,7 @@ export function StayReservations() {
             />
 
             <InsightsRow orders={orders} />
-
-            <ReservationsToolbar
-                q={q}
-                onQuery={setQ}
-                status={status}
-                onStatus={setStatus}
-                onExport={handleExportCsv}
-            />
-
+            <ReservationsToolbar q={q} onQuery={setQ} status={status} onStatus={setStatus} onExport={handleExportCsv} />
             <div className="res-card data-table">
                 <ReservationsTable rows={rows} isLoading={isLoading} />
             </div>

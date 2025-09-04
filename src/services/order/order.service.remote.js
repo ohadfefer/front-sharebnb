@@ -21,8 +21,11 @@ function cleanFilter(params = {}) { // NEW
     return p
 }
 
-function query(params) {
-    return httpService.get('order', cleanFilter(params)) // EDIT
+async function query(filterBy = {}) {
+    const params = Object.fromEntries(
+        Object.entries(filterBy).filter(([_, v]) => v) // drop falsy values
+    )
+    return httpService.get('order', params)
 }
 
 function getById(orderId) {

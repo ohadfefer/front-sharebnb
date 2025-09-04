@@ -1,9 +1,7 @@
 .explore {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 520px;
-    gap: 16px;
-    max-width: 1400px;
-    padding: 16px 16px 0px 16px;
+    gap: 32px;
 }
 
 .results-col {
