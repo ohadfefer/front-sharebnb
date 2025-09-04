@@ -8,16 +8,29 @@ import { KpiCards } from '../cmps/KpiCards.jsx'
 import { ReservationsToolbar } from '../cmps/ReservationsToolbar.jsx'
 import { ReservationsTable } from '../cmps/ReservationsTable.jsx'
 import { InsightsRow } from '../cmps/InsightsRow.jsx'
+import { setFilter } from '../store/actions/order.actions.js'
 
 
 export function StayReservations() {
-    const { orders = [], isLoading } = useSelector(s => s.orderModule)
+    // const { orders = [], isLoading } = useSelector(s => s.orderModule)
+    const { orders, isLoading } = useSelector(s => s.orderModule)
+    const { user } = useSelector(s => s.userModule)
+    const { filterBy } = useSelector(s => s.orderModule)
 
     // local ui controls
     const [q, setQ] = useState('')
     const [status, setStatus] = useState('all') // all | pending | approved | rejected | completed
 
-    useEffect(() => { loadOrders() }, [])
+    useEffect(() => { 
+        setFilter({ hostId: user._id })
+        onLoadOrders() 
+    }, [])
+
+    async function onLoadOrders() {
+        console.log(filterBy)
+        const orders = await loadOrders()
+        console.log(orders)
+    }
 
     // filter client-side for now
     const rows = useMemo(() => {

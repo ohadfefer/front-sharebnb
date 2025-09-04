@@ -62,15 +62,15 @@ function getLoggedinUser() {
 
 function saveLoggedinUser(user) {
     console.log('saveLoggedinUser called with:', user)
-    user = { 
-        _id: user._id, 
-        fullname: user.fullname, 
-        imgUrl: user.imgUrl, 
-        score: user.score, 
-        isAdmin: user.isAdmin,
-		email: user.email || null,
-    }
+    // user = { 
+    //     _id: user._id, 
+    //     fullname: user.fullname, 
+    //     imgUrl: user.imgUrl, 
+    //     score: user.score, 
+    //     isAdmin: user.isAdmin,
+	// 	email: user.email || null,
+    // }
     sessionStorage.setItem(STORAGE_KEY_LOGGEDIN_USER, JSON.stringify(user))
-    console.log('User saved to sessionStorage:', user)
+    // console.log('User saved to sessionStorage:', user)
     return user
 }

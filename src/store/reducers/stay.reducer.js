@@ -60,22 +60,22 @@ function unitTestReducer() {
     const stay2 = { _id: 'b102', name: 'Stay ' + parseInt('' + Math.random() * 10), price: 13, host: null, msgs: [] }
 
     state = stayReducer(state, { type: SET_STAYS, stays: [stay1] })
-    console.log('After SET_STAYS:', state)
+    // console.log('After SET_STAYS:', state)
 
     state = stayReducer(state, { type: ADD_STAY, stay: stay2 })
-    console.log('After ADD_STAY:', state)
+    // console.log('After ADD_STAY:', state)
 
     state = stayReducer(state, { type: UPDATE_STAY, stay: { ...stay2, name: 'Good' } })
-    console.log('After UPDATE_STAY:', state)
+    // console.log('After UPDATE_STAY:', state)
 
     state = stayReducer(state, { type: REMOVE_STAY, stayId: stay2._id })
-    console.log('After REMOVE_STAY:', state)
+    // console.log('After REMOVE_STAY:', state)
 
     state = stayReducer(state, { type: SET_STAY, stay: stay1 })
-    console.log('After SET_STAY:', state)
+    // console.log('After SET_STAY:', state)
 
     const msg = { id: 'm' + parseInt('' + Math.random() * 100), txt: 'Some msg', by: { _id: 'u123', fullname: 'test' } }
     state = stayReducer(state, { type: ADD_STAY_MSG, stayId: stay1._id, msg })
-    console.log('After ADD_STAY_MSG:', state)
+    // console.log('After ADD_STAY_MSG:', state)
 }
 

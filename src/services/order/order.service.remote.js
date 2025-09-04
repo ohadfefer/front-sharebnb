@@ -12,7 +12,8 @@ export const orderService = {
 }
 
 function query(params) {
-  return httpService.get('order', params)
+    console.log(params)
+    return httpService.get('order', params)
 }
 
 function getById(orderId) {
@@ -21,7 +22,7 @@ function getById(orderId) {
 
 async function save(order) {
     console.log('Saving order in remote service:', order)
-    var savedOrder
+    var savedOrder 
     if (order._id) {
         console.log('Updating existing order:', order._id)
         savedOrder = await httpService.put(`order/${order._id}`, order)
@@ -29,7 +30,7 @@ async function save(order) {
         console.log('Creating new order')
         savedOrder = await httpService.post('order', order)
     }
-    console.log('Order saved successfully:', savedOrder)
+    // console.log('Order saved successfully:', savedOrder)
     return savedOrder
 }
 
@@ -39,6 +40,7 @@ async function remove(orderId) {
 
 async function updateStatus(orderId, status) {
     try {
+        console.log(orderId, status, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         const order = await getById(orderId)
         const updatedOrder = { ...order, status }
         return await save(updatedOrder)
@@ -67,12 +69,12 @@ async function createOrder(stayId, stayData, overrides = {}) {
         // Get current user
         // const { userService } = await import('../user')
         const loggedInUser = userService.getLoggedinUser()
-        
+
         console.log('Creating order with:', { stayId, stayData, overrides, loggedInUser })
-        
+
         // Handle guest mode - if no user is logged in, use a default guest user ID
         const userId = loggedInUser?._id || 'guest-user-id'
-        
+
         if (!stayId) {
             throw new Error('Stay ID is required')
         }
@@ -119,7 +121,7 @@ async function createOrder(stayId, stayData, overrides = {}) {
             status: overrides.status || 'pending',
             createdAt: new Date().toISOString()
         }
-        
+
         console.log('Saving order:', newOrder)
         const savedOrder = await save(newOrder)
         console.log('Order saved successfully:', savedOrder)
