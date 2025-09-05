@@ -29,8 +29,8 @@ export function Login() {
     async function onDemoLogin(ev) {
         if (ev) ev.preventDefault()
         const demoCreds = {
-            username: 'Baravizemer',
-            password: 'Baravizemer',
+            username: 'Alon Ben Ari',
+            password: 'Alon Ben Ari',
         }
         setCredentials(demoCreds)
         try {
@@ -38,10 +38,10 @@ export function Login() {
         } catch (err) {
             try {
                 await signup({
-                    username: 'Baravizemer',
-                    password: 'Baravizemer',
-                    fullname: 'Bar Avizemer',
-                    imgUrl: 'https://ca.slack-edge.com/T08T1AM7L02-U08TAACAJ67-7f0e6070c266-512'
+                    username: 'Alon Ben Ari',
+                    password: 'Alon Ben Ari',
+                    fullname: 'Alon Ben Ari',
+                    imgUrl: 'https://ca.slack-edge.com/T08T1AM7L02-U08T35Z7745-79b18d468cce-512'
                 })
             } catch (e) {
             }
