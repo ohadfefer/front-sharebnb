@@ -138,16 +138,22 @@ export function StayOrder() {
 
             if (!stay || !user) return
 
+            console.log('Creating order with stay data:', stay)
+            console.log('Stay host:', stay.host)
+            console.log('Stay host._id:', stay.host?._id)
+            
             const orderToSave = {
                 stayId: stay._id,
                 userId: user._id,
-                hostId: stay.host._id,
+                hostId: stay.host?._id,
                 startDate: checkIn || base.startDate,
                 endDate: checkOut || base.endDate,
                 guests: validGuests,
                 totalPrice: computedTotal,
                 status: 'pending'
             }
+            
+            console.log('Order to save:', orderToSave)
 
             const savedOrder = await addOrder(orderToSave)
             setOrder(savedOrder)
