@@ -43,7 +43,7 @@ export function ExploreMap({ stays }) {
         loadGoogleMaps()
             .then(() => {
                 if (!mounted || !ref.current) return
-                let center = { lat: 31.771959, lng: 35.217018 }
+                let center = { lat: 36.4123, lng: 25.4321 }
                 
                 const first = stays[0]
                 if (first?.loc?.lat && first?.loc?.lng) {
@@ -91,7 +91,7 @@ export function ExploreMap({ stays }) {
                 position: pos,
                 map: mapRef.current,
                 label: {
-                    text: `₪${Math.round(stay.price)}`,
+                    text: `$${Math.round(stay.price)}`,
                     className: 'price-label',
                 }
             })

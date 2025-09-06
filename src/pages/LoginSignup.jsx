@@ -30,7 +30,7 @@ export function Login() {
         if (ev) ev.preventDefault()
         const demoCreds = {
             username: 'Alon Ben Ari',
-            password: 'Alon Ben Ari',
+            password: 'Baravizemer',
         }
         setCredentials(demoCreds)
         try {
@@ -39,7 +39,7 @@ export function Login() {
             try {
                 await signup({
                     username: 'Alon Ben Ari',
-                    password: 'Alon Ben Ari',
+                    password: 'Baravizemer',
                     fullname: 'Alon Ben Ari',
                     imgUrl: 'https://ca.slack-edge.com/T08T1AM7L02-U08T35Z7745-79b18d468cce-512'
                 })
