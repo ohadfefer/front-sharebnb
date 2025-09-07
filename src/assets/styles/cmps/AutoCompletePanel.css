@@ -82,3 +82,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.where-icon-mobile img {
+    width: 56px;
+    height: 56px;
+    opacity: 1;
+}

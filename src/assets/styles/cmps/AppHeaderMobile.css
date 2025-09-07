@@ -75,7 +75,7 @@
     -webkit-overflow-scrolling: touch;
     display: flex;
     gap: 48px;
-    padding: 16px 24px 2px;
+    padding: 0px 24px 2px;
     margin: 0 -14px;
     scrollbar-width: none;
     justify-content: center;
