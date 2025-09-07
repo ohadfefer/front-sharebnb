@@ -43,19 +43,13 @@ export function ExploreMap({ stays }) {
         loadGoogleMaps()
             .then(() => {
                 if (!mounted || !ref.current) return
-                let center = { lat: 31.771959, lng: 35.217018 }
                 
-                const first = stays[0]
-                if (first?.loc?.lat && first?.loc?.lng) {
-                    center = { lat: Number(first.loc.lat), lng: Number(first.loc.lng) }
-                }
-                // console.log(typeof first.loc.lat);
-                // const center = first ? { lat: first.loc.lat, lng: first.loc.lng } : { lat: 20, lng: 0 }
+                // Default center to Santorini, Greece
+                const center = { lat: 36.4123, lng: 25.4321 }
 
                 mapRef.current = new window.google.maps.Map(ref.current, {
                     center,
-                    // zoom: 6,
-                    zoom: first ? 13 : 2,
+                    zoom: 13, // Good zoom level for Santorini
                     mapTypeId: 'roadmap',
                     streetViewControl: false,
                     mapTypeControl: false,
@@ -91,7 +85,7 @@ export function ExploreMap({ stays }) {
                 position: pos,
                 map: mapRef.current,
                 label: {
-                    text: `₪${Math.round(stay.price)}`,
+                    text: `$${Math.round(stay.price)}`,
                     className: 'price-label',
                 }
             })
@@ -99,8 +93,19 @@ export function ExploreMap({ stays }) {
             bounds.extend(pos)
         })
 
+        // Only fit bounds if there are multiple stays and they're spread out
+        // This prevents the map from zooming out too much when there are many stays
         if (items.length > 1) {
-            mapRef.current.fitBounds(bounds, { top: 40, right: 40, bottom: 40, left: 40 })
+            const ne = bounds.getNorthEast()
+            const sw = bounds.getSouthWest()
+            const latDiff = ne.lat() - sw.lat()
+            const lngDiff = ne.lng() - sw.lng()
+            
+            // Only fit bounds if the stays are reasonably close together
+            // (within about 2 degrees of latitude/longitude)
+            if (latDiff < 2 && lngDiff < 2) {
+                mapRef.current.fitBounds(bounds, { top: 40, right: 40, bottom: 40, left: 40 })
+            }
         }
     }
 

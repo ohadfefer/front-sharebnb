@@ -40,9 +40,10 @@ export function TripIndex() {
   useEffect(() => {
     // Handle guest mode - if no user is logged in, use a default guest user ID
     const userId = user?._id || ''
-    // console.log('TripIndex - setting filter with userId:', userId)
-    setFilter(userId) // backend aliases userId -> guestId
+    console.log('TripIndex - setting filter with userId:', userId)
+    setFilter({ userId : userId}) // backend aliases userId -> guestId
     onLoadOrders()
+    console.log(orders)
   }, [user?._id])
 
   async function onLoadOrders() {
