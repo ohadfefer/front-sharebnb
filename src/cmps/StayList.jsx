@@ -1,23 +1,17 @@
-import { userService } from '../services/user'
 import { StayPreview } from './StayPreview'
 
-export function StayList({ stays, onRemoveStay, onUpdateStay }) {
+export function StayList({ stays }) {
+    const list = Array.isArray(stays) ? stays : []
 
-    function shouldShowActionBtns(stay) {
-        const user = userService.getLoggedinUser()
-
-        if (!user) return false
-        if (user.isAdmin) return true
-        return stay.host?._id === user._id
-    }
-
-    return <section>
-        <ul className="stay-list">
-            {stays.map(stay =>
-                <li key={stay._id}>
-                    <StayPreview stay={stay} />
-                </li>)
-            }
-        </ul>
-    </section>
+    return (
+        <section>
+            <ul className="stay-list">
+                {list.map((stay, i) => (
+                    <li key={stay?._id || `skel-${i}`}>
+                        <StayPreview stay={stay || undefined} loading={!stay} />
+                    </li>
+                ))}
+            </ul>
+        </section>
+    )
 }

@@ -187,3 +187,8 @@
     font-size: 12px;
     opacity: .9;
 }
+
+.where-icon img {
+    width: 16px;
+    height: 16px;
+}

@@ -20,6 +20,7 @@
 @import "cmps/OrderConfirmation.css";
 @import "cmps/FilterSheet.css";
 @import "cmps/MobileTabBar.css";
+@import "cmps/AppFooter.css";
 
 @import "cmps/AppHeaderMobile.css";
 @import "cmps/DynamicPanel.css";
