@@ -4,14 +4,14 @@
 @import "basics/helpers";
 @import "basics/layout";
 @import "basics/base";
-@import "basics/forms";
+/* @import "basics/forms"; */
 
-@import "RootCmp";
+/* @import "RootCmp"; */
 
-@import "cmps/AboutUs";
-@import "cmps/UserDetails";
+/* @import "cmps/AboutUs"; */
+/* @import "cmps/UserDetails"; */
 @import "cmps/LoginSignup";
-@import "cmps/Chat";
+/* @import "cmps/Chat"; */
 @import "cmps/DateRangePicker";
 @import "cmps/GuestsPanel";
 @import "cmps/WherePanel";
@@ -59,6 +59,6 @@
 
 @import "cmps/StickyCard.css";
 
-@import "cmps/review/ReviewEdit";
+/* @import "cmps/review/ReviewEdit";
 @import "cmps/review/ReviewList";
-@import "cmps/review/ReviewPreview";
+@import "cmps/review/ReviewPreview"; */
