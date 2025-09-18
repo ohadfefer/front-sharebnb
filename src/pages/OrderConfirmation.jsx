@@ -76,7 +76,7 @@ export function OrderConfirmation() {
                     <div className="confirm-col">
                         <h3>Stay</h3>
                         <div className="stay-mini">
-                            {order.stay?.name || '—'}
+                            {order.stay?.name || 'Beach in Santorini'}
                             {order.stay?._id && (
                                 <span className="muted"> &nbsp;·&nbsp; #{order._id}</span>
                             )}

@@ -12,7 +12,7 @@ export const INIT_USER = 'INIT_USER'
 
 const initialState = {
     count: 10,
-    user: userService.getLoggedinUser(), // Don't initialize from service here, use INIT_USER action instead
+    user: userService.getLoggedinUser() || null, // Don't initialize from service here, use INIT_USER action instead
     users: [],
     watchedUser : null
 }
