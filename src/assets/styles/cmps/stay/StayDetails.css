@@ -1,8 +1,9 @@
 .stay-details {
     max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     /* padding-top: 20px; */
-    padding: 0 32px 32px 32px;
+    /* padding: 0 32px 32px 32px; */
 }
 
 /* sticky in-page navigation header */
@@ -16,8 +17,8 @@
     justify-content: space-between;
     background: var(--header-bg);
     backdrop-filter: blur(var(--header-backdrop-blur));
-    padding: 0; 
-    height: 80px; 
+    padding: 0;
+    height: 80px;
     position: sticky;
 }
 
@@ -45,7 +46,7 @@
     display: inline-flex;
     align-items: center;
     height: 100%;
-    padding: 0 16px; 
+    padding: 0 16px;
     color: var(--text-primary);
     text-decoration: none;
     font-family: 'Roboto-Medium';
@@ -55,7 +56,7 @@
 .details-nav a span {
     display: inline-block;
     border-bottom: 4px solid transparent;
-    line-height: 80px; 
+    line-height: 80px;
 }
 
 .details-nav a:hover span,
@@ -86,7 +87,8 @@
 /* remove underline/border effect for the CTA link's inner span */
 .details-nav-right .btn-link span {
     border-bottom: none;
-    line-height: 1; /* do not inherit the 80px line-height */
+    line-height: 1;
+    /* do not inherit the 80px line-height */
 }
 
 .details-nav-right .btn-link:hover,
@@ -110,7 +112,7 @@
 .nav-right-text .sub {
     color: var(--text-secondary);
     font-size: 12px;
-    
+
     img {
         margin-right: 4px;
     }
@@ -172,9 +174,14 @@
 
 .stay-details-grid {
     display: grid;
-    grid-template-columns: 1fr 360px;
-    /* gap: 40px; */
+    grid-template-columns: minmax(500px, 700px) minmax(260px, 500px);
     margin-top: 32px;
+}
+
+.right-col {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .right-col .sticky-card {
@@ -182,10 +189,41 @@
     top: 120px;
 }
 
-@media (max-width: 900px) {
+
+
+
+
+@media (max-width: 960px) {
     .stay-details-grid {
         grid-template-columns: 1fr;
     }
+
+    .right-col {
+        display: flex;
+        place-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .right-col {
+        place-content: center;
+    }
+
+    .date-range-panel {
+        display: flex;
+        place-content: center;
+    }
+
+    .sticky-card {
+        width: 322px;
+    }
+
+    /* .date-picker-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    } */
 }
 
 html {
