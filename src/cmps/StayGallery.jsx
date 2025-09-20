@@ -1,6 +1,7 @@
 import heart from '../assets/logo/icons/heart.svg'
 import share from '../assets/logo/icons/share.svg'
 import filledHeart from '../assets/logo/icons/filledHeart.svg'
+import { Link } from 'react-router-dom'
 
 export function StayGallery({ stay, onShare, onSave, isSaved }) {
 
@@ -43,6 +44,19 @@ export function StayGallery({ stay, onShare, onSave, isSaved }) {
           ) : (
             <p>No images available</p>
           )}
+        </div>
+        <div className="mobile-actions">
+          <Link to="/" className="back-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+          <button className="mobile-share-btn" onClick={onShare}>
+            <img src={share} alt="share" width={20} />
+          </button>
+          <button className="mobile-save-btn" onClick={onSave}>
+            <img src={isSaved ? filledHeart : heart} alt={isSaved ? "filledHeart" : "heart"} width={20} />
+          </button>
         </div>
       </div>
     </section>

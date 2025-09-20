@@ -317,6 +317,15 @@
 }
 
 @media (max-width: 768px) {
+
+    .reviews-cmp-container {
+        padding: 20px;
+    }
+
+    .divider {
+        max-width: 100%;
+    }
+
     .reviews-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;

@@ -130,12 +130,6 @@
 
 @media (max-width: 768px) {
 
-    .stay-info-grid.host-grid,
-    .grid-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-
     .column-1,
     .column-2 {
         gap: 10px;

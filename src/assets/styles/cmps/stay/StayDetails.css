@@ -182,47 +182,136 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
-}
-
-.right-col .sticky-card {
-    position: sticky;
-    top: 120px;
+    align-items: flex-start;
 }
 
 
+@media (max-width: 1148px) {
 
 
 
-@media (max-width: 960px) {
-    .stay-details-grid {
-        grid-template-columns: 1fr;
+    .sticky-card {
+        width: 320px !important;
     }
 
     .right-col {
-        display: flex;
-        place-content: center;
+        height: 1000px;
+    }
+}
+
+@media (max-width: 960px) {
+
+    .sticky-card {
+        width: 290px !important;
+    }
+}
+
+@media (max-width: 880px) {
+
+    .sticky-card {
+        width: 260px !important;
+    }
+}
+
+@media (max-width: 820px) {
+
+    .sticky-card {
+        width: 250px !important;
     }
 }
 
 @media (max-width: 768px) {
+
+    .main-container {
+        grid-template-columns: 0rem minmax(0, 2fr) 0rem !important;
+    }
+
+    .main-container:has(.stay-details) .m-header {
+        display: none;
+    }
+
+    .details-nav.shown {
+        display: none;
+    }
+
+    .stay-details {
+        padding: 0;
+        grid-column: 1 / -1;
+    }
+
+    .stay-info {
+        place-items: center;
+    }
+
+    .stay-info .header {
+        padding-bottom: 10px;
+        font-size: 25px !important;
+    }
+
+    .reviews-count-btn {
+        font-size: 0.8rem !important;
+    }
+
+    .stay-info .capacity {
+        font-size: 0.925rem !important;
+    }
+
+    .stay-info .reviews-modal {
+        justify-content: center;
+        font-size: 0.8rem !important;
+    }
+
+    .stay-details-grid {
+        grid-template-columns: 1fr;
+        margin-top: 0;
+    }
+
+    .grid-row {
+        gap: 22px !important;
+    }
+
+    .left-col {
+        order: 2;
+        padding: 20px;
+        border: 1px solid transparent;
+        border-radius: 20px;
+    }
+
     .right-col {
+        order: 3;
         place-content: center;
+        height: auto;
+        padding: 0 20px;
     }
 
     .date-range-panel {
         display: flex;
-        place-content: center;
+        justify-content: center;
     }
 
     .sticky-card {
-        width: 322px;
+        width: 322px !important;
     }
 
-    /* .date-picker-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    /* Move stay-header below gallery */
+    .stay-header {
+        order: 1;
+        padding: 20px;
+        border-bottom: 1px solid var(--divider);
+        margin-bottom: 20px;
+    }
+
+    .stay-header h1 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .stay-actions {
+        justify-content: flex-start;
+    }
+
+    /* .rdp-root .stay-picker {
+        --rdp-day-width: 70px;
     } */
 }
 

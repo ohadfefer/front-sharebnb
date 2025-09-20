@@ -46,106 +46,110 @@ export function StayReviews({ stay }) {
 
     return (
         <>
-            <div className="rates-info">
-                <div className="rates-header">
-                    <img src={star} alt="average rating" width={20} />
-                    <span>
-                        {/* {avgRate.toFixed(2)} · {stay.reviews.length} reviews */} 
-                        {avgRate} · {stay.reviews.length} reviews
-                    </span>
-                </div>
-                <div className="rates-details">
-                    <div className="rate-type-container">
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Cleanliness</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={cleanliness} alt="cleanliness" width={32} />
-                        </div>
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Accuracy</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={accuracy} alt="accuracy" width={32} />
-                        </div>
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Check-in</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={key} alt="key" width={32} />
-                        </div>
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Communication</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={chat} alt="chat" width={32} />
-                        </div>
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Location</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={map} alt="map" width={32} />
-                        </div>
-                        <div className="rate-type">
-                            <div className="rate-type-header">
-                                <div>Value</div>
-                                <div>4.9</div>
-                            </div>
-                            <img src={value} alt="value" width={32} />
-                        </div>
-                    </div>
+            <div className="reviews-cmp-container">
 
+                <div className="rates-info">
+                    <div className="rates-header">
+                        <img src={star} alt="average rating" width={20} />
+                        <span>
+                            {/* {avgRate.toFixed(2)} · {stay.reviews.length} reviews */}
+                            {avgRate} · {stay.reviews.length} reviews
+                        </span>
+                    </div>
+                    <div className="rates-details">
+                        <div className="rate-type-container">
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Cleanliness</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={cleanliness} alt="cleanliness" width={32} />
+                            </div>
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Accuracy</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={accuracy} alt="accuracy" width={32} />
+                            </div>
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Check-in</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={key} alt="key" width={32} />
+                            </div>
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Communication</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={chat} alt="chat" width={32} />
+                            </div>
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Location</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={map} alt="map" width={32} />
+                            </div>
+                            <div className="rate-type">
+                                <div className="rate-type-header">
+                                    <div>Value</div>
+                                    <div>4.9</div>
+                                </div>
+                                <img src={value} alt="value" width={32} />
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
-            <hr className='divider-long' />
-            <div className="stay-reviews">
-                <div className="reviews-grid">
-                    {stay.reviews.slice(0, 6).map((review) => (
-                        <div key={review.id} className="review-card">
-                            <div className="review-header">
-                                <div className="user-info">
-                                    <div className="user-personal-info">
-                                        <img
-                                            src={review.by.imgUrl}
-                                            alt={review.by.fullname}
-                                            className="user-avatar"
-                                            onError={(e) => {
-                                                e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
-                                            }}
-                                        />
-                                        <div className="user-details">
-                                            <h4 className="user-name">{review.by.fullname}</h4>
-                                            <p className="user-location">
-                                                {stay.loc.city}, {stay.loc.country}
-                                            </p>
+                <hr className='divider-long' />
+                <div className="stay-reviews">
+                    <div className="reviews-grid">
+                        {stay.reviews.slice(0, 6).map((review) => (
+                            <div key={review.id} className="review-card">
+                                <div className="review-header">
+                                    <div className="user-info">
+                                        <div className="user-personal-info">
+                                            <img
+                                                src={review.by.imgUrl}
+                                                alt={review.by.fullname}
+                                                className="user-avatar"
+                                                onError={(e) => {
+                                                    e.target.src = 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png'
+                                                }}
+                                            />
+                                            <div className="user-details">
+                                                <h4 className="user-name">{review.by.fullname}</h4>
+                                                <p className="user-location">
+                                                    {stay.loc.city}, {stay.loc.country}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="additional-info-container">
-                                        <div className="rating">
-                                            {/* {renderStars(review.rate)} */}
-                                            {renderStars(stay.rating)}
+                                        <div className="additional-info-container">
+                                            <div className="rating">
+                                                {/* {renderStars(review.rate)} */}
+                                                {renderStars(stay.rating)}
+                                            </div>
+                                            ·<span className='date-published'> June 2025 </span> ·
+                                            <span className='additional-user-info'>Stayed with kids</span>
                                         </div>
-                                        ·<span className='date-published'> June 2025 </span> ·
-                                        <span className='additional-user-info'>Stayed with kids</span>
                                     </div>
                                 </div>
+                                <div className="review-content">
+                                    <p className="review-text">{review.txt}</p>
+                                </div>
                             </div>
-                            <div className="review-content">
-                                <p className="review-text">{review.txt}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                {stay.reviews.length > 8 && (
-                    <div className="show-all-reviews">
-                        <button onClick={openModal}>Show all {stay.reviews.length} reviews</button>
+                        ))}
                     </div>
-                )}
+                    {stay.reviews.length > 8 && (
+                        <div className="show-all-reviews">
+                            <button onClick={openModal}>Show all {stay.reviews.length} reviews</button>
+                        </div>
+                    )}
+                </div>
+
             </div>
 
             {/* reviews modal */}
@@ -200,6 +204,7 @@ export function StayReviews({ stay }) {
                     </div>
                 </div>
             )}
+
         </>
     )
 }
