@@ -24,6 +24,7 @@ export function StayDetails() {
   const [error, setError] = useState(null)
   const [showNav, setShowNav] = useState(false)
   const [showCardLink, setShowCardLink] = useState(false)
+  const [showMobileModal, setShowMobileModal] = useState(false)
   const [dateRange, setDateRange] = useState({ checkIn: '', checkOut: '' })
   const galleryRef = useRef(null)
   const stickyRef = useRef(null)
@@ -160,7 +161,43 @@ export function StayDetails() {
         <StayMap stay={stay} />
       </div>
 
+      {/* Mobile Footer */}
+      <div className="mobile-footer">
+        <div className="mobile-footer-content">
+          <div className="mobile-footer-left">
+            <div className="title">Add dates for prices</div>
+            <div className="sub">
+              <img src={star} alt="" width={10} />
+              <span className='reviews-avg'>{stay.rating} · </span> 
+              <span>{reviewsCount} reviews</span>
+            </div>
+          </div>
+          <button 
+            className="mobile-check-availability-btn" 
+            onClick={() => setShowMobileModal(true)}
+          >
+            Check availability
+          </button>
+        </div>
+      </div>
 
+      {/* Mobile Modal */}
+      {showMobileModal && (
+        <div className="mobile-modal-overlay" onClick={() => setShowMobileModal(false)}>
+          <div className="mobile-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-modal-header">
+              <h3>Check availability</h3>
+              <button 
+                className="mobile-modal-close" 
+                onClick={() => setShowMobileModal(false)}
+              >
+                x
+              </button>
+            </div>
+            <StickyCard selectedDates={dateRange} />
+          </div>
+        </div>
+      )}
 
     </section>
   )
