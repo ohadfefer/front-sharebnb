@@ -10,14 +10,15 @@ export const SOCKET_EVENT_USER_UPDATED = 'user-updated'
 export const SOCKET_EVENT_REVIEW_ADDED = 'review-added'
 export const SOCKET_EVENT_REVIEW_REMOVED = 'review-removed'
 export const SOCKET_EVENT_REVIEW_ABOUT_YOU = 'review-about-you'
+export const SOCKET_EVENT_ORDER_UPDATED = 'order-updated'
 
 const SOCKET_EMIT_LOGIN = 'set-user-socket'
 const SOCKET_EMIT_LOGOUT = 'unset-user-socket'
 
 const baseUrl = (process.env.NODE_ENV === 'production') ? '' : '//localhost:3030'
 
-// Force using dummy service to avoid socket connections
-export const socketService = createDummySocketService()
+// Use real socket service for order updates
+export const socketService = createSocketService()
 
 if (DEV) window.socketService = socketService
 
@@ -29,8 +30,30 @@ function createSocketService() {
   const socketService = {
     setup() {
       socket = io(baseUrl)
-      const user = userService.getLoggedinUser()
-      if (user) this.login(user._id)
+      console.log('Socket created, initial connection status:', socket.connected)
+      
+      socket.on('connect', () => {
+        console.log('Socket connected successfully with ID:', socket.id)
+        const user = userService.getLoggedinUser()
+        if (user) {
+          console.log('User logged in, setting socket userId:', user._id)
+          this.login(user._id)
+        } else {
+          console.log('No user logged in')
+        }
+      })
+      
+      socket.on('disconnect', () => {
+        console.log('Socket disconnected')
+      })
+      
+      socket.on('order-updated', (data) => {
+        console.log('Received order-updated event:', data)
+      })
+      
+      socket.on('connect_error', (error) => {
+        console.error('Socket connection error:', error)
+      })
     },
     on(eventName, cb) {
       socket.on(eventName, cb)
@@ -44,13 +67,49 @@ function createSocketService() {
       socket.emit(eventName, data)
     },
     login(userId) {
-      socket.emit(SOCKET_EMIT_LOGIN, userId)
+      console.log('Socket login called with userId:', userId)
+      if (socket?.connected) {
+        socket.emit(SOCKET_EMIT_LOGIN, userId)
+        console.log('Login event emitted successfully')
+      } else {
+        console.log('Socket not connected, cannot emit login event')
+      }
     },
     logout() {
       socket.emit(SOCKET_EMIT_LOGOUT)
     },
     terminate() {
       socket = null
+    },
+    reconnect() {
+      if (socket) {
+        socket.disconnect()
+      }
+      this.setup()
+    },
+    testConnection() {
+      console.log('=== Socket Connection Test ===')
+      console.log('Socket exists:', !!socket)
+      console.log('Socket connection status:', socket?.connected)
+      console.log('Socket ID:', socket?.id)
+      const user = userService.getLoggedinUser()
+      console.log('Current user:', user)
+      if (user && socket?.connected) {
+        console.log('Attempting to login user to socket...')
+        this.login(user._id)
+      } else if (!socket?.connected) {
+        console.log('Socket not connected, cannot login user')
+      } else {
+        console.log('No user logged in')
+      }
+      console.log('=== End Socket Test ===')
+    },
+    ensureUserLoggedIn() {
+      const user = userService.getLoggedinUser()
+      if (user && socket?.connected) {
+        console.log('Ensuring user is logged in to socket:', user._id)
+        this.login(user._id)
+      }
     },
 
   }

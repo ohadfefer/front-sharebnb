@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { loadOrders, setFilter } from "../store/actions/order.actions.js" // EDIT
+import { loadOrders, setFilter, setupOrderSocketListeners, cleanupOrderSocketListeners } from "../store/actions/order.actions.js" // EDIT
 
 function formatDate(iso) {
   if (!iso) return "—"
@@ -45,6 +45,25 @@ export function TripIndex() {
     onLoadOrders()
     console.log(orders)
   }, [user?._id])
+
+  // Set up socket listeners for real-time order updates
+  useEffect(() => {
+    setupOrderSocketListeners()
+    
+    // Test socket connection and ensure user is logged in
+    if (window.socketService) {
+      window.socketService.testConnection()
+      
+      // Try to ensure user is logged in after a short delay
+      setTimeout(() => {
+        window.socketService.ensureUserLoggedIn()
+      }, 1000)
+    }
+    
+    return () => {
+      cleanupOrderSocketListeners()
+    }
+  }, [])
 
   async function onLoadOrders() {
     await loadOrders()

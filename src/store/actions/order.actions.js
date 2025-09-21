@@ -1,5 +1,7 @@
 import { orderService } from '../../services/order'
 import { store } from '../store'
+import { socketService } from '../../services/socket.service'
+import { SOCKET_EVENT_ORDER_UPDATED } from '../../services/socket.service'
 import {
     ADD_ORDER,
     REMOVE_ORDER,
@@ -96,6 +98,22 @@ export async function addOrderMsg(orderId, txt) {
 
 export function setFilter(filterBy) {
     store.dispatch({ type: SET_FILTER_BY, filterBy })
+}
+
+// Socket event handler for real-time order updates
+export function handleOrderUpdate(updatedOrder) {
+    console.log('Received order update via socket:', updatedOrder)
+    store.dispatch({ type: UPDATE_ORDER, order: updatedOrder })
+}
+
+// Set up socket listeners for order updates
+export function setupOrderSocketListeners() {
+    socketService.on(SOCKET_EVENT_ORDER_UPDATED, handleOrderUpdate)
+}
+
+// Clean up socket listeners
+export function cleanupOrderSocketListeners() {
+    socketService.off(SOCKET_EVENT_ORDER_UPDATED, handleOrderUpdate)
 }
 
 

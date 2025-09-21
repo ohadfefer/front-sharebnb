@@ -1,5 +1,5 @@
 // ReservationsTable.jsx
-import React from 'react'
+import React, { useEffect } from 'react'
 import clsx from 'clsx'
 import {
     createColumnHelper,
@@ -10,7 +10,7 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 import { formatDateMMDDYYYY as fmtDate, formatMoney } from '../services/util.service'
-import { updateOrderStatus } from '../store/actions/order.actions'
+import { updateOrderStatus, setupOrderSocketListeners, cleanupOrderSocketListeners } from '../store/actions/order.actions'
 
 const STATUS = {
     pending: { cls: 'pending', label: 'Pending' },
@@ -283,6 +283,26 @@ function Pager({ table }) {
 /** ---------- RESPONSIVE SWITCH ---------- */
 export function ReservationsTable({ rows, isLoading }) {
     const isMobile = useMediaQuery('(max-width: 1060px)')
+    
+    // Set up socket listeners for real-time order updates
+    useEffect(() => {
+        setupOrderSocketListeners()
+        
+        // Test socket connection and ensure user is logged in
+        if (window.socketService) {
+            window.socketService.testConnection()
+            
+            // Try to ensure user is logged in after a short delay
+            setTimeout(() => {
+                window.socketService.ensureUserLoggedIn()
+            }, 1000)
+        }
+        
+        return () => {
+            cleanupOrderSocketListeners()
+        }
+    }, [])
+    
     return isMobile
         ? <ReservationsCards rows={rows} isLoading={isLoading} />
         : <ReservationsTableDesktop rows={rows} isLoading={isLoading} />
