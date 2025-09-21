@@ -103,8 +103,8 @@ export function StayReviews({ stay }) {
                         </div>
 
                     </div>
+                    <hr className='divider-long' />
                 </div>
-                <hr className='divider-long' />
                 <div className="stay-reviews">
                     <div className="reviews-grid">
                         {stay.reviews.slice(0, 6).map((review) => (

@@ -130,4 +130,8 @@
         grid-template-columns: auto 1fr;
         gap: 10px;
     }
+
+    .amenities-modal-overlay {
+        width: 100vw;
+    }
 }

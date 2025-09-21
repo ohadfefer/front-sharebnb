@@ -22,7 +22,7 @@
     align-items: stretch;
     justify-content: space-between;
     gap: 0;
-    
+
 }
 
 .rate-type {
@@ -44,13 +44,13 @@
     gap: 4px;
 }
 
-.rate-type-header > div:first-child {
+.rate-type-header>div:first-child {
     font-family: 'Roboto-Medium';
     font-weight: normal;
     font-size: 0.875rem;
 }
 
-.rate-type-header > div:last-child {
+.rate-type-header>div:last-child {
     font-family: 'Roboto-Medium';
     font-weight: normal;
     font-size: 1.125rem;
@@ -87,7 +87,7 @@
 .review-header {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 0.35rem; 
+    margin-bottom: 0.35rem;
 }
 
 .user-info {
@@ -118,21 +118,22 @@
 .user-name {
     font-family: 'Roboto-SemiBold';
     font-size: 1rem;
-   
+
     color: var(--text-primary);
 }
 
 .user-location {
     font-size: 0.875rem;
     color: var(--gray4);
-    
+
 }
 
 .additional-info-container {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 20px; /* why not working without height */
+    height: 20px;
+    /* why not working without height */
     /* box-sizing: content-box; need to cancel box-sizing to render gray stars */
     gap: 4px;
 }
@@ -170,7 +171,7 @@
 }
 
 .review-content {
-    margin-top: 0.25rem; 
+    margin-top: 0.25rem;
 }
 
 .review-text {
@@ -330,11 +331,11 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
     }
-    
+
     .review-card {
         padding: 0.75rem 0;
     }
-    
+
     .review-header {
         flex-direction: column;
         align-items: flex-start;
@@ -358,4 +359,46 @@
     .modal-title {
         font-size: 20px;
     }
+
+    .reviews-modal-overlay {
+        width: 100vw;
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .divider, .divider-long {
+        margin: 0 0 20px 0;
+    }
+
+    .rates-info {
+        margin: 0;
+    }
+
+    .rates-header {
+        margin-bottom: 0 !important;
+    }
+
+    .rates-details {
+        display: none;
+
+    }
+
+    .rates-info .divider-long {
+        display: none;
+    }
+
+    .reviews-cmp-container {
+        padding: 0 20px 20px 20px;
+    }
+
+    .left-col {
+        padding: 20px 20px 0 20px;
+    }
+
+    .date-picker-container {
+        padding-bottom: 0px;
+    }
+
 }

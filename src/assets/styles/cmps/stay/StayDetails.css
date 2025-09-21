@@ -319,18 +319,22 @@
         bottom: 0;
         left: 0;
         right: 0;
+        width: 100vw;
         background: var(--shades-01);
         border-top: 1px solid var(--divider);
         padding: 16px 20px;
         z-index: 100;
+        box-sizing: border-box;
     }
 
     .mobile-footer-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        max-width: 1200px;
-        margin: 0 auto;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
 
     .mobile-footer-left .title {
