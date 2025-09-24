@@ -98,12 +98,12 @@
     background: #fff5e6;
 }
 
-.status-pill.ok {
+.status-pill.approved {
     color: #1b8354;
     background: #e7f6ef;
 }
 
-.status-pill.bad {
+.status-pill.rejected {
     color: #b42318;
     background: #fdecec;
 }

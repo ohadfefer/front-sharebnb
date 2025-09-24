@@ -1,5 +1,5 @@
 import { NavLink, useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
@@ -7,8 +7,45 @@ import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules'
 import { formatDateRangeShort } from '../services/util.service'
+import { useSelector } from 'react-redux'
+import { stayService } from '../services/stay'
+import heart2 from '../assets/logo/icons/heart2.svg'
+import filledHeart2 from '../assets/logo/icons/filledHeart2.svg'
+import '../assets/styles/cmps/WishlistIndex.css'
 
 export function StayPreview({ stay, loading = false }) {
+    const { user } = useSelector(s => s.userModule)
+    const [isSaved, setIsSaved] = useState(false)
+
+    // Check if stay is already saved when component loads
+    useEffect(() => {
+        if (stay && user && stay.wishlist) {
+            const isInWishlist = stay.wishlist.some(entry => entry.userId === user._id)
+            setIsSaved(isInWishlist)
+        }
+    }, [stay, user])
+
+    const handleSaveClick = async (e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        
+        if (!user) {
+            // Redirect to login or show login modal
+            return
+        }
+
+        try {
+            if (isSaved) {
+                await stayService.removeFromWishlist(stay._id, user._id)
+                setIsSaved(false)
+            } else {
+                await stayService.addToWishlist(stay._id, user._id)
+                setIsSaved(true)
+            }
+        } catch (err) {
+            console.error('Error updating wishlist:', err)
+        }
+    }
 
     if (loading) {
         return (
@@ -48,7 +85,13 @@ export function StayPreview({ stay, loading = false }) {
                     modules={[Navigation, Pagination, Mousewheel, Keyboard]}
                     className="carousel-inner"
                 >
-                    <i className="fa-solid fa-heart heart-icon"></i>
+                    <button 
+                        className={`heart-icon ${isSaved ? 'saved' : ''}`}
+                        onClick={handleSaveClick}
+                        title={isSaved ? 'Remove from wishlist' : 'Add to wishlist'}
+                    >
+                        <img src={isSaved ? filledHeart2 : heart2} alt={isSaved ? "filledHeart2" : "heart2"} width={16} />
+                    </button>
 
                     {imgs.map((img, idx) => (
                         <SwiperSlide className="preview-picture" key={idx}>

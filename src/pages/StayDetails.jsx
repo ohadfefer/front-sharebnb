@@ -18,6 +18,7 @@ import star from '../assets/logo/icons/star.svg'
 export function StayDetails() {
   const { stayId } = useParams()
   const stay = useSelector((storeState) => storeState.stayModule.stay)
+  const { user } = useSelector(s => s.userModule)
   const dispatch = useDispatch()
   const [isSaved, setIsSaved] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
@@ -35,6 +36,13 @@ export function StayDetails() {
       try {
         const stay = await stayService.getById(stayId)
         dispatch(getCmdSetStay(stay))
+        
+        // Check if stay is already saved
+        if (user && stay.wishlist) {
+          const isInWishlist = stay.wishlist.some(entry => entry.userId === user._id)
+          setIsSaved(isInWishlist)
+        }
+        
         setIsLoading(false)
       } catch (err) {
         setError('Failed to load stay details')
@@ -43,7 +51,7 @@ export function StayDetails() {
       }
     }
     fetchStay()
-  }, [stayId, dispatch])
+  }, [stayId, dispatch, user])
 
   useEffect(() => {
     function handleScroll() {
@@ -80,12 +88,25 @@ export function StayDetails() {
     alert('share')
   }
 
-  function handleSave() {
-    setIsSaved(!isSaved)
-    if (isSaved) {
-      showRemoveMsg('Removed from saved', stay)
-    } else {
-      showSuccessMsg('Saved to favorites', stay)
+  async function handleSave() {
+    if (!user) {
+      showErrorMsg('Please log in to save stays')
+      return
+    }
+
+    try {
+      if (isSaved) {
+        await stayService.removeFromWishlist(stay._id, user._id)
+        setIsSaved(false)
+        showRemoveMsg('Removed from wishlist', stay)
+      } else {
+        await stayService.addToWishlist(stay._id, user._id)
+        setIsSaved(true)
+        showSuccessMsg('Added to wishlist', stay)
+      }
+    } catch (err) {
+      console.error('Error updating wishlist:', err)
+      showErrorMsg('Failed to update wishlist')
     }
   }
 

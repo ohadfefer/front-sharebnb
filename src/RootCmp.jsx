@@ -14,6 +14,7 @@ import { OrderConfirmation } from './pages/OrderConfirmation.jsx'
 import { StayDetails } from './pages/StayDetails.jsx'
 
 import { UserDetails } from './pages/UserDetails.jsx'
+import { WishlistIndex } from './pages/WishlistIndex.jsx'
 
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { AppFooter } from './cmps/AppFooter.jsx'
@@ -25,6 +26,7 @@ import { StayOrder } from './pages/StayOrder.jsx'
 import { StayReservations } from './pages/StayReservations.jsx'
 import { StayListings } from './pages/StayListings.jsx'
 import { initUser } from './store/actions/user.actions.js'
+
 
 export function RootCmp() {
     useEffect(() => {
@@ -50,6 +52,7 @@ export function RootCmp() {
                     <Route path="explore" element={<StayExplore />} />
                     <Route path="stay/:stayId" element={<StayDetails />} />
                     <Route path="stay/:stayId/order" element={<StayOrder />} />
+                    <Route path="wishlists" element={<WishlistIndex />} />
                     <Route path="order/:orderId/confirmation" element={<OrderConfirmation />} />
                     <Route path="user/:id" element={<UserDetails />} />
                     <Route path="review" element={<ReviewIndex />} />

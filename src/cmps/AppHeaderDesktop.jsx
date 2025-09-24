@@ -153,6 +153,7 @@ export function AppHeaderDesktop() {
 
                                 <hr />
 
+                                <button className="menu-row" role="menuitem" onClick={() => { navigate('/wishlists'); setOpenMenu(false) }}>Wishlists</button>
                                 <button className="menu-row" role="menuitem" onClick={() => { navigate('/trips'); setOpenMenu(false) }}>Trips</button>
                                 <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/reservations'); setOpenMenu(false) }}>Dashboard</button>
                                 <button className="menu-row" role="menuitem" onClick={() => { navigate('/dashboard/listings'); setOpenMenu(false) }}>Listings</button>

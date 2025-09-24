@@ -129,7 +129,7 @@
   right: 0.625rem;
   font-size: 1.2rem;
   color: rgb(0, 0, 0);
-  opacity: 0.4;
+  opacity: 1;
   cursor: pointer;
   z-index: 6;
   text-shadow: -1.5px -1.5px 0 white, 1.5px -1.5px 0 white, -1.5px 1.5px 0 white, 1.5px 1px 0 white;

@@ -5,7 +5,10 @@ export const stayService = {
     getById,
     save,
     remove,
-    addStayMsg
+    addStayMsg,
+    addToWishlist,
+    removeFromWishlist,
+    getWishlistStays
 }
 
 async function query(filterBy) {
@@ -52,4 +55,19 @@ async function save(stay) {
 async function addStayMsg(stayId, txt) {
     const savedMsg = await httpService.post(`stay/${stayId}/msg`, { txt })
     return savedMsg
+}
+
+async function addToWishlist(stayId, userId) {
+    const updatedStay = await httpService.post(`stay/${stayId}/wishlist`)
+    return updatedStay
+}
+
+async function removeFromWishlist(stayId, userId) {
+    const updatedStay = await httpService.delete(`stay/${stayId}/wishlist/${userId}`)
+    return updatedStay
+}
+
+async function getWishlistStays(userId) {
+    const stays = await httpService.get(`stay/wishlist/${userId}`)
+    return stays
 }
