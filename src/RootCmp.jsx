@@ -63,6 +63,7 @@ export function RootCmp() {
                         <Route path="signup" element={<Signup />} />
                     </Route>
                     <Route path="hosting/listings" element={<StayEditor />} />
+                    <Route path="hosting/listings/edit/:stayId" element={<StayEditor />} />
                 </Routes>
             </main>
             <AppFooter />

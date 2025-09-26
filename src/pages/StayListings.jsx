@@ -36,6 +36,7 @@ export function StayListings() {
     }, [stays, sortConfig])
 
     const handleListingClick = (stayId) => navigate(`/stay/${stayId}`)
+    const handleUpdateClick = (stayId) => navigate(`/hosting/listings/edit/${stayId}`)
     const handleSort = (field) => {
         if (sortConfig.field !== field) return setSortConfig({ field, direction: 'asc' })
         if (sortConfig.direction === 'asc') return setSortConfig({ field, direction: 'desc' })
@@ -57,7 +58,7 @@ export function StayListings() {
         <div className="stay-listings-page">
             <header className="listings-header">
                 <nav className="listings-nav">
-                    <NavLink to="/dashboard/stay/edit" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Create listing</NavLink>
+                    <NavLink to="/hosting/listings" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Create listing</NavLink>
                     <NavLink to="/dashboard/listings" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Listings</NavLink>
                     <NavLink to="/dashboard/reservations" className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>Reservations</NavLink>
                 </nav>
@@ -72,7 +73,7 @@ export function StayListings() {
                             <th>LISTING</th>
                             <th>TODO</th>
                             <th className="sortable-header" onClick={() => handleSort('capacity')} style={{ cursor: 'pointer' }}>CAPACITY {getSortIcon('capacity')}</th>
-                            <th className="sortable-header" onClick={() => handleSort('rooms')} style={{ cursor: 'pointer' }}>ROOMS {getSortIcon('rooms')}</th>
+                            {/* <th className="sortable-header" onClick={() => handleSort('rooms')} style={{ cursor: 'pointer' }}>ROOMS {getSortIcon('rooms')}</th> */}
                             <th className="sortable-header" onClick={() => handleSort('bedrooms')} style={{ cursor: 'pointer' }}>BEDROOMS {getSortIcon('bedrooms')}</th>
                             <th className="sortable-header" onClick={() => handleSort('price')} style={{ cursor: 'pointer' }}>PRICE {getSortIcon('price')}</th>
                             <th>LOCATION</th>
@@ -88,9 +89,16 @@ export function StayListings() {
                                         <span className="stay-name">{stay.name}</span>
                                     </div>
                                 </td>
-                                <td className="todo-cell"><button className="update-btn">Update</button></td>
+                                <td className="todo-cell">
+                                    <button 
+                                        className="update-btn" 
+                                        onClick={() => handleUpdateClick(stay._id)}
+                                    >
+                                        Update
+                                    </button>
+                                </td>
                                 <td className="capacity-cell">{stay.capacity ?? 'N/A'}</td>
-                                <td className="rooms-cell">{stay.rooms ?? 'N/A'}</td>
+                                {/* <td className="rooms-cell">{stay.rooms ?? 'N/A'}</td> */}
                                 <td className="bedrooms-cell">{stay.bedrooms ?? 'N/A'}</td>
                                 <td className="price-cell">${stay.price ?? 'N/A'}</td>
                                 <td className="location-cell">

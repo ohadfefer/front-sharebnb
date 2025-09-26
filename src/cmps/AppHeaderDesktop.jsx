@@ -174,6 +174,7 @@ export function AppHeaderDesktop() {
                                             onClick={async () => {
                                                 await logout()
                                                 setOpenMenu(false)
+                                                navigate('/')
                                             }}
                                         >Logout</button>
                                     </div>

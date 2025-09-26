@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
 
-import { addStay } from '../store/actions/stay.actions'
+import { addStay, updateStay, getCmdSetStay } from '../store/actions/stay.actions'
+import { stayService } from '../services/stay'
 import { uploadService } from '../services/upload.service'
 import { userService } from '../services/user'
 import { showErrorMsg, showSuccessMsg } from '../services/event-bus.service'
@@ -16,10 +17,13 @@ const AMENITY_OPTIONS = ['Wifi', 'Kitchen', 'Air conditioning', 'Heating', 'Park
 
 export function StayEditor() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { stayId } = useParams()
+    const isEditMode = !!stayId
     const loggedinUser = useMemo(() => userService.getLoggedinUser(), [])
     useEffect(() => { if (!loggedinUser) navigate('/auth/login') }, [loggedinUser, navigate])
 
-    const { isLoading } = useSelector(s => s.stayModule)
+    const { isLoading, stay } = useSelector(s => s.stayModule)
 
     const [step, setStep] = useState(0)
     const [saving, setSaving] = useState(false)
@@ -27,9 +31,12 @@ export function StayEditor() {
 
     // main form state
     const [form, setForm] = useState(() => {
-        // restore draft if exists
-        const draft = localStorage.getItem('addlist_draft')
-        return draft ? JSON.parse(draft) : {
+        // restore draft if exists (only for new stays)
+        if (!isEditMode) {
+            const draft = localStorage.getItem('addlist_draft')
+            if (draft) return JSON.parse(draft)
+        }
+        return {
             name: '', type: '', price: '',
             loc: { address: '', city: '', country: '', countryCode: '', street: '', lat: null, lng: null },
             imgUrls: [],
@@ -39,10 +46,53 @@ export function StayEditor() {
         }
     })
 
-    // autosave draft
+    // Load existing stay data when in edit mode
     useEffect(() => {
-        localStorage.setItem('addlist_draft', JSON.stringify(form))
-    }, [form])
+        if (isEditMode && stayId) {
+            const loadStay = async () => {
+                try {
+                    const existingStay = await stayService.getById(stayId)
+                    dispatch(getCmdSetStay(existingStay))
+                    
+                    // Populate form with existing stay data
+                    setForm({
+                        name: existingStay.name || '',
+                        type: existingStay.type || '',
+                        price: existingStay.price || '',
+                        loc: {
+                            address: existingStay.loc?.address || '',
+                            city: existingStay.loc?.city || '',
+                            country: existingStay.loc?.country || '',
+                            countryCode: existingStay.loc?.countryCode || '',
+                            street: existingStay.loc?.street || '',
+                            lat: existingStay.loc?.lat || null,
+                            lng: existingStay.loc?.lng || null
+                        },
+                        imgUrls: existingStay.imgUrls || [],
+                        capacity: existingStay.capacity || 0,
+                        rooms: existingStay.rooms || 0,
+                        bedrooms: existingStay.bedrooms || 0,
+                        bathrooms: existingStay.bathrooms || 0,
+                        labels: existingStay.labels || [],
+                        amenities: existingStay.amenities || [],
+                        description: existingStay.description || ''
+                    })
+                    setAddressQuery(existingStay.loc?.address || '')
+                } catch (err) {
+                    showErrorMsg('Failed to load stay data')
+                    navigate('/dashboard/listings')
+                }
+            }
+            loadStay()
+        }
+    }, [isEditMode, stayId, dispatch, navigate])
+
+    // autosave draft (only for new stays)
+    useEffect(() => {
+        if (!isEditMode) {
+            localStorage.setItem('addlist_draft', JSON.stringify(form))
+        }
+    }, [form, isEditMode])
 
     function onChange(e) {
         const { name, value, type } = e.target
@@ -108,6 +158,7 @@ export function StayEditor() {
         try {
             const payload = {
                 ...form,
+                _id: isEditMode ? stayId : undefined,
                 price: +form.price,
                 host: loggedinUser ? { 
                     _id: loggedinUser._id, 
@@ -115,12 +166,20 @@ export function StayEditor() {
                     pictureUrl: loggedinUser.imgUrl 
                 } : undefined
             }
-            const saved = await addStay(payload) // dispatches internally
-            showSuccessMsg('Listing published')
-            localStorage.removeItem('addlist_draft')
+            
+            let saved
+            if (isEditMode) {
+                saved = await updateStay(payload) // dispatches internally
+                showSuccessMsg('Listing updated')
+            } else {
+                saved = await addStay(payload) // dispatches internally
+                showSuccessMsg('Listing published')
+                localStorage.removeItem('addlist_draft')
+            }
+            
             navigate(`/stay/${saved._id}`)
         } catch (err) {
-            showErrorMsg('Cannot publish listing')
+            showErrorMsg(isEditMode ? 'Cannot update listing' : 'Cannot publish listing')
         } finally {
             setSaving(false)
         }
@@ -279,7 +338,7 @@ export function StayEditor() {
     return (
         <section className="wizard">
             <header className="wizard__header">
-                <div className="wizard__title">Create your listing</div>
+                <div className="wizard__title">{isEditMode ? 'Edit your listing' : 'Create your listing'}</div>
                 <Stepper step={step} titles={STEPS.map(s => s.title)} />
             </header>
 
@@ -293,7 +352,7 @@ export function StayEditor() {
                         <button type="button" className="btn primary" onClick={next} disabled={!validate(step)}>Next</button>
                     ) : (
                         <button className="btn primary" disabled={saving || isLoading}>
-                            {saving ? 'Publishing…' : 'Publish'}
+                            {saving ? (isEditMode ? 'Updating…' : 'Publishing…') : (isEditMode ? 'Update' : 'Publish')}
                         </button>
                     )}
                 </div>
