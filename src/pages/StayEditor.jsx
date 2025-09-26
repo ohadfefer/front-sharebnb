@@ -109,7 +109,11 @@ export function StayEditor() {
             const payload = {
                 ...form,
                 price: +form.price,
-                host: loggedinUser ? { _id: loggedinUser._id, fullname: loggedinUser.fullname, imgUrl: loggedinUser.imgUrl } : undefined
+                host: loggedinUser ? { 
+                    _id: loggedinUser._id, 
+                    fullname: loggedinUser.fullname, 
+                    pictureUrl: loggedinUser.imgUrl 
+                } : undefined
             }
             const saved = await addStay(payload) // dispatches internally
             showSuccessMsg('Listing published')

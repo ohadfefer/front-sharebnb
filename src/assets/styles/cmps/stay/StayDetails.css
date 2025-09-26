@@ -185,6 +185,10 @@
     align-items: flex-start;
 }
 
+.mobile-footer-content {
+    display: none;
+}
+
 
 @media (max-width: 1148px) {
 
