@@ -425,22 +425,118 @@
         line-height: 1;
     }
 
-    .mobile-modal-content .sticky-card {
-        position: static;
-        width: 100%;
-        max-width: 500px;
-        margin: 0 auto;
-        padding: 40px 20px;
+    .mobile-modal-sticky-content {
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .mobile-sticky-header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--divider);
+    }
+
+    .mobile-sticky-header .total-price {
+        font-size: 24px;
+        font-family: 'Roboto-Medium';
+        color: var(--text-primary);
+        display: block;
+    }
+
+    .mobile-sticky-header .nights-amount {
+        font-size: 16px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        display: block;
+    }
+
+    .mobile-sticky-header .add-dates {
+        font-size: 18px;
+        color: var(--text-primary);
+        font-family: 'Roboto-Medium';
+    }
+
+    .mobile-sticky-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .mobile-sticky-fields .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .mobile-sticky-fields .field label {
+        font-size: 14px;
+        font-family: 'Roboto-Medium';
+        color: var(--text-primary);
+    }
+
+    .mobile-sticky-fields .field .input {
+        padding: 16px;
+        border: 1px solid var(--divider);
+        border-radius: 8px;
+        background: var(--shades-01);
+        color: var(--text-primary);
+        font-size: 16px;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+    }
+
+    .mobile-sticky-fields .field .input:hover {
+        border-color: var(--text-secondary);
+    }
+
+    .mobile-sticky-btn {
+        background: linear-gradient(var(--gradient-direction), var(--gradient-start-color), var(--gradient-end-color));
+        color: var(--shades-01);
+        border: none;
+        border-radius: 8px;
+        padding: 16px;
+        font-family: 'Roboto-Medium';
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: auto;
+        transition: opacity 0.2s ease;
+    }
+
+    .mobile-sticky-btn:hover {
+        opacity: 0.9;
+    }
+
+    .mobile-popover-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2000;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 20px;
     }
 
-    .mobile-modal-content .sticky-card-inner {
+    .mobile-popover-small,
+    .mobile-popover-small-guests {
+        background: var(--shades-01);
+        border: 1px solid var(--divider);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
         width: 100%;
-        max-width: 500px;
-        transform: scale(1.1);
+    }
+
+    .mobile-popover-small.bottom-aligned {
+        margin: 0;
     }
 
     @keyframes slideUp {
