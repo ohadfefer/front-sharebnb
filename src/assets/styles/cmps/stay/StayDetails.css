@@ -132,8 +132,7 @@
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    /* padding-top: 20px; */
-    /* padding: 0 32px 32px 32px; */
+    padding: 0 10px; 
 
     .amenities-header {
         font-size: 22px;

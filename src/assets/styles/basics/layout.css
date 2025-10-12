@@ -1,6 +1,6 @@
 .main-container {
   display: grid;
-  grid-template-columns: minmax(1rem, 3rem) minmax(0, 2fr) minmax(1rem, 3rem);
+  grid-template-columns: minmax(1rem, 12rem) minmax(0, 2fr) minmax(1rem, 12rem);
   width: 100%;
 }
 
@@ -10,4 +10,10 @@
 
 .main-container>.full {
   grid-column: 1 / -1;
+}
+
+@media (width < 1500px) {
+  .main-container {
+    grid-template-columns: 1rem minmax(0, 2fr) 1rem;
+  }
 }

@@ -83,3 +83,11 @@
 .preview-txt {
     padding: 8px 6px 12px;
 }
+
+
+@media (max-width: 768px) {
+
+    .stay-index {
+        padding: 0 20px;
+    }
+}
